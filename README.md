@@ -1,83 +1,20 @@
-# Portfolio
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
-AI Engineer portfolio built with React + Vite, designed in a GitHub-style light/dark theme.
+# Run and deploy your AI Studio app
 
-## About
+This contains everything you need to run your app locally.
 
-This project presents Madhavan Nadar's profile, education, internships, projects, leadership roles, and personal contact details in a clean, professional, and responsive UI.
-
-## Features
-
-- GitHub-inspired layout with sidebar + section tabs
-- Light and dark mode toggle
-- Resume-driven content model using reusable data objects
-- Sectioned pages:
-   - Overview
-   - Education
-   - Internships
-   - Projects
-   - Responsibilities
-   - Personal Details
-- Professional project cards and impact metrics
-- Fully responsive design for desktop and mobile
-
-## Tech Stack
-
-- React 18
-- Vite
-- React Router DOM
-- Plain CSS (GitHub-inspired design system)
-
-## Project Structure
-
-```text
-src/
-   components/
-      GithubLayout.jsx
-   data/
-      resumeData.js
-   pages/
-      OverviewPage.jsx
-      EducationPage.jsx
-      InternshipsPage.jsx
-      ProjectsPage.jsx
-      ResponsibilitiesPage.jsx
-      PersonalDetailsPage.jsx
-   App.jsx
-   index.css
-   main.jsx
-```
-
-## Setup
-
-```bash
-npm install
-```
+View your app in AI Studio: https://ai.studio/apps/3ca90b37-06de-4ed4-8f88-fd4182d61fa9
 
 ## Run Locally
 
-```bash
-npm run dev
-```
+**Prerequisites:**  Node.js
 
-Default Vite URL:
 
-```text
-http://localhost:5173
-```
-
-## Build
-
-```bash
-npm run build
-```
-
-## Preview Production Build
-
-```bash
-npm run serve
-```
-
-## Repository
-
-GitHub: `https://github.com/MADHAVAN200/Portfolio.git`
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
