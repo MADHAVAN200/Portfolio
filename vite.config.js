@@ -17,6 +17,11 @@ export default defineConfig(() => {
       hmr: process.env.DISABLE_HMR !== 'true',
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
+      // Bind to all interfaces so Vite prints the network IP in the terminal.
+      host: true,
+      // Start on this port; if already in use, automatically try the next one.
+      port: Number(process.env.VITE_PORT) || 5173,
+      strictPort: false,
     },
   };
 });
