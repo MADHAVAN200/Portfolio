@@ -4,7 +4,7 @@ import os from "os";
 import fs from "fs";
 import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
-import { logToSupabase } from "./src/lib/supabase";
+import { logToSupabase } from "./src/lib/supabase.js";
 import nodemailer from "nodemailer";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 
