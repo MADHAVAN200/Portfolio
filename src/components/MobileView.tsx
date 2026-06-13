@@ -210,9 +210,12 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
       const scrollPosition = window.scrollY + 100;
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(navItems[i].id);
-          break;
+        if (section) {
+          const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+          if (sectionTop <= scrollPosition) {
+            setActiveSection(navItems[i].id);
+            break;
+          }
         }
       }
     };
