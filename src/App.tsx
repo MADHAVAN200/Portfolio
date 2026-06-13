@@ -10,6 +10,8 @@ import LeadershipSection from "./components/LeadershipSection";
 import ContactSection from "./components/ContactSection";
 import MacBookWindow from "./components/MacBookWindow";
 import { profile } from "./data";
+import MobileView from "./components/MobileView";
+import TabletView from "./components/TabletView";
 import {
   Sparkles,
   ArrowDown,
@@ -22,7 +24,6 @@ import {
   Send,
   Download,
   Code2,
-  Clock,
   ArrowUp,
   Instagram,
   Linkedin,
@@ -43,7 +44,15 @@ export default function App() {
     return "light";
   })());
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [currentTime, setCurrentTime] = useState("");
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1024
+  );
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const toggleTheme = () => {
     const nextTheme = theme === "dark" ? "light" : "dark";
@@ -75,25 +84,8 @@ export default function App() {
 
     window.addEventListener("scroll", handleScroll);
 
-    // Populate active dynamic UTC clock (human-friendly, simple)
-    const updateTime = () => {
-      const now = new Date();
-      setCurrentTime(
-        now.toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-          hour12: false,
-        }) + " UTC"
-      );
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      clearInterval(interval);
     };
   }, []);
 
@@ -111,8 +103,30 @@ export default function App() {
     }
   };
 
+  if (windowWidth < 768) {
+    return (
+      <MobileView
+        theme={theme}
+        toggleTheme={toggleTheme}
+        scrollToElement={scrollToElement}
+        showScrollTop={showScrollTop}
+      />
+    );
+  }
+
+  if (windowWidth >= 768 && windowWidth < 1024) {
+    return (
+      <TabletView
+        theme={theme}
+        toggleTheme={toggleTheme}
+        scrollToElement={scrollToElement}
+        showScrollTop={showScrollTop}
+      />
+    );
+  }
+
   return (
-    <div className={`min-h-screen text-gray-800 dark:text-gray-100 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white transition-colors duration-500`}>
+    <div className={`min-h-screen text-gray-800 dark:text-gray-150 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white transition-colors duration-500`}>
       {/* 500px abstract background glass orb blur */}
       <div className="absolute top-0 left-1/4 -translate-y-24 w-[600px] h-[600px] bg-blue-600/[0.04] dark:bg-blue-500/[0.05] rounded-full blur-[140px] pointer-events-none animate-pulse-slow" />
       <div className="absolute top-[800px] right-0 w-[500px] h-[500px] bg-indigo-600/[0.03] dark:bg-indigo-500/[0.04] rounded-full blur-[120px] pointer-events-none" />
@@ -129,16 +143,7 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left text column */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              {/* Premium status indicators */}
-              <motion.div
-                initial={{ opacity: 0, y: -15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50/80 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-200/50 dark:border-blue-900/40 shadow-sm font-sans"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-blue-500 animate-[pulse_1.5s_infinite]" />
-                <span>Specializing in Generative AI & Cloud Systems</span>
-              </motion.div>
+
 
               {/* Large Display Heading */}
               <motion.div
@@ -353,7 +358,7 @@ export default function App() {
                 <Github className="w-4 h-4" />
               </a>
               <a
-                href="https://www.linkedin.com/in/madhavan-nadar-83210325b/"
+                href="https://www.linkedin.com/in/madhavan-nadar-33a489265/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2.5 rounded-lg bg-gray-50 hover:bg-gray-100 dark:bg-zinc-900/65 dark:hover:bg-zinc-800/80 text-gray-600 dark:text-zinc-300 border border-gray-200 dark:border-zinc-800 transition-all cursor-pointer"
@@ -362,7 +367,9 @@ export default function App() {
                 <Linkedin className="w-4 h-4" />
               </a>
               <a
-                href="mailto:madhavannadar23@gmail.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=madhavannadar23@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="p-2.5 rounded-lg bg-gray-50 hover:bg-gray-100 dark:bg-zinc-900/65 dark:hover:bg-zinc-800/80 text-gray-600 dark:text-zinc-300 border border-gray-200 dark:border-zinc-800 transition-all cursor-pointer"
                 title="Primary Email"
               >
@@ -376,17 +383,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-
-      {/* Floating back-to-top buttons */}
-      {showScrollTop && (
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 z-40 p-3.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 hover:scale-105 transition-all cursor-pointer animate-in fade-in"
-          title="Back to Top"
-        >
-          <ArrowUp className="w-4 h-4" />
-        </button>
-      )}
     </div>
   );
 }

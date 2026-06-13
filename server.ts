@@ -1,12 +1,205 @@
 import express from "express";
 import path from "path";
+import os from "os";
 import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
 import { logToSupabase } from "./src/lib/supabase";
+import nodemailer from "nodemailer";
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 
 // Load configuration
 dotenv.config();
+
+// Initialize Nodemailer SMTP Transporter
+const emailUser = process.env.EMAIL_USER;
+const emailPass = process.env.EMAIL_PASS;
+const emailHost = process.env.EMAIL_HOST || "smtp.gmail.com";
+const emailPort = Number(process.env.EMAIL_PORT) || 465;
+const emailSecure = process.env.EMAIL_SECURE !== "false"; // default to true
+
+let transporter: nodemailer.Transporter | null = null;
+
+if (emailUser && emailPass) {
+  console.log("Configuring email transporter for SMTP:", emailHost, emailPort);
+  transporter = nodemailer.createTransport({
+    host: emailHost,
+    port: emailPort,
+    secure: emailSecure,
+    auth: {
+      user: emailUser,
+      pass: emailPass,
+    },
+  });
+} else {
+  console.warn("SMTP credentials not fully configured. Email notifications will be skipped.");
+}
+
+async function sendContactNotificationEmail(
+  name: string,
+  email: string,
+  subject: string,
+  company: string,
+  message: string
+) {
+  if (!transporter) {
+    console.warn("Email notification skipped: Transporter not configured.");
+    return;
+  }
+
+  const notificationEmails = process.env.NOTIFICATION_EMAIL || emailUser || "madhavannadar23@gmail.com";
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>New Contact Submission</title>
+      <style>
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          background-color: #f6f9fc;
+          color: #333333;
+          margin: 0;
+          padding: 0;
+          -webkit-font-smoothing: antialiased;
+        }
+        .container {
+          max-width: 600px;
+          margin: 40px auto;
+          background: #ffffff;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+          border: 1px solid #eef2f5;
+        }
+        .header {
+          background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+          padding: 30px 40px;
+          text-align: center;
+        }
+        .header h1 {
+          color: #ffffff;
+          font-size: 22px;
+          font-weight: 700;
+          margin: 0;
+          letter-spacing: -0.5px;
+        }
+        .content {
+          padding: 40px;
+        }
+        .field-list {
+          margin-bottom: 30px;
+          border-bottom: 1px solid #f0f3f6;
+          padding-bottom: 20px;
+        }
+        .field-row {
+          display: flex;
+          margin-bottom: 12px;
+        }
+        .field-label {
+          width: 120px;
+          font-weight: 600;
+          color: #64748b;
+          font-size: 14px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        .field-value {
+          flex: 1;
+          color: #1e293b;
+          font-size: 15px;
+        }
+        .message-box {
+          background-color: #f8fafc;
+          border-left: 4px solid #6366f1;
+          border-radius: 4px;
+          padding: 20px;
+          margin-top: 20px;
+        }
+        .message-title {
+          font-weight: 600;
+          color: #475569;
+          font-size: 14px;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        .message-text {
+          color: #334155;
+          font-size: 15px;
+          line-height: 1.6;
+          white-space: pre-wrap;
+          margin: 0;
+        }
+        .footer {
+          background-color: #f8fafc;
+          padding: 20px 40px;
+          text-align: center;
+          font-size: 12px;
+          color: #94a3b8;
+          border-top: 1px solid #f0f3f6;
+        }
+        .footer a {
+          color: #6366f1;
+          text-decoration: none;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>New Message Received</h1>
+        </div>
+        <div class="content">
+          <div class="field-list">
+            <div class="field-row">
+              <div class="field-label">Sender</div>
+              <div class="field-value">${name}</div>
+            </div>
+            <div class="field-row">
+              <div class="field-label">Email</div>
+              <div class="field-value"><a href="mailto:${email}" style="color: #6366f1; text-decoration: none;">${email}</a></div>
+            </div>
+            ${company ? `
+            <div class="field-row">
+              <div class="field-label">Company</div>
+              <div class="field-value">${company}</div>
+            </div>
+            ` : ""}
+            <div class="field-row">
+              <div class="field-label">Subject</div>
+              <div class="field-value">${subject || "No Subject"}</div>
+            </div>
+          </div>
+          <div class="message-box">
+            <div class="message-title">Message</div>
+            <p class="message-text">${message}</p>
+          </div>
+        </div>
+        <div class="footer">
+          This message was sent from the contact form on your <a href="https://madhavannadar.dev">Portfolio Website</a>.
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"Portfolio Notification" <${emailUser}>`,
+      to: notificationEmails,
+      subject: `[Portfolio Contact] ${subject || "New Message from " + name}`,
+      text: `New contact submission received from: ${name} (${email})\nCompany: ${company || "N/A"}\nSubject: ${subject || "None"}\n\nMessage:\n${message}`,
+      html: htmlContent,
+    });
+    console.log("Email notification sent successfully:", info.messageId);
+    return info;
+  } catch (error) {
+    console.error("Error sending notification email:", error);
+    throw error;
+  }
+}
 
 // Initialize Gemini AI Client lazily or safely
 let aiClient: GoogleGenAI | null = null;
@@ -29,7 +222,7 @@ function getGeminiClient(): GoogleGenAI | null {
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const startPort = Number(process.env.PORT) || 3000;
 
   app.use(express.json());
 
@@ -369,6 +562,10 @@ function cleanResponseText(text: string): string {
         created_at: new Date().toISOString()
       });
 
+      // Asynchronously trigger notification email
+      sendContactNotificationEmail(name, email, subject || "", company || "", message)
+        .catch((e) => console.error("Logged contact email notification failed asynchronously:", e));
+
       return res.json({ success: true, logged: result.success });
     } catch (err: any) {
       console.error("Failed to process contact submission:", err);
@@ -397,6 +594,55 @@ function cleanResponseText(text: string): string {
     }
   });
 
+  // API Route: Securely proxy resume PDF from private Supabase S3 bucket
+  app.get("/api/resume", async (req, res) => {
+    try {
+      const s3Client = new S3Client({
+        endpoint: process.env.SUPABASE_S3_ENDPOINT || "https://swkzswokhwbarufiswrz.storage.supabase.co/storage/v1/s3",
+        credentials: {
+          accessKeyId: process.env.SUPABASE_S3_ACCESS_KEY || "",
+          secretAccessKey: process.env.SUPABASE_S3_SECRET_KEY || "",
+        },
+        region: "us-east-1",
+        forcePathStyle: true,
+      });
+
+      const bucket = process.env.SUPABASE_S3_BUCKET || "resumes";
+      const key = process.env.SUPABASE_S3_FILE || "Resume.pdf";
+
+      const command = new GetObjectCommand({
+        Bucket: bucket,
+        Key: key,
+      });
+
+      const s3Response = await s3Client.send(command);
+      
+      // Set headers for PDF viewing/downloading
+      res.setHeader("Content-Type", s3Response.ContentType || "application/pdf");
+      res.setHeader("Content-Disposition", 'inline; filename="Resume.pdf"');
+
+      // Pipe the stream to client response
+      const stream = s3Response.Body as any;
+      if (stream && typeof stream.pipe === "function") {
+        stream.pipe(res);
+      } else {
+        res.status(500).json({ error: "S3 response body is not a stream." });
+      }
+    } catch (err: any) {
+      console.error("Failed to fetch resume from Supabase Storage S3:", err);
+      // Fallback: If S3 fails, check if a local fallback is present
+      const localFallback = path.join(process.cwd(), "Resume.pdf");
+      const fs = await import("fs");
+      if (fs.existsSync(localFallback)) {
+        console.log("Serving local fallback Resume.pdf");
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Content-Disposition", 'inline; filename="Resume.pdf"');
+        return res.sendFile(localFallback);
+      }
+      return res.status(500).json({ error: "Resume file not found." });
+    }
+  });
+
 
   // Vite Integration
   if (process.env.NODE_ENV !== "production") {
@@ -415,9 +661,56 @@ function cleanResponseText(text: string): string {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server successfully booted and listening on http://0.0.0.0:${PORT}`);
-  });
+  const listen = (port: number) => {
+    const server = app.listen(port, "0.0.0.0", () => {
+      // Resolve all active network IPs and print them
+      const nets = os.networkInterfaces();
+      const ips: string[] = [];
+      for (const iface of Object.values(nets)) {
+        for (const addr of iface ?? []) {
+          if (addr.family === "IPv4" && !addr.internal) {
+            ips.push(addr.address);
+          }
+        }
+      }
+
+      console.log(`\n  🚀  Server is running!\n`);
+      console.log(`  Local:    http://localhost:${port}`);
+      for (const ip of ips) {
+        console.log(`  Network:  http://${ip}:${port}`);
+      }
+      console.log();
+
+      // Ping each detected IP to confirm reachability
+      ips.forEach((ip) => {
+        const { execSync } = require("child_process");
+        try {
+          const result = execSync(
+            process.platform === "win32"
+              ? `ping -n 1 ${ip}`
+              : `ping -c 1 ${ip}`,
+            { encoding: "utf8", timeout: 5000 }
+          );
+          const lines = result.split("\n").filter((l: string) => l.trim());
+          console.log(`  📡 Ping ${ip}:`, lines[lines.length - 2] ?? lines[lines.length - 1]);
+        } catch {
+          console.log(`  📡 Ping ${ip}: unreachable`);
+        }
+      });
+    });
+
+    server.on("error", (err: any) => {
+      if (err.code === "EADDRINUSE") {
+        console.warn(`Port ${port} is already in use. Retrying on port ${port + 1}...`);
+        server.close();
+        listen(port + 1);
+      } else {
+        console.error("Critical: Failed to boot express server:", err);
+      }
+    });
+  };
+
+  listen(startPort);
 }
 
 startServer().catch((err) => {
