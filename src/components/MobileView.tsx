@@ -1054,6 +1054,26 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                             className="w-full px-3 py-2 text-xs rounded-lg bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
                           />
                         </div>
+                        <div>
+                          <label className="block text-[8px] font-mono text-gray-400 dark:text-gray-500 uppercase mb-1">Subject Line</label>
+                          <input
+                            type="text"
+                            value={contactForm.subject}
+                            onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
+                            placeholder="Enter subject"
+                            className="w-full px-3 py-2 text-xs rounded-lg bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[8px] font-mono text-gray-400 dark:text-gray-500 uppercase mb-1">Company Name</label>
+                          <input
+                            type="text"
+                            value={contactForm.company}
+                            onChange={(e) => setContactForm({ ...contactForm, company: e.target.value })}
+                            placeholder="Enter organization"
+                            className="w-full px-3 py-2 text-xs rounded-lg bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
+                          />
+                        </div>
                       </div>
                       <div>
                         <label className="block text-[8px] font-mono text-gray-400 dark:text-gray-500 uppercase mb-1">Message *</label>

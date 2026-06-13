@@ -220,11 +220,11 @@ function getGeminiClient(): GoogleGenAI | null {
   return aiClient;
 }
 
-async function startServer() {
-  const app = express();
-  const startPort = Number(process.env.PORT) || 3000;
+const app = express();
+app.use(express.json());
 
-  app.use(express.json());
+// Export app for serverless environments (like Vercel)
+export default app;
 
   // In-memory cache for GitHub API data to avoid rate limits
   let githubCache: any = null;
@@ -644,6 +644,7 @@ function cleanResponseText(text: string): string {
   });
 
 
+async function setupViteAndListen() {
   // Vite Integration
   if (process.env.NODE_ENV !== "production") {
     console.log("Loading Vite dev middleware...");
@@ -652,7 +653,7 @@ function cleanResponseText(text: string): string {
       appType: "spa",
     });
     app.use(vite.middlewares);
-  } else {
+  } else if (!process.env.VERCEL) {
     console.log("Serving production build from dist...");
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
@@ -661,58 +662,62 @@ function cleanResponseText(text: string): string {
     });
   }
 
-  const listen = (port: number) => {
-    const server = app.listen(port, "0.0.0.0", () => {
-      // Resolve all active network IPs and print them
-      const nets = os.networkInterfaces();
-      const ips: string[] = [];
-      for (const iface of Object.values(nets)) {
-        for (const addr of iface ?? []) {
-          if (addr.family === "IPv4" && !addr.internal) {
-            ips.push(addr.address);
+  // Only listen on a port if we're not deploying inside Vercel Serverless environment
+  if (!process.env.VERCEL) {
+    const startPort = Number(process.env.PORT) || 3000;
+    const listen = (port: number) => {
+      const server = app.listen(port, "0.0.0.0", () => {
+        // Resolve all active network IPs and print them
+        const nets = os.networkInterfaces();
+        const ips: string[] = [];
+        for (const iface of Object.values(nets)) {
+          for (const addr of iface ?? []) {
+            if (addr.family === "IPv4" && !addr.internal) {
+              ips.push(addr.address);
+            }
           }
         }
-      }
 
-      console.log(`\n  🚀  Server is running!\n`);
-      console.log(`  Local:    http://localhost:${port}`);
-      for (const ip of ips) {
-        console.log(`  Network:  http://${ip}:${port}`);
-      }
-      console.log();
+        console.log(`\n  🚀  Server is running!\n`);
+        console.log(`  Local:    http://localhost:${port}`);
+        for (const ip of ips) {
+          console.log(`  Network:  http://${ip}:${port}`);
+        }
+        console.log();
 
-      // Ping each detected IP to confirm reachability
-      ips.forEach((ip) => {
-        const { execSync } = require("child_process");
-        try {
-          const result = execSync(
-            process.platform === "win32"
-              ? `ping -n 1 ${ip}`
-              : `ping -c 1 ${ip}`,
-            { encoding: "utf8", timeout: 5000 }
-          );
-          const lines = result.split("\n").filter((l: string) => l.trim());
-          console.log(`  📡 Ping ${ip}:`, lines[lines.length - 2] ?? lines[lines.length - 1]);
-        } catch {
-          console.log(`  📡 Ping ${ip}: unreachable`);
+        // Ping each detected IP to confirm reachability
+        ips.forEach((ip) => {
+          const { execSync } = require("child_process");
+          try {
+            const result = execSync(
+              process.platform === "win32"
+                ? `ping -n 1 ${ip}`
+                : `ping -c 1 ${ip}`,
+              { encoding: "utf8", timeout: 5000 }
+            );
+            const lines = result.split("\n").filter((l: string) => l.trim());
+            console.log(`  📡 Ping ${ip}:`, lines[lines.length - 2] ?? lines[lines.length - 1]);
+          } catch {
+            console.log(`  📡 Ping ${ip}: unreachable`);
+          }
+        });
+      });
+
+      server.on("error", (err: any) => {
+        if (err.code === "EADDRINUSE") {
+          console.warn(`Port ${port} is already in use. Retrying on port ${port + 1}...`);
+          server.close();
+          listen(port + 1);
+        } else {
+          console.error("Critical: Failed to boot express server:", err);
         }
       });
-    });
+    };
 
-    server.on("error", (err: any) => {
-      if (err.code === "EADDRINUSE") {
-        console.warn(`Port ${port} is already in use. Retrying on port ${port + 1}...`);
-        server.close();
-        listen(port + 1);
-      } else {
-        console.error("Critical: Failed to boot express server:", err);
-      }
-    });
-  };
-
-  listen(startPort);
+    listen(startPort);
+  }
 }
 
-startServer().catch((err) => {
+setupViteAndListen().catch((err) => {
   console.error("Critical: Failed to boot express server:", err);
 });

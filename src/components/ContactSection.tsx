@@ -280,7 +280,7 @@ Generated securely from madhavan-portfolio.local
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             placeholder="Enter name"
-                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-955 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
+                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
                           />
                         </div>
 
@@ -294,7 +294,7 @@ Generated securely from madhavan-portfolio.local
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             placeholder="Enter email"
-                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-955 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
+                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
                           />
                         </div>
                       </div>
@@ -309,7 +309,7 @@ Generated securely from madhavan-portfolio.local
                             value={formData.subject}
                             onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                             placeholder="Enter subject"
-                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-955 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
+                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
                           />
                         </div>
 
@@ -322,7 +322,7 @@ Generated securely from madhavan-portfolio.local
                             value={formData.company}
                             onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                             placeholder="Enter organization"
-                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-955 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
+                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
                           />
                         </div>
                       </div>
@@ -337,7 +337,7 @@ Generated securely from madhavan-portfolio.local
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                           placeholder="Enter message"
-                          className="w-full px-4 py-3 text-xs rounded-xl bg-gray-50 dark:bg-zinc-955 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40 resize-none"
+                          className="w-full px-4 py-3 text-xs rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40 resize-none"
                         />
                       </div>
                     </div>
