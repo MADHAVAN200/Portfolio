@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import os from "os";
+import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
@@ -621,18 +622,22 @@ function cleanResponseText(text: string): string {
       res.setHeader("Content-Type", s3Response.ContentType || "application/pdf");
       res.setHeader("Content-Disposition", 'inline; filename="Resume.pdf"');
 
-      // Pipe the stream to client response
+      // Consume stream into a buffer for robust serverless response delivery
       const stream = s3Response.Body as any;
-      if (stream && typeof stream.pipe === "function") {
-        stream.pipe(res);
+      if (stream) {
+        const chunks: any[] = [];
+        for await (const chunk of stream) {
+          chunks.push(chunk);
+        }
+        const pdfBuffer = Buffer.concat(chunks);
+        return res.send(pdfBuffer);
       } else {
-        res.status(500).json({ error: "S3 response body is not a stream." });
+        res.status(500).json({ error: "S3 response body is empty." });
       }
     } catch (err: any) {
       console.error("Failed to fetch resume from Supabase Storage S3:", err);
       // Fallback: If S3 fails, check if a local fallback is present
       const localFallback = path.join(process.cwd(), "Resume.pdf");
-      const fs = await import("fs");
       if (fs.existsSync(localFallback)) {
         console.log("Serving local fallback Resume.pdf");
         res.setHeader("Content-Type", "application/pdf");

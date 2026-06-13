@@ -440,9 +440,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
         <div className="max-w-4xl mx-auto space-y-6">
           <SectionWrap>
             <div className="text-center">
-              <span className="text-[10px] font-mono tracking-wide text-blue-600 dark:text-blue-400 uppercase flex items-center justify-center gap-1.5">
-                <Compass className="w-3.5 h-3.5" /> Core Biography
-              </span>
+
               <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">AI Systems Specialist</h2>
             </div>
           </SectionWrap>
@@ -508,9 +506,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
-              <span className="text-[10px] font-mono tracking-wide text-emerald-600 dark:text-emerald-400 uppercase flex items-center justify-center gap-1.5">
-                <GraduationCap className="w-3.5 h-3.5" /> Academic History
-              </span>
+
               <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">Educational Milestones</h2>
             </div>
           </SectionWrap>
@@ -553,9 +549,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
-              <span className="text-[10px] font-mono text-blue-600 dark:text-blue-400 uppercase flex items-center justify-center gap-1.5">
-                <Award className="w-3.5 h-3.5" /> Awards &amp; Honors
-              </span>
+
               <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">Hackathons &amp; Trophies</h2>
             </div>
           </SectionWrap>
@@ -884,9 +878,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
-              <span className="text-[10px] font-mono text-indigo-600 dark:text-indigo-400 uppercase flex items-center justify-center gap-1.5">
-                <Users className="w-3.5 h-3.5" /> Influence
-              </span>
+
               <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">Executive Roles</h2>
             </div>
           </SectionWrap>
@@ -927,9 +919,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
-              <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 uppercase flex items-center justify-center gap-1.5">
-                <Globe className="w-3.5 h-3.5" /> Collaboration
-              </span>
+
               <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">Secure Inbox &amp; CV</h2>
             </div>
           </SectionWrap>
