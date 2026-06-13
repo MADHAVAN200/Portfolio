@@ -2,7 +2,6 @@ import express from "express";
 import path from "path";
 import os from "os";
 import fs from "fs";
-import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
 import { logToSupabase } from "./src/lib/supabase";
@@ -653,7 +652,8 @@ async function setupViteAndListen() {
   // Vite Integration
   if (process.env.NODE_ENV !== "production") {
     console.log("Loading Vite dev middleware...");
-    const vite = await createViteServer({
+    const { createServer } = await import("vite");
+    const vite = await createServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
