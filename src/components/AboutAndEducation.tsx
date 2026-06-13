@@ -141,9 +141,6 @@ export default function AboutAndEducation() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-10">
-            <span className="text-xs font-semibold font-sans tracking-wide text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-1.5 mb-2">
-              <GraduationCap className="w-3.5 h-3.5" /> Academic Chronology
-            </span>
             <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white font-display">
               Educational Milestones
             </h2>
@@ -285,9 +282,6 @@ export default function AboutAndEducation() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Header */}
           <div className="text-center max-w-3xl mx-auto mb-10">
-            <span className="text-xs font-semibold font-sans tracking-wide text-blue-600 dark:text-blue-400 flex items-center justify-center gap-1.5 mb-2">
-              <Award className="w-3.5 h-3.5" /> Awards & Distinctions
-            </span>
             <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white font-display">
               Hackathons & Trophies
             </h2>

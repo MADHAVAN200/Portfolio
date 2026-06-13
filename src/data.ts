@@ -706,10 +706,10 @@ export const personalDetails = {
   gender: "Male",
   maritalStatus: "Single",
   address:
-    "Sion-Koliwada, Mumbai, Maharashtra, India - 400037",
+    "Mumbai, India",
   dateOfBirth: "19 Sep, 2004",
   languages: ["English", "Tamil", "Marathi", "Hindi"],
-  phoneNumbers: ["+91-9869140691", "+91-9619685263"],
+  phoneNumbers: ["+91-9869140691"],
   emails: ["madhavannadar23@gmail.com", "madhavancloud1909@gmail.com"],
 };
 

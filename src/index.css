@@ -10,8 +10,11 @@
 }
 
 /* Base styling and layout animations */
-body {
+body, button, input, select, textarea {
   font-family: var(--font-sans);
+}
+
+body {
   overflow-x: hidden;
   transition: background-color 0.5s ease, color 0.5s ease;
 }

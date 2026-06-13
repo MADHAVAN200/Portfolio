@@ -456,10 +456,7 @@ export default function GithubOverview() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <span className="text-xs font-semibold font-sans tracking-wide text-blue-600 dark:text-blue-400 flex items-center justify-center gap-1.5 mb-2">
-            <GitBranch className="w-3.5 h-3.5" /> Open Source & Analytics
-          </span>
-          <h2 className="text-4 p-0 sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white font-display">
+          <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white font-display">
             Interactive Dev Analytics
           </h2>
           <p className="mt-3 text-sm sm:text-base text-gray-650 dark:text-gray-400 font-normal">
@@ -650,7 +647,7 @@ export default function GithubOverview() {
                 {/* Visual horizontal bars */}
                 <div className="sm:col-span-8 w-full min-h-[175px] h-full">
                   {hasBeenInView ? (
-                    <ResponsiveContainer width="100%" height={200}>
+                    <ResponsiveContainer width="100%" height={200} minWidth={0} minHeight={0}>
                       <BarChart 
                         data={techFrequencyData} 
                         layout="vertical"
@@ -796,7 +793,7 @@ export default function GithubOverview() {
                 <div className="w-full flex items-center justify-around gap-4 py-1.5 flex-grow">
                   <div className="w-24 h-24 shrink-0 transition-all duration-500">
                     {hasBeenInView ? (
-                      <ResponsiveContainer width="100%" height="100%">
+                      <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                         <PieChart>
                           <Pie
                              data={langUsageState}
@@ -872,7 +869,7 @@ export default function GithubOverview() {
 
                 <div className="w-full h-24 flex-grow py-1">
                   {hasBeenInView ? (
-                    <ResponsiveContainer width="100%" height="100%">
+                    <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                       <BarChart data={monthlyActivity} margin={{ top: 2, right: 2, left: -28, bottom: 0 }}>
                         <XAxis 
                           dataKey="month" 

@@ -105,7 +105,7 @@ export default function MacBookWindow() {
           `$ ${trimmed}`,
           "--- CONNECTIVITY DATA SENSORS ---",
           "• Email: madhavannadar23@gmail.com",
-          "• LinkedIn: linkedin.com/in/madhavan-nadar",
+          "• LinkedIn: linkedin.com/in/madhavan-nadar-33a489265",
           "• GitHub: github.com/MADHAVAN200",
           "",
           "[Success] Contact info detailed; viewport focus maintained.",

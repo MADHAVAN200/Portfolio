@@ -65,9 +65,6 @@ export default function ProjectShowcase() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <span className="text-xs font-semibold font-sans tracking-wide text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-1.5 mb-2">
-            <Sparkles className="w-3.5 h-3.5" /> Project Portfolio
-          </span>
           <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white font-display">
             Showcase of Engineering Depth
           </h2>
@@ -108,7 +105,7 @@ export default function ProjectShowcase() {
               <div className="flex-1 flex flex-col justify-between space-y-4">
                 <div>
                   {/* Category & Status */}
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-2 mb-4">
                     <span className="text-[9px] font-mono bg-blue-100/50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 px-2.5 py-0.5 rounded-md border border-blue-200/30 dark:border-blue-900/40">
                       {project.category}
                     </span>
@@ -148,10 +145,10 @@ export default function ProjectShowcase() {
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-[10px] font-sans font-semibold text-gray-850 dark:text-zinc-100 hover:text-gray-950 dark:hover:text-white transition-all hover:bg-gray-100 dark:hover:bg-zinc-750 hover:scale-102 shadow-xs"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800 text-[10px] font-sans font-semibold text-gray-800 dark:text-white hover:text-gray-950 dark:hover:text-white transition-all hover:bg-gray-200 dark:hover:bg-zinc-700 hover:scale-102 shadow-xs"
                         title="GitHub Repository"
                       >
-                        <Github className="w-3.5 h-3.5 text-gray-800 dark:text-zinc-200 shrink-0" />
+                        <Github className="w-3.5 h-3.5 shrink-0" />
                         <span>GitHub Link</span>
                       </a>
                     )}
@@ -228,65 +225,72 @@ export default function ProjectShowcase() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Sidebar header sticky */}
-            <div className="sticky top-0 bg-white/95 dark:bg-[#0d0d10]/95 border-b border-gray-150 dark:border-zinc-800 p-6 flex justify-between items-center z-20 backdrop-blur-md">
-              <div className="flex items-center gap-3">
+            <div className="sticky top-0 bg-white/95 dark:bg-[#0d0d10]/95 border-b border-gray-150 dark:border-zinc-800 py-4 px-6 flex justify-between items-start z-20 backdrop-blur-md">
+              <div className="space-y-2.5">
                 <div>
-                  <span className="text-[10px] font-display font-semibold uppercase tracking-wider text-gray-500">{activeProject.category} Case Study</span>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-950 dark:text-white font-display mt-0.5">
+                  <span className="text-[9px] font-display font-semibold uppercase tracking-wider text-gray-500">{activeProject.category} Case Study</span>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-950 dark:text-white font-display mt-0.5">
                     {activeProject.title}
                   </h3>
                 </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {activeProject.link && (
+                    <a
+                      href={activeProject.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800 text-[11px] font-medium text-gray-800 dark:text-white hover:text-gray-950 dark:hover:text-white transition-all hover:bg-gray-200 dark:hover:bg-zinc-700 hover:scale-102"
+                      title="GitHub Repository"
+                    >
+                      <Github className="w-3.5 h-3.5 shrink-0" />
+                      <span>GitHub Link</span>
+                    </a>
+                  )}
+                  {"liveLink" in activeProject && activeProject.liveLink && (
+                    <a
+                      href={activeProject.liveLink as string}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-blue-200 dark:border-zinc-850 bg-blue-50/50 dark:bg-blue-950/20 text-[11px] font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all hover:scale-102"
+                      title="Live Application Demo"
+                    >
+                      <Globe className="w-3.5 h-3.5 text-gray-800 dark:text-zinc-200 shrink-0" />
+                      <span>App Link</span>
+                    </a>
+                  )}
+                  {"playStoreLink" in activeProject && activeProject.playStoreLink && (
+                    <a
+                      href={activeProject.playStoreLink as string}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-green-200 dark:border-zinc-850 bg-green-50/50 dark:bg-green-950/20 text-[11px] font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-all hover:scale-102"
+                      title="Google Play Store App"
+                    >
+                      <Smartphone className="w-3.5 h-3.5 text-gray-800 dark:text-zinc-200 shrink-0" />
+                      <span>Play Store Link</span>
+                    </a>
+                  )}
+                  {"appStoreLink" in activeProject && activeProject.appStoreLink && (
+                    <a
+                      href={activeProject.appStoreLink as string}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-indigo-200 dark:border-zinc-850 bg-indigo-50/50 dark:bg-indigo-950/20 text-[11px] font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-all hover:scale-102"
+                      title="Apple App Store App"
+                    >
+                      <Apple className="w-3.5 h-3.5 text-gray-800 dark:text-zinc-200 shrink-0" />
+                      <span>App Store Link</span>
+                    </a>
+                  )}
+                </div>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
-                {activeProject.link && (
-                  <a
-                    href={activeProject.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-300 dark:border-zinc-700 bg-white/50 dark:bg-zinc-800 text-xs font-medium text-gray-700 dark:text-zinc-250 hover:text-gray-900 dark:hover:text-white transition-all hover:bg-gray-100 dark:hover:bg-zinc-700 hover:scale-102"
-                    title="GitHub Repository"
-                  >
-                    <Github className="w-4 h-4 shrink-0" />
-                    <span>GitHub Link</span>
-                  </a>
-                )}
-                {"liveLink" in activeProject && activeProject.liveLink && (
-                  <a
-                    href={activeProject.liveLink as string}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-blue-200 dark:border-zinc-850 bg-blue-50/50 dark:bg-blue-950/20 text-xs font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all hover:scale-102"
-                    title="Live Application Demo"
-                  >
-                    <Globe className="w-4 h-4 shrink-0" />
-                    <span>App Link</span>
-                  </a>
-                )}
-                {"playStoreLink" in activeProject && activeProject.playStoreLink && (
-                  <a
-                    href={activeProject.playStoreLink as string}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-green-200 dark:border-zinc-850 bg-green-50/50 dark:bg-green-950/20 text-xs font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-all hover:scale-102"
-                    title="Google Play Store App"
-                  >
-                    <Smartphone className="w-4 h-4 shrink-0" />
-                    <span>Play Store Link</span>
-                  </a>
-                )}
-                {"appStoreLink" in activeProject && activeProject.appStoreLink && (
-                  <a
-                    href={activeProject.appStoreLink as string}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-indigo-200 dark:border-zinc-850 bg-indigo-50/50 dark:bg-indigo-950/20 text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-all hover:scale-102"
-                    title="Apple App Store App"
-                  >
-                    <Apple className="w-4 h-4 shrink-0" />
-                    <span>App Store Link</span>
-                  </a>
-                )}
-              </div>
+              <button
+                onClick={() => setSelectedSlug(null)}
+                className="p-1 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-300 transition-all cursor-pointer hover:scale-105"
+                title="Close"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
 
             {/* Modal body scrollable */}
