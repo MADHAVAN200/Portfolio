@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { personalDetails } from "../data";
-import { Mail, MapPin, Globe, Send, CheckCircle2, Phone, Calendar, Download, FileText, ArrowRight } from "lucide-react";
+import { Mail, MapPin, Globe, Send, CheckCircle2, Phone, Calendar, Download, FileText, ArrowRight, Github, Linkedin } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+
+const resumeUrl = (import.meta.env?.VITE_RESUME_URL) || "/resume.pdf";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -53,10 +56,11 @@ export default function ContactSection() {
 MADHAVAN NADAR - AI & DATA SCIENCE ENGINEER
 ========================================
 Email: ${personalDetails.emails[0]} | ${personalDetails.emails[1]}
-Address: ${personalDetails.address}
+Phone: ${personalDetails.phoneNumbers.join(" / ")}
+GitHub: https://github.com/MADHAVAN200
+LinkedIn: https://www.linkedin.com/in/madhavan-nadar-33a489265/
 BirthDate: ${personalDetails.dateOfBirth}
 Languages: ${personalDetails.languages.join(", ")}
-Phone: ${personalDetails.phoneNumbers.join(" / ")}
 
 ----------------------------------------
 EXECUTIVE BIOGRAPHY
@@ -120,9 +124,6 @@ Generated securely from madhavan-portfolio.local
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <span className="text-xs font-semibold font-mono tracking-wide text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-1.5 mb-2">
-            <Globe className="w-3.5 h-3.5" /> Secure Inbox & Dossier
-          </span>
           <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white font-display">
             Collaborate on Intelligent Systems
           </h2>
@@ -138,43 +139,11 @@ Generated securely from madhavan-portfolio.local
             <div className="bg-white/60 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800 rounded-xl p-6 sm:p-8 shadow-xl glass-panel text-left h-full flex flex-col justify-between">
               <div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 font-display">
-                  Location & Coordinates
+                  Contact &amp; Coordinates
                 </h3>
 
                 <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/10 shrink-0 mt-0.5">
-                      <MapPin className="w-4.5 h-4.5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono tracking-wide text-gray-400 block">Primary Hub</span>
-                      <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mt-0.5 leading-snug">
-                        {personalDetails.address}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 shrink-0 mt-0.5">
-                      <Mail className="w-4.5 h-4.5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono tracking-wide text-gray-400 block">Contact Channels</span>
-                      <a
-                        href={`mailto:${personalDetails.emails[0]}`}
-                        className="block text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-500 transition-colors mt-0.5"
-                      >
-                        {personalDetails.emails[0]}
-                      </a>
-                      <a
-                        href={`mailto:${personalDetails.emails[1]}`}
-                        className="block text-xs font-mono text-gray-500 mt-1"
-                      >
-                        {personalDetails.emails[1]}
-                      </a>
-                    </div>
-                  </div>
-
+                  {/* Phone */}
                   <div className="flex items-start gap-4">
                     <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/10 shrink-0 mt-0.5">
                       <Phone className="w-4.5 h-4.5" />
@@ -184,6 +153,68 @@ Generated securely from madhavan-portfolio.local
                       <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mt-0.5">
                         {personalDetails.phoneNumbers.join("  |  ")}
                       </span>
+                    </div>
+                  </div>
+
+                  {/* Mail */}
+                  <div className="flex items-start gap-4">
+                    <div className="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 shrink-0 mt-0.5">
+                      <Mail className="w-4.5 h-4.5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono tracking-wide text-gray-400 block">Contact Channels</span>
+                      <a
+                        href={`https://mail.google.com/mail/?view=cm&fs=1&to=${personalDetails.emails[0]}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-500 transition-colors mt-0.5"
+                      >
+                        {personalDetails.emails[0]}
+                      </a>
+                      <a
+                        href={`https://mail.google.com/mail/?view=cm&fs=1&to=${personalDetails.emails[1]}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block text-xs font-mono text-gray-500 hover:text-blue-500 transition-colors mt-1"
+                      >
+                        {personalDetails.emails[1]}
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* GitHub */}
+                  <div className="flex items-start gap-4">
+                    <div className="p-2.5 rounded-xl bg-neutral-500/10 text-neutral-600 dark:text-neutral-400 border border-neutral-500/10 shrink-0 mt-0.5">
+                      <Github className="w-4.5 h-4.5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono tracking-wide text-gray-400 block">GitHub Forge</span>
+                      <a
+                        href="https://github.com/MADHAVAN200"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-500 transition-colors mt-0.5"
+                      >
+                        github.com/MADHAVAN200
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* LinkedIn */}
+                  <div className="flex items-start gap-4">
+                    <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/10 shrink-0 mt-0.5">
+                      <Linkedin className="w-4.5 h-4.5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono tracking-wide text-gray-400 block">Professional Network</span>
+                      <a
+                        href="https://www.linkedin.com/in/madhavan-nadar-33a489265/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-500 transition-colors mt-0.5"
+                      >
+                        linkedin.com/in/madhavan-nadar-33a489265
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -207,10 +238,10 @@ Generated securely from madhavan-portfolio.local
 
                 <div className="pt-2">
                   <button
-                    onClick={() => setShowResumeModal(true)}
+                    onClick={() => window.open(resumeUrl, "_blank")}
                     className="w-full py-3 rounded-xl border border-gray-250/50 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/40 hover:bg-neutral-50 dark:hover:bg-zinc-800/80 text-gray-950 dark:text-white text-xs font-bold shadow-sm flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    <FileText className="w-4 h-4 text-indigo-500" /> View Comprehensive CV
+                    <FileText className="w-4 h-4 text-indigo-500" /> View Resume
                   </button>
                 </div>
               </div>
@@ -248,8 +279,8 @@ Generated securely from madhavan-portfolio.local
                             required
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            placeholder="John Doe"
-                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-950 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
+                            placeholder="Enter name"
+                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-955 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
                           />
                         </div>
 
@@ -262,8 +293,8 @@ Generated securely from madhavan-portfolio.local
                             required
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            placeholder="john.doe@enterprise.com"
-                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-950 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
+                            placeholder="Enter email"
+                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-955 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
                           />
                         </div>
                       </div>
@@ -277,8 +308,8 @@ Generated securely from madhavan-portfolio.local
                             type="text"
                             value={formData.subject}
                             onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                            placeholder="AI Product Inquiry"
-                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-950 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
+                            placeholder="Enter subject"
+                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-955 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
                           />
                         </div>
 
@@ -290,8 +321,8 @@ Generated securely from madhavan-portfolio.local
                             type="text"
                             value={formData.company}
                             onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                            placeholder="Acme Corp"
-                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-950 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
+                            placeholder="Enter organization"
+                            className="w-full px-4 py-2.5 text-xs rounded-xl bg-gray-50 dark:bg-zinc-955 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40"
                           />
                         </div>
                       </div>
@@ -305,8 +336,8 @@ Generated securely from madhavan-portfolio.local
                           rows={4}
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                          placeholder="Discuss custom model calibration, full-stack pipelines, or cloud workloads here..."
-                          className="w-full px-4 py-3 text-xs rounded-xl bg-gray-50 dark:bg-zinc-950 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40 resize-none"
+                          placeholder="Enter message"
+                          className="w-full px-4 py-3 text-xs rounded-xl bg-gray-50 dark:bg-zinc-955 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-1.5 focus:ring-blue-500/40 resize-none"
                         />
                       </div>
                     </div>
@@ -369,7 +400,7 @@ Generated securely from madhavan-portfolio.local
                   AI Engineer &bull; Data Scientist &bull; Full-Stack Architect
                 </p>
                 <p className="text-[10px] text-gray-500 font-mono">
-                  Sion-Koliwada, Mumbai, India - 400037 &bull; madhavannadar23@gmail.com &bull; +91-9869140691
+                  Mumbai, India &bull; madhavannadar23@gmail.com &bull; +91-9869140691
                 </p>
               </div>
 
@@ -447,6 +478,25 @@ Generated securely from madhavan-portfolio.local
           </div>
         </div>
       )}
+
+      {/* Liquid Glass Toaster for Contact Success */}
+      <AnimatePresence>
+        {success && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9, x: "-50%" }}
+            animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
+            exit={{ opacity: 0, y: 20, scale: 0.9, x: "-50%" }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="fixed bottom-8 left-1/2 z-[200] flex items-center gap-3 px-5 py-3.5 rounded-xl border border-white/20 dark:border-white/10 bg-white/50 dark:bg-[#0c0c0f]/50 backdrop-blur-xl shadow-2xl text-gray-900 dark:text-white w-[90%] max-w-sm"
+          >
+            <CheckCircle2 className="w-5 h-5 text-emerald-500 animate-bounce animate-pulse" />
+            <div className="text-left flex-1 min-w-0">
+              <p className="text-xs font-bold leading-tight font-display">Message Sent</p>
+              <p className="text-[10px] text-gray-500 dark:text-zinc-400 mt-0.5 truncate">Your transmission has been securely routed.</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
