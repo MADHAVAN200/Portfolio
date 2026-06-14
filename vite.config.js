@@ -11,6 +11,30 @@ export default defineConfig(() => {
         '@': path.resolve('.'),
       },
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              // Group Recharts and its D3 helpers together
+              if (id.includes('recharts') || id.includes('d3') || id.includes('internmap')) {
+                return 'vendor-recharts';
+              }
+              // Group animations library
+              if (id.includes('motion') || id.includes('framer-motion')) {
+                return 'vendor-motion';
+              }
+              // Group icons
+              if (id.includes('lucide-react')) {
+                return 'vendor-lucide';
+              }
+              // General vendor libraries (react, react-dom, etc)
+              return 'vendor-core';
+            }
+          }
+        }
+      }
+    },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
       // Do not modify—file watching is disabled to prevent flickering during agent edits.

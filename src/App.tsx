@@ -1,35 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "motion/react";
-import Navbar from "./components/Navbar";
-import AboutAndEducation from "./components/AboutAndEducation";
-import ExperienceShowcase from "./components/ExperienceShowcase";
-import ProjectShowcase from "./components/ProjectShowcase";
-import SkillsGrid from "./components/SkillsGrid";
-import GithubOverview from "./components/GithubOverview";
-import LeadershipSection from "./components/LeadershipSection";
-import ContactSection from "./components/ContactSection";
-import MacBookWindow from "./components/MacBookWindow";
-import { profile } from "./data";
-import MobileView from "./components/MobileView";
-import TabletView from "./components/TabletView";
-import {
-  Sparkles,
-  ArrowDown,
-  Navigation,
-  Globe,
-  Award,
-  ArrowRight,
-  BookOpen,
-  FolderDot,
-  Send,
-  Download,
-  Code2,
-  ArrowUp,
-  Instagram,
-  Linkedin,
-  Github,
-  Mail
-} from "lucide-react";
+import React, { useState, useEffect, Suspense } from "react";
+
+// Lazy-loaded layouts for viewport code-splitting
+const DesktopView = React.lazy(() => import("./components/DesktopView"));
+const MobileView = React.lazy(() => import("./components/MobileView"));
+const TabletView = React.lazy(() => import("./components/TabletView"));
+
+// High-fidelity aesthetic skeleton loader
+const SkeletonLoader = () => (
+  <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-white font-sans overflow-hidden relative">
+    {/* Subtle pulsing background glows */}
+    <div className="absolute w-[300px] h-[300px] rounded-full bg-blue-500/[0.04] blur-[80px] top-1/4 left-1/4 animate-pulse transform-gpu" />
+    <div className="absolute w-[300px] h-[300px] rounded-full bg-indigo-500/[0.04] blur-[80px] bottom-1/4 right-1/4 animate-pulse transform-gpu" />
+    
+    <div className="relative flex flex-col items-center gap-6">
+      {/* Sleek animated pulse spinner */}
+      <div className="w-12 h-12 rounded-xl border border-blue-500/20 flex items-center justify-center bg-zinc-900/60 shadow-lg relative">
+        <div className="absolute inset-0 rounded-xl border-t-2 border-blue-500 animate-spin" />
+        <span className="text-blue-500 font-bold text-xs font-mono">&lt;/&gt;</span>
+      </div>
+      
+      <div className="space-y-2 text-center select-none">
+        <h2 className="text-sm font-bold tracking-widest text-gray-200 uppercase font-mono">MADHAVAN NADAR</h2>
+        <div className="flex items-center gap-1.5 justify-center">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+          <span className="text-[10px] text-zinc-500 font-mono tracking-wider uppercase">Loading Workspace...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 export default function App() {
   const [theme, setTheme] = useState<"light" | "dark">((() => {
@@ -94,7 +93,7 @@ export default function App() {
     if (element) {
       const offset = 80;
       const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      const offsetPosition = elementPosition + window.scrollY - offset;
 
       window.scrollTo({
         top: offsetPosition,
@@ -103,286 +102,29 @@ export default function App() {
     }
   };
 
-  if (windowWidth < 768) {
-    return (
-      <MobileView
-        theme={theme}
-        toggleTheme={toggleTheme}
-        scrollToElement={scrollToElement}
-        showScrollTop={showScrollTop}
-      />
-    );
-  }
-
-  if (windowWidth >= 768 && windowWidth < 1024) {
-    return (
-      <TabletView
-        theme={theme}
-        toggleTheme={toggleTheme}
-        scrollToElement={scrollToElement}
-        showScrollTop={showScrollTop}
-      />
-    );
-  }
-
   return (
-    <div className={`min-h-screen text-gray-800 dark:text-gray-150 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white transition-colors duration-500`}>
-      {/* 500px abstract background glass orb blur */}
-      <div className="absolute top-0 left-1/4 -translate-y-24 w-[600px] h-[600px] bg-blue-600/[0.04] dark:bg-blue-500/[0.05] rounded-full blur-[140px] pointer-events-none animate-pulse-slow" />
-      <div className="absolute top-[800px] right-0 w-[500px] h-[500px] bg-indigo-600/[0.03] dark:bg-indigo-500/[0.04] rounded-full blur-[120px] pointer-events-none" />
-
-      {/* Corporate Glass Header */}
-      <Navbar theme={theme} toggleTheme={toggleTheme} />
-
-      {/* 1. HERO SECTION */}
-      <header id="hero" className="relative min-h-screen flex items-center justify-center pt-28 pb-16 overflow-hidden">
-        {/* Dynamic mesh dot overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e1e1e_1px,transparent_1px)] [background-size:16px_16px] opacity-70 pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left text column */}
-            <div className="lg:col-span-7 space-y-6 text-left">
-
-
-              {/* Large Display Heading */}
-              <motion.div
-                initial={{ opacity: 0, x: -25 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="space-y-1.5"
-              >
-                <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-gray-950 dark:text-white font-display leading-[1.08]">
-                  {profile.name}
-                </h1>
-                <p className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-300 bg-clip-text text-transparent leading-relaxed tracking-tight">
-                  {profile.headline}
-                </p>
-              </motion.div>
-
-              {/* Core Statement */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.7, delay: 0.35 }}
-                className="text-sm sm:text-base text-gray-650 dark:text-gray-400 max-w-xl leading-relaxed"
-              >
-                Systems Engineer specializing in Generative AI (RAG pipelines, Fine-tuning) and scalable web architectures. Proven track record of optimizing AI model inference by 35% and automating 70% of enterprise work pipelines across multiple software developer roles.
-              </motion.p>
-
-              {/* Metric stats counters */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="grid grid-cols-3 gap-4 py-4 max-w-lg"
-              >
-                <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800/80 shadow-sm hover:scale-102 hover:border-blue-500/30 transition-all">
-                  <span className="block text-2xl font-black text-blue-600 dark:text-blue-400 font-display">
-                    70%
-                  </span>
-                  <span className="block text-[10px] font-bold text-gray-900 dark:text-white font-sans mt-1">
-                    Workflow Automation
-                  </span>
-                  <span className="block text-[9px] font-mono text-gray-500 dark:text-zinc-500 mt-0.5">
-                    Enterprise Operations
-                  </span>
-                </div>
-
-                <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800/80 shadow-sm hover:scale-102 hover:border-blue-500/30 transition-all">
-                  <span className="block text-2xl font-black text-blue-600 dark:text-blue-400 font-display">
-                    8+
-                  </span>
-                  <span className="block text-[10px] font-bold text-gray-900 dark:text-white font-sans mt-1">
-                    Client Deliveries
-                  </span>
-                  <span className="block text-[9px] font-mono text-gray-500 dark:text-zinc-500 mt-0.5">
-                    Production systems
-                  </span>
-                </div>
-
-                <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800/80 shadow-sm hover:scale-102 hover:border-blue-500/30 transition-all">
-                  <span className="block text-2xl font-black text-blue-600 dark:text-blue-400 font-display">
-                    Top 5
-                  </span>
-                  <span className="block text-[10px] font-bold text-gray-900 dark:text-white font-sans mt-1">
-                    National Finalist
-                  </span>
-                  <span className="block text-[9px] font-mono text-gray-500 dark:text-zinc-500 mt-0.5">
-                    Smart India Hackathon
-                  </span>
-                </div>
-              </motion.div>
-
-              {/* Action buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.65 }}
-                className="flex flex-wrap gap-3 pt-2"
-              >
-                <button
-                  onClick={() => scrollToElement("projects")}
-                  className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow hover:shadow-lg transition-all flex items-center gap-1.5 cursor-pointer hover:scale-102"
-                >
-                  View Project Showcase <ArrowRight className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => scrollToElement("contact")}
-                  className="px-6 py-3 rounded-xl border border-gray-250/50 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/40 hover:bg-neutral-50 dark:hover:bg-zinc-800/60 text-gray-950 dark:text-white text-xs font-bold shadow-sm transition-all cursor-pointer hover:scale-102"
-                >
-                  Contact Me
-                </button>
-              </motion.div>
-            </div>
-
-            {/* Right Display: Premium Interactive macOS MacBook Style Sandbox */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 25 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:col-span-5 flex justify-center items-center relative min-h-[450px] w-full"
-            >
-              {/* Spinning subtle outer orbit rings */}
-              <div className="absolute w-[340px] h-[340px] rounded-full border border-dashed border-blue-500/10 dark:border-blue-500/5 animate-[spin_45s_linear_infinite] pointer-events-none" />
-              <div className="absolute w-[420px] h-[420px] rounded-full border border-dashed border-indigo-500/5 dark:border-indigo-500/[0.02] animate-[spin_70s_linear_infinite] pointer-events-none" />
-
-              {/* The Interactive MacBook Window Wrapper */}
-              <div className="relative z-10 w-full">
-                <MacBookWindow />
-              </div>
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Scroll indicator anchor links */}
-        <button
-          onClick={() => scrollToElement("about1")}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 p-2 rounded-full border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/5 text-gray-500 dark:text-gray-400 cursor-pointer animate-bounce shadow-sm"
-          aria-label="Scroll down"
-        >
-          <ArrowDown className="w-4 h-4" />
-        </button>
-      </header>
-
-      {/* CORE INTEGRATION PANELS */}
-      <main>
-        {/* 2. ABOUT ME, 3. EDUCATION, and 7. ACHIEVEMENTS */}
-        <AboutAndEducation />
-
-        {/* 4. EXPERIENCE SECTION */}
-        <motion.div
-          initial={{ opacity: 0, x: -60, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <ExperienceShowcase />
-        </motion.div>
-
-        {/* 5. PROJECTS SECTION */}
-        <motion.div
-          initial={{ opacity: 0, y: 70, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <ProjectShowcase />
-        </motion.div>
-
-        {/* 6. TECH STACK / SKILLS GRID SECTION */}
-        <motion.div
-          initial={{ opacity: 0, rotateX: 6, y: 55 }}
-          whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <SkillsGrid />
-        </motion.div>
-
-        {/* GITHUB & OPEN SOURCE ANALYTICS (Merged immediately after SkillsGrid) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.99, y: 25 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10px" }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <GithubOverview />
-        </motion.div>
-
-        {/* 8. LEADERSHIP & RESPONSIBILITIES */}
-        <motion.div
-          initial={{ opacity: 0, x: 60, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <LeadershipSection />
-        </motion.div>
-
-        {/* 10. CONTACT SECTION & RESUME DOSSIER */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.94, y: 35 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ type: "spring", stiffness: 45, damping: 13 }}
-        >
-          <ContactSection />
-        </motion.div>
-      </main>
-
-      {/* FOOTER BLOCK OF THE SITE */}
-      <footer className="bg-white dark:bg-[#030303] border-t border-gray-200/50 dark:border-zinc-900 py-10 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            {/* Design summary credits */}
-            <div className="text-center md:text-left space-y-1.5 md:max-w-md">
-              <div className="flex items-center justify-center md:justify-start gap-2 font-display text-base font-bold text-gray-900 dark:text-white">
-                <Code2 className="w-4.5 h-4.5 text-blue-500" />
-                <span>Madhavan Nadar</span>
-              </div>
-              <p className="text-xs text-gray-500 dark:text-zinc-400 leading-relaxed font-sans">
-                AI Systems Developer & UI/UX Specialist. Focused on robust backend systems, distributed AI training pipelines, and high-performance frontend engineering.
-              </p>
-            </div>
-
-            {/* Social channels links */}
-            <div className="flex items-center gap-3">
-              <a
-                href="https://github.com/MADHAVAN200"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-lg bg-gray-50 hover:bg-gray-100 dark:bg-zinc-900/65 dark:hover:bg-zinc-800/80 text-gray-600 dark:text-zinc-300 border border-gray-200 dark:border-zinc-800 transition-all cursor-pointer"
-                title="GitHub Link"
-              >
-                <Github className="w-4 h-4" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/madhavan-nadar-33a489265/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-lg bg-gray-50 hover:bg-gray-100 dark:bg-zinc-900/65 dark:hover:bg-zinc-800/80 text-gray-600 dark:text-zinc-300 border border-gray-200 dark:border-zinc-800 transition-all cursor-pointer"
-                title="LinkedIn Profile"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=madhavannadar23@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-lg bg-gray-50 hover:bg-gray-100 dark:bg-zinc-900/65 dark:hover:bg-zinc-800/80 text-gray-600 dark:text-zinc-300 border border-gray-200 dark:border-zinc-800 transition-all cursor-pointer"
-                title="Primary Email"
-              >
-                <Mail className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-
-          <div className="mt-8 pt-8 border-t border-gray-100 dark:border-zinc-900 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-400 dark:text-zinc-500 font-sans">
-            <p>&copy; {new Date().getFullYear()} Madhavan Nadar. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
-    </div>
+    <Suspense fallback={<SkeletonLoader />}>
+      {windowWidth < 768 ? (
+        <MobileView
+          theme={theme}
+          toggleTheme={toggleTheme}
+          scrollToElement={scrollToElement}
+          showScrollTop={showScrollTop}
+        />
+      ) : windowWidth >= 768 && windowWidth < 1024 ? (
+        <TabletView
+          theme={theme}
+          toggleTheme={toggleTheme}
+          scrollToElement={scrollToElement}
+          showScrollTop={showScrollTop}
+        />
+      ) : (
+        <DesktopView
+          theme={theme}
+          toggleTheme={toggleTheme}
+          scrollToElement={scrollToElement}
+        />
+      )}
+    </Suspense>
   );
 }
