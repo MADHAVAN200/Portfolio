@@ -427,7 +427,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
             transition={{ type: "spring", stiffness: 95, damping: 15, delay: 0.2 }}
             className="col-span-5 flex justify-center relative"
           >
-            <div className="w-[260px] h-[260px] absolute rounded-full border border-blue-500/5 animate-[spin_40s_linear_infinite]" />
+            <div className="w-[260px] h-[260px] absolute rounded-full border border-blue-500/5 animate-[spin_40s_linear_infinite] transform-gpu will-change-transform" />
             <div className="relative z-10 w-full">
               <MacBookWindow />
             </div>
