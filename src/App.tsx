@@ -16,13 +16,13 @@ const SkeletonLoader = () => (
       {/* Premium Multi-layered Geometric Spinner - fully responsive */}
       <div className="relative w-16 h-16 md:w-24 md:h-24 flex items-center justify-center">
         {/* Outer dotted glowing tracker */}
-        <div className="absolute inset-0 rounded-full border border-dashed border-blue-500/20 animate-[spin_12s_linear_infinite] transform-gpu" />
+        <div className="absolute inset-0 rounded-full border border-dashed border-blue-500/20 custom-spin-slow" />
         
         {/* Middle spinning gradient ring (percentage-based inset for auto-scaling) */}
-        <div className="absolute inset-[8%] rounded-full border border-transparent border-t-blue-400 border-b-indigo-400 animate-[spin_2s_linear_infinite] transform-gpu" />
+        <div className="absolute inset-[8%] rounded-full border border-transparent border-t-blue-400 border-b-indigo-400 custom-spin-normal" />
         
         {/* Inner reverse-spinning ring */}
-        <div className="absolute inset-[18%] rounded-full border border-transparent border-l-blue-500 border-r-indigo-500 animate-[spin_1.5s_linear_infinite_reverse] transform-gpu" />
+        <div className="absolute inset-[18%] rounded-full border border-transparent border-l-blue-500 border-r-indigo-500 custom-spin-reverse" />
         
         {/* Central pulsing core glowing dot */}
         <div className="w-2.5 h-2.5 md:w-4 md:h-4 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-400 shadow-[0_0_15px_#3b82f6] animate-pulse" />
@@ -31,7 +31,7 @@ const SkeletonLoader = () => (
       <div className="space-y-2.5 md:space-y-3.5 text-center">
         {/* Premium glowing shimmery name */}
         <h2 className="text-sm md:text-lg font-bold tracking-[0.25em] bg-gradient-to-r from-blue-400 via-indigo-100 to-blue-400 bg-clip-text text-transparent animate-[shimmer_3.5s_infinite_linear]" style={{ backgroundSize: "200% auto" }}>
-          MADHAVAN NADAR
+          LOADING
         </h2>
         
         {/* Clean, minimalist loading feedback in Poppins */}
@@ -56,12 +56,29 @@ const SkeletonLoader = () => (
         100% { background-position: 200% center; }
       }
       @keyframes float-orb-1 {
-        0%, 100% { transform: translate(0px, 0px) scale(1); }
-        50% { transform: translate(50px, -40px) scale(1.15); }
+        0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+        50% { transform: translate3d(50px, -40px, 0) scale(1.15); }
       }
       @keyframes float-orb-2 {
-        0%, 100% { transform: translate(0px, 0px) scale(1); }
-        50% { transform: translate(-50px, 40px) scale(0.85); }
+        0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+        50% { transform: translate3d(-50px, 40px, 0) scale(0.85); }
+      }
+      @keyframes spin {
+        0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+        100% { transform: translate3d(0, 0, 0) rotate(360deg); }
+      }
+      @keyframes spin-reverse {
+        0% { transform: translate3d(0, 0, 0) rotate(360deg); }
+        100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+      }
+      .custom-spin-slow {
+        animation: spin 12s linear infinite;
+      }
+      .custom-spin-normal {
+        animation: spin 2s linear infinite;
+      }
+      .custom-spin-reverse {
+        animation: spin-reverse 1.5s linear infinite;
       }
     `}} />
   </div>

@@ -25,7 +25,7 @@ export default function SkillsGrid() {
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="pt-16 pb-16 relative overflow-hidden bg-gray-50/30 dark:bg-black/20"
     >
       {/* Soft atmospheric gradient backdrops */}
@@ -66,7 +66,7 @@ export default function SkillsGrid() {
                 initial={{ opacity: 0, y: 35 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.15, ease: "easeOut" }}
+                transition={{ duration: 0.3, delay: idx * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="h-full bg-white/60 dark:bg-zinc-900/40 border border-gray-200/50 dark:border-zinc-800 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-zinc-700/80 transition-all duration-300 glass-panel flex flex-col justify-start"
               >
                 {/* Category Header */}

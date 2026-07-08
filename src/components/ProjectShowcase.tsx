@@ -56,7 +56,7 @@ export default function ProjectShowcase() {
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="py-10 relative overflow-hidden bg-white dark:bg-[#050505]"
     >
       {/* Background radial highlight */}
@@ -98,7 +98,7 @@ export default function ProjectShowcase() {
               initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: idx * 0.1, ease: "easeOut" }}
+              transition={{ duration: 0.3, delay: idx * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="group flex flex-col sm:flex-row gap-5 bg-white/60 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800 rounded-lg p-5 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-zinc-700 transition-all duration-300 transform hover:-translate-y-0.5 glass-panel relative"
             >
               {/* Left Column: Details */}

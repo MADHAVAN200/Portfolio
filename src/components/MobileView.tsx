@@ -43,56 +43,65 @@ import GithubOverview from "./GithubOverview";
 const resumeUrl = (import.meta.env?.VITE_RESUME_URL) || "/resume.pdf";
 
 // ─── Animation Helpers ────────────────────────────────────────────────────────
+// Optimised for smoothness + low-bandwidth: shorter durations, GPU-promoted,
+// minimal y-displacement to reduce paint cost on slow devices.
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 10 },
   show: {
     opacity: 1,
     y: 0,
     transition: {
-      type: "spring",
-      stiffness: 95,
-      damping: 15
+      type: "tween",
+      ease: [0.25, 0.46, 0.45, 0.94],
+      duration: 0.28
     }
   }
 };
 const fadeLeft = {
-  hidden: { opacity: 0, x: -16 },
+  hidden: { opacity: 0, x: -10 },
   show: {
     opacity: 1,
     x: 0,
     transition: {
-      type: "spring",
-      stiffness: 95,
-      damping: 15
+      type: "tween",
+      ease: [0.25, 0.46, 0.45, 0.94],
+      duration: 0.28
     }
   }
 };
 const fadeRight = {
-  hidden: { opacity: 0, x: 16 },
+  hidden: { opacity: 0, x: 10 },
   show: {
     opacity: 1,
     x: 0,
     transition: {
-      type: "spring",
-      stiffness: 95,
-      damping: 15
+      type: "tween",
+      ease: [0.25, 0.46, 0.45, 0.94],
+      duration: 0.28
     }
   }
 };
 const stagger = {
   show: {
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.03
+      staggerChildren: 0.045,
+      delayChildren: 0.01
     }
   }
 };
 
 function SectionWrap({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
-    <motion.div ref={ref} variants={fadeUp} initial="hidden" animate={inView ? "show" : "hidden"} className={className}>
+    <motion.div
+      ref={ref}
+      variants={fadeUp}
+      initial="hidden"
+      animate={inView ? "show" : "hidden"}
+      className={className}
+      style={{ willChange: "opacity, transform" }}
+    >
       {children}
     </motion.div>
   );
@@ -100,9 +109,16 @@ function SectionWrap({ children, className = "" }: { children: React.ReactNode; 
 
 function CardStagger({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
   return (
-    <motion.div ref={ref} variants={stagger} initial="hidden" animate={inView ? "show" : "hidden"} className={className}>
+    <motion.div
+      ref={ref}
+      variants={stagger}
+      initial="hidden"
+      animate={inView ? "show" : "hidden"}
+      className={className}
+      style={{ willChange: "opacity" }}
+    >
       {children}
     </motion.div>
   );
@@ -224,7 +240,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
   }, []);
 
   return (
-    <div className="min-h-screen text-gray-800 dark:text-gray-200 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white transition-colors duration-300 font-sans text-xs">
+    <div className="min-h-screen text-gray-700 dark:text-gray-200 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white transition-colors duration-300 font-sans text-xs">
       {/* Background Glows */}
       <div className="fixed top-0 left-10 w-[400px] h-[400px] bg-blue-600/[0.04] dark:bg-blue-500/[0.06] rounded-full blur-[100px] pointer-events-none z-0" />
       <div className="fixed top-[800px] right-0 w-[300px] h-[300px] bg-indigo-600/[0.03] dark:bg-indigo-500/[0.05] rounded-full blur-[90px] pointer-events-none z-0" />
@@ -346,17 +362,17 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
       </AnimatePresence>
 
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
-      <header id="hero" className="pt-20 pb-8 px-4 relative overflow-hidden">
+      <header id="hero" className="pt-16 pb-6 px-4 relative overflow-hidden">
         <div className="max-w-md mx-auto grid grid-cols-12 gap-5 items-center">
           {/* Left Text */}
           <div className="col-span-12 space-y-4 text-left">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 90, damping: 14, delay: 0.08 }}
+              transition={{ type: "tween", ease: [0.25, 0.46, 0.45, 0.94], duration: 0.3, delay: 0.05 }}
               className="space-y-1"
             >
-              <h1 className="text-3xl font-extrabold tracking-tight text-gray-950 dark:text-white leading-tight">
+              <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-tight">
                 {profile.name}
               </h1>
               <p className="text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
@@ -377,7 +393,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 90, damping: 14, delay: 0.24 }}
+              transition={{ type: "tween", ease: [0.25, 0.46, 0.45, 0.94], duration: 0.3, delay: 0.15 }}
               className="grid grid-cols-3 gap-2.5 py-1"
             >
               {[
@@ -389,10 +405,10 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                   key={m.label} 
                   whileHover={{ y: -2, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="p-2.5 rounded-lg bg-white/70 dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 text-center shadow-sm cursor-default"
+                  className="p-2.5 rounded-lg bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-center shadow-sm cursor-default"
                 >
                   <span className="block text-lg font-black text-blue-600 dark:text-blue-400">{m.value}</span>
-                  <span className="block text-[8.5px] font-bold text-gray-800 dark:text-gray-200 mt-0.5">{m.label}</span>
+                  <span className="block text-[8.5px] font-bold text-gray-700 dark:text-gray-200 mt-0.5">{m.label}</span>
                 </motion.div>
               ))}
             </motion.div>
@@ -400,7 +416,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 90, damping: 14, delay: 0.32 }}
+              transition={{ type: "tween", ease: [0.25, 0.46, 0.45, 0.94], duration: 0.3, delay: 0.2 }}
               className="flex gap-2.5 pt-1.5"
             >
               <motion.button 
@@ -415,7 +431,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => scrollToElement("contact")} 
-                className="px-4.5 py-2 bg-white dark:bg-zinc-900 border border-gray-250 dark:border-zinc-700 text-gray-950 dark:text-white rounded-xl font-bold shadow-sm text-[10.5px] cursor-pointer"
+                className="px-4.5 py-2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white rounded-xl font-bold shadow-sm text-[10.5px] cursor-pointer"
               >
                 Contact Me
               </motion.button>
@@ -426,7 +442,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.2 }}
+            transition={{ type: "tween", ease: [0.25, 0.46, 0.45, 0.94], duration: 0.35, delay: 0.12 }}
             className="col-span-12 flex justify-center relative mt-2"
           >
             <div className="w-[260px] h-[260px] absolute rounded-full border border-blue-500/5 animate-[spin_40s_linear_infinite] transform-gpu will-change-transform" />
@@ -438,31 +454,31 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
       </header>
 
       {/* ── ABOUT ──────────────────────────────────────────────────────────── */}
-      <section id="about1" className="py-6 px-4 bg-gray-50/20 dark:bg-zinc-950/40 border-t border-gray-200/50 dark:border-zinc-800/60">
+      <section id="about1" className="py-5 px-4 bg-gray-50/30 dark:bg-zinc-950/40 border-t border-gray-200/50 dark:border-zinc-800/60">
         <div className="max-w-4xl mx-auto space-y-6">
           <SectionWrap>
             <div className="text-center">
 
-              <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">AI Systems Specialist</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">AI Systems Specialist</h2>
             </div>
           </SectionWrap>
 
           <div className="grid grid-cols-12 gap-3 items-stretch">
             <SectionWrap className="col-span-12">
-              <div className="p-4.5 rounded-xl bg-white/70 dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm flex flex-col justify-between h-full hover:border-blue-500/20 transition-colors">
+              <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm flex flex-col justify-between h-full hover:border-blue-500/30 transition-colors">
                 <div>
-                  <h3 className="text-sm font-bold text-gray-950 dark:text-white mb-1">Madhavan Nadar</h3>
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1">Madhavan Nadar</h3>
                   <p className="text-[10px] text-gray-600 dark:text-gray-300 leading-relaxed font-light">
                     {summary.text}
                   </p>
                 </div>
-                <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-150 dark:border-zinc-700/60 mt-4">
+                <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100 dark:border-zinc-700/60 mt-4">
                   <div className="flex gap-2">
                     <div className="p-1.5 h-7 rounded-lg bg-orange-500/10 text-orange-500 flex items-center justify-center">
                       <Flame className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="text-[9.5px] font-bold text-gray-900 dark:text-white uppercase">Mission</h4>
+                      <h4 className="text-[9.5px] font-bold text-gray-800 dark:text-white uppercase">Mission</h4>
                       <p className="text-[9.5px] text-gray-500 dark:text-gray-400 mt-0.5 leading-normal">Build production AI pipelines, automation workflows, and cloud data backends.</p>
                     </div>
                   </div>
@@ -471,7 +487,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                       <Compass className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="text-[9.5px] font-bold text-gray-900 dark:text-white uppercase">Values</h4>
+                      <h4 className="text-[9.5px] font-bold text-gray-800 dark:text-white uppercase">Values</h4>
                       <p className="text-[9.5px] text-gray-500 dark:text-gray-400 mt-0.5 leading-normal">Uphold analytical integrity, focus on customer UX, and scale workloads easily.</p>
                     </div>
                   </div>
@@ -489,7 +505,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 </div>
               </SectionWrap>
               <SectionWrap className="flex-1">
-                <div className="p-4 rounded-xl bg-gray-50 dark:bg-zinc-900/60 border border-gray-150 dark:border-zinc-700/50 flex-1 flex flex-col justify-center h-full">
+                <div className="p-4 rounded-xl bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-700 flex-1 flex flex-col justify-center h-full">
                   <h4 className="text-[9.5px] font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-1.5">Strategic Focus</h4>
                   <div className="space-y-1 text-[9.5px] text-gray-600 dark:text-gray-300">
                     <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> <span>Deploy GenAI &amp; RAG systems</span></div>
@@ -504,12 +520,12 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
       </section>
 
       {/* ── EDUCATION ──────────────────────────────────────────────────────── */}
-      <section id="education" className="py-6 px-4 border-t border-gray-200/50 dark:border-zinc-800/60">
+      <section id="education" className="py-5 px-4 border-t border-gray-200/50 dark:border-zinc-800/60">
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
 
-              <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">Educational Milestones</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Educational Milestones</h2>
             </div>
           </SectionWrap>
 
@@ -523,18 +539,18 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 className="relative group cursor-default"
               >
                 <div className="absolute -left-[19px] top-2 w-3 h-3 rounded-full bg-blue-500 border-2 border-white dark:border-[#050505] shadow-sm" />
-                <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm grid grid-cols-12 gap-3 items-center hover:border-blue-500/20 transition-colors">
+                <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm grid grid-cols-12 gap-3 items-center hover:border-blue-500/30 transition-colors">
                   <div className="col-span-12 space-y-0.5">
                     <span className="text-[8px] font-mono uppercase bg-blue-100/50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded">
                       {edu.year}
                     </span>
-                    <h3 className="text-[10.5px] font-bold text-gray-950 dark:text-white mt-1">{edu.degree}</h3>
+                    <h3 className="text-[10.5px] font-bold text-gray-900 dark:text-white mt-1">{edu.degree}</h3>
                     <p className="text-[8.5px] text-gray-500 dark:text-gray-400">{edu.institute}</p>
                     <p className="text-[8.5px] font-mono text-blue-600 dark:text-blue-400 font-medium">{edu.detail}</p>
                   </div>
                   <div className="col-span-12 flex flex-wrap gap-1 pt-1.5">
                     {edu.modules && edu.modules.slice(0, 6).map((m) => (
-                      <span key={m} className="text-[8px] font-mono bg-gray-50 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 px-1.5 py-0.5 rounded border border-gray-200 dark:border-zinc-700">
+                      <span key={m} className="text-[8px] font-mono bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 px-1.5 py-0.5 rounded border border-gray-200 dark:border-zinc-700">
                         {m}
                       </span>
                     ))}
@@ -547,12 +563,12 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
       </section>
 
       {/* ── ACHIEVEMENTS ───────────────────────────────────────────────────── */}
-      <section className="py-6 px-4 bg-gray-50/20 dark:bg-zinc-950/40 border-t border-gray-200/50 dark:border-zinc-800/60">
+      <section className="py-5 px-4 bg-gray-50/30 dark:bg-zinc-950/40 border-t border-gray-200/50 dark:border-zinc-800/60">
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
 
-              <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">Hackathons &amp; Trophies</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Hackathons &amp; Trophies</h2>
             </div>
           </SectionWrap>
 
@@ -570,7 +586,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                   variants={fadeUp} 
                   whileHover={{ y: -3, scale: 1.01 }} 
                   whileTap={{ scale: 0.99 }}
-                  className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm flex flex-col justify-between relative overflow-hidden group cursor-default"
+                  className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm flex flex-col justify-between relative overflow-hidden group cursor-default"
                 >
                   <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/5 rounded-full blur-xl" />
                   <div>
@@ -579,7 +595,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                     </div>
                     <span className="text-[8px] uppercase tracking-wider text-blue-600 dark:text-blue-400 block font-bold">{highlight.subtitle}</span>
                     <h3 className="text-[10px] font-bold text-gray-900 dark:text-white mt-1">{highlight.title}</h3>
-                    <p className="text-[8px] text-gray-500 dark:text-gray-400 mt-1.5 leading-relaxed">{ach}</p>
+                    <p className="text-[8px] text-gray-600 dark:text-gray-400 mt-1.5 leading-relaxed">{ach}</p>
                   </div>
                 </motion.div>
               );
@@ -589,11 +605,11 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
       </section>
 
       {/* ── EXPERIENCE ─────────────────────────────────────────────────────── */}
-      <section id="experience" className="py-6 px-4 border-t border-gray-200/50 dark:border-zinc-800/60">
+      <section id="experience" className="py-5 px-4 border-t border-gray-200/50 dark:border-zinc-800/60">
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">Enterprise Experience</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Enterprise Experience</h2>
             </div>
           </SectionWrap>
 
@@ -617,7 +633,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                       <Blocks className="w-3.5 h-3.5" />
                     </div>
                     <div>
-                      <span className="block text-[8px] font-mono text-gray-400 dark:text-gray-550 uppercase leading-none">{intern.duration}</span>
+                      <span className="block text-[8px] font-mono text-gray-400 dark:text-gray-500 uppercase leading-none">{intern.duration}</span>
                       <span className="block text-[10px] font-bold mt-1 text-gray-900 dark:text-white">{intern.company}</span>
                     </div>
                   </motion.button>
@@ -630,26 +646,26 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 8 }}
-                  transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                  className="col-span-12 p-4 rounded-xl bg-white/40 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm space-y-3"
+                  transition={{ type: "tween", ease: [0.25, 0.46, 0.45, 0.94], duration: 0.22 }}
+                  className="col-span-12 p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm space-y-3"
                 >
                   <div className="flex justify-between items-start">
                     <div>
                       <span className="text-[7px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-500/20">{internships[activeInternship].domain}</span>
                       <h3 className="text-[10.5px] font-bold text-gray-950 dark:text-white mt-1.5">{internships[activeInternship].role}</h3>
-                      <p className="text-[8px] text-gray-500 dark:text-gray-400 font-mono mt-0.5">{internships[activeInternship].company} &bull; {internships[activeInternship].duration}</p>
+                      <p className="text-[8px] text-gray-500 dark:text-gray-500 font-mono mt-0.5">{internships[activeInternship].company} &bull; {internships[activeInternship].duration}</p>
                     </div>
                   </div>
 
                   <div className="p-2.5 bg-blue-500/[0.02] dark:bg-blue-500/[0.05] border border-blue-500/10 dark:border-blue-500/15 rounded-lg">
-                    <p className="text-[8px] text-gray-650 dark:text-gray-300 italic">"{internships[activeInternship].summary}"</p>
+                    <p className="text-[8px] text-gray-600 dark:text-gray-300 italic">"{internships[activeInternship].summary}"</p>
                   </div>
 
                   <div>
-                    <span className="text-[8px] font-mono text-gray-400 dark:text-gray-550 uppercase tracking-widest block mb-1.5">Quantified KPI Metrics</span>
+                    <span className="text-[8px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest block mb-1.5">Quantified KPI Metrics</span>
                     <div className="grid grid-cols-3 gap-2.5">
                       {Object.entries(internships[activeInternship].metrics).map(([k, v]) => (
-                        <div key={k} className="p-2.5 rounded-lg bg-gray-50 dark:bg-zinc-800/70 border border-gray-150 dark:border-zinc-700/50 text-center">
+                        <div key={k} className="p-2.5 rounded-lg bg-gray-50 dark:bg-zinc-800 border border-gray-100 dark:border-zinc-700 text-center">
                           <span className="block text-xs font-black text-blue-600 dark:text-blue-400">{v}</span>
                           <span className="block text-[7px] uppercase font-mono text-gray-500 dark:text-gray-400 mt-0.5">{k.replace(/_/g, " ")}</span>
                         </div>
@@ -660,7 +676,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                   <div className="space-y-2.5">
                     <span className="text-[8px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest block">Core Deliverables</span>
                     {internships[activeInternship].details.map((det, idx) => (
-                      <div key={idx} className="flex gap-2 text-[8px] text-gray-650 dark:text-gray-350 leading-relaxed">
+                      <div key={idx} className="flex gap-2 text-[8px] text-gray-600 dark:text-gray-400 leading-relaxed">
                         <span className="w-4 h-4 rounded bg-blue-500/5 dark:bg-blue-500/10 text-blue-500 flex items-center justify-center shrink-0 font-mono text-[8px] font-bold">0{idx + 1}</span>
                         <p className="pt-0.5">{det}</p>
                       </div>
@@ -686,11 +702,11 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
       </section>
 
       {/* ── PROJECTS ───────────────────────────────────────────────────────── */}
-      <section id="projects" className="py-6 px-4 bg-gray-50/20 dark:bg-zinc-950/40 border-t border-gray-200/50 dark:border-zinc-800/60">
+      <section id="projects" className="py-5 px-4 bg-gray-50/30 dark:bg-zinc-950/40 border-t border-gray-200/50 dark:border-zinc-800/60">
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">Showcase of Engineering Depth</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Showcase of Engineering Depth</h2>
             </div>
           </SectionWrap>
 
@@ -721,7 +737,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 variants={fadeUp} 
                 whileHover={{ y: -4, scale: 1.015 }}
                 whileTap={{ scale: 0.995 }}
-                className="p-4 rounded-xl bg-white dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm flex flex-col justify-between gap-3 cursor-default"
+                className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm flex flex-col justify-between gap-3 cursor-default"
               >
                 <div>
                   <div className="mb-3.5">
@@ -729,11 +745,11 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                       {p.category}
                     </span>
                   </div>
-                  <h3 className="text-[10.5px] font-bold text-gray-950 dark:text-white leading-snug">{p.title}</h3>
-                  <p className="text-[8px] text-gray-500 dark:text-gray-400 leading-relaxed mt-1.5">{p.description}</p>
+                  <h3 className="text-[10.5px] font-bold text-gray-900 dark:text-white leading-snug">{p.title}</h3>
+                  <p className="text-[8px] text-gray-600 dark:text-gray-400 leading-relaxed mt-1.5">{p.description}</p>
                 </div>
 
-                <div className="space-y-2.5 pt-2.5 border-t border-gray-150 dark:border-zinc-700/60">
+                <div className="space-y-2.5 pt-2.5 border-t border-gray-100 dark:border-zinc-700">
                   <div className="flex flex-wrap gap-1">
                     {p.tech.slice(0, 4).map((t) => (
                       <span key={t} className="text-[8px] font-mono bg-gray-50 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 px-1.5 py-0.5 rounded border border-gray-200 dark:border-zinc-700">
@@ -816,11 +832,11 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
       </section>
 
       {/* ── SKILLS ─────────────────────────────────────────────────────────── */}
-      <section id="skills" className="py-6 px-4 border-t border-gray-200/50 dark:border-zinc-800/60">
+      <section id="skills" className="py-5 px-4 border-t border-gray-200/50 dark:border-zinc-800/60">
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">Competency Canopy</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Competency Canopy</h2>
             </div>
           </SectionWrap>
 
@@ -844,9 +860,9 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 variants={fadeUp} 
                 whileHover={{ y: -3, scale: 1.01 }}
                 whileTap={{ scale: 0.995 }}
-                className="p-4 rounded-xl bg-white dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm flex flex-col justify-start cursor-default"
+                className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm flex flex-col justify-start cursor-default"
               >
-                <h3 className="text-[10.5px] font-bold text-gray-950 dark:text-white border-b border-gray-100 dark:border-zinc-700 pb-2 mb-2.5 flex items-center gap-2">
+                <h3 className="text-[10.5px] font-bold text-gray-900 dark:text-white border-b border-gray-100 dark:border-zinc-700 pb-2 mb-2.5 flex items-center gap-2">
                   <span className="w-1.5 h-3.5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full" />
                   {cat.title}
                 </h3>
@@ -878,12 +894,12 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
       <GithubOverview />
 
       {/* ── LEADERSHIP ─────────────────────────────────────────────────────── */}
-      <section id="leadership" className="py-6 px-4 border-t border-gray-200/50 dark:border-zinc-800/60 font-sans">
+      <section id="leadership" className="py-5 px-4 border-t border-gray-200/50 dark:border-zinc-800/60 font-sans">
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
 
-              <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">Executive Roles</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Executive Roles</h2>
             </div>
           </SectionWrap>
 
@@ -894,14 +910,14 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 variants={fadeUp}
                 whileHover={{ y: -3, scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
-                className="p-4.5 rounded-xl bg-white dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm relative overflow-hidden flex flex-col justify-between group h-full cursor-default"
+                className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm relative overflow-hidden flex flex-col justify-between group h-full cursor-default"
               >
                 <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
                 <div>
-                  <h3 className="text-[10.5px] font-bold text-gray-950 dark:text-white leading-tight">{role.title}</h3>
-                  <p className="text-[8px] text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">{role.detail}</p>
+                  <h3 className="text-[10.5px] font-bold text-gray-900 dark:text-white leading-tight">{role.title}</h3>
+                  <p className="text-[8px] text-gray-600 dark:text-gray-400 mt-2 leading-relaxed">{role.detail}</p>
                 </div>
-                <div className="mt-4 pt-4 border-t border-gray-100 dark:border-zinc-700/60 space-y-2">
+                <div className="mt-4 pt-4 border-t border-gray-100 dark:border-zinc-700 space-y-2">
                   <span className="text-[8px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide block">Outcomes</span>
                   <ul className="space-y-1.5 text-[8px] text-gray-650 dark:text-gray-300">
                     {role.highlights.slice(0, 3).map((hl, hIdx) => (
@@ -919,12 +935,12 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
       </section>
 
       {/* ── CONTACT ────────────────────────────────────────────────────────── */}
-      <section id="contact" className="py-6 px-4 bg-gray-50/20 dark:bg-zinc-950/40 border-t border-gray-200/50 dark:border-zinc-800/60">
+      <section id="contact" className="py-5 px-4 bg-gray-50/30 dark:bg-zinc-950/40 border-t border-gray-200/50 dark:border-zinc-800/60">
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
 
-              <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">Secure Inbox &amp; CV</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Secure Inbox &amp; CV</h2>
             </div>
           </SectionWrap>
 
@@ -934,10 +950,10 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               <motion.div
                 whileHover={{ y: -3, scale: 1.01 }}
                 whileTap={{ scale: 0.995 }}
-                className="col-span-12 p-4.5 rounded-xl bg-white/70 dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm flex flex-col justify-between cursor-default"
+                className="col-span-12 p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm flex flex-col justify-between cursor-default"
               >
                 <div className="space-y-5">
-                  <h3 className="text-xs font-bold text-gray-950 dark:text-white">Coordinates</h3>
+                  <h3 className="text-xs font-bold text-gray-900 dark:text-white">Coordinates</h3>
                   <div className="space-y-4">
                     <div className="flex gap-2.5">
                       <div className="p-2 rounded bg-emerald-500/10 text-emerald-600 shrink-0">
@@ -984,12 +1000,12 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                     </div>
                   </div>
                 </div>
-                <div className="pt-4 border-t border-gray-150 dark:border-zinc-700/60 mt-6">
+                <div className="pt-4 border-t border-gray-100 dark:border-zinc-700 mt-6">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => window.open(resumeUrl, "_blank")}
-                    className="w-full py-2.5 bg-gray-50 dark:bg-zinc-800 border border-gray-250 dark:border-zinc-700 text-gray-900 dark:text-white text-xs font-bold rounded-lg flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-2.5 bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white text-xs font-bold rounded-lg flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <FileText className="w-4 h-4 text-indigo-500" /> View Resume
                   </motion.button>
@@ -1000,10 +1016,10 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               <motion.div
                 whileHover={{ y: -3, scale: 1.01 }}
                 whileTap={{ scale: 0.995 }}
-                className="col-span-12 p-4.5 rounded-xl bg-white/70 dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm flex flex-col justify-between cursor-default"
+                className="col-span-12 p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm flex flex-col justify-between cursor-default"
               >
                 <div>
-                  <h3 className="text-xs font-bold text-gray-950 dark:text-white mb-4 flex items-center gap-2">
+                  <h3 className="text-xs font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                     <Send className="w-4 h-4 text-blue-500" /> Send Secure Transmission
                   </h3>
                   {contactSuccess ? (
@@ -1092,7 +1108,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
       </section>
 
       {/* ── FOOTER ─────────────────────────────────────────────────────────── */}
-      <footer className="bg-white dark:bg-[#030303] border-t border-gray-200/50 dark:border-zinc-800/60 py-6 px-4 text-center">
+      <footer className="bg-white dark:bg-[#030303] border-t border-gray-200 dark:border-zinc-800/60 py-5 px-4 text-center">
         <div className="max-w-lg mx-auto flex flex-col items-center gap-4 text-center">
           <div className="text-center space-y-1 max-w-sm flex flex-col items-center">
             <div className="flex items-center gap-2 font-display text-sm font-bold text-gray-900 dark:text-white">
@@ -1115,7 +1131,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
             </a>
           </div>
         </div>
-        <div className="max-w-4xl mx-auto pt-6 mt-6 border-t border-gray-100 dark:border-zinc-800/60 text-center text-[9px] text-gray-400 dark:text-zinc-500">
+        <div className="max-w-4xl mx-auto pt-5 mt-5 border-t border-gray-100 dark:border-zinc-800 text-center text-[9px] text-gray-400 dark:text-zinc-500">
           <p>&copy; {new Date().getFullYear()} Madhavan Nadar. All rights reserved.</p>
         </div>
       </footer>
@@ -1132,7 +1148,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 220 }}
+              transition={{ type: "spring", damping: 28, stiffness: 260 }}
               className="bg-white dark:bg-[#0d0d10] w-full max-h-[82vh] rounded-t-2xl border-t border-gray-200 dark:border-zinc-800 shadow-2xl flex flex-col relative"
               onClick={(e) => e.stopPropagation()}
             >
@@ -1273,7 +1289,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
             initial={{ opacity: 0, y: 50, scale: 0.9, x: "-50%" }}
             animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
             exit={{ opacity: 0, y: 20, scale: 0.9, x: "-50%" }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            transition={{ type: "spring", stiffness: 240, damping: 22 }}
             className="fixed bottom-8 left-1/2 z-[200] flex items-center gap-3 px-5 py-3.5 rounded-xl border border-white/20 dark:border-white/10 bg-white/50 dark:bg-[#0c0c0f]/50 backdrop-blur-xl shadow-2xl text-gray-900 dark:text-white w-[90%] max-w-sm"
           >
             <CheckCircle2 className="w-5 h-5 text-emerald-500 animate-bounce animate-pulse" />

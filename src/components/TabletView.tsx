@@ -43,47 +43,48 @@ import GithubOverview from "./GithubOverview";
 const resumeUrl = (import.meta.env?.VITE_RESUME_URL) || "/resume.pdf";
 
 // ─── Animation Helpers ────────────────────────────────────────────────────────
+// Tween-based for predictable 0.28s duration, GPU-friendly, low-bandwidth safe.
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 10 },
   show: {
     opacity: 1,
     y: 0,
     transition: {
-      type: "spring",
-      stiffness: 95,
-      damping: 15
+      type: "tween",
+      ease: [0.25, 0.46, 0.45, 0.94],
+      duration: 0.28
     }
   }
 };
 const fadeLeft = {
-  hidden: { opacity: 0, x: -16 },
+  hidden: { opacity: 0, x: -10 },
   show: {
     opacity: 1,
     x: 0,
     transition: {
-      type: "spring",
-      stiffness: 95,
-      damping: 15
+      type: "tween",
+      ease: [0.25, 0.46, 0.45, 0.94],
+      duration: 0.28
     }
   }
 };
 const fadeRight = {
-  hidden: { opacity: 0, x: 16 },
+  hidden: { opacity: 0, x: 10 },
   show: {
     opacity: 1,
     x: 0,
     transition: {
-      type: "spring",
-      stiffness: 95,
-      damping: 15
+      type: "tween",
+      ease: [0.25, 0.46, 0.45, 0.94],
+      duration: 0.28
     }
   }
 };
 const stagger = {
   show: {
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.03
+      staggerChildren: 0.045,
+      delayChildren: 0.01
     }
   }
 };

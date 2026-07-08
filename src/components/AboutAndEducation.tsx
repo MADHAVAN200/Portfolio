@@ -12,7 +12,7 @@ export default function AboutAndEducation() {
         initial={{ opacity: 0, y: 60 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="py-10 relative overflow-x-hidden"
       >
         {/* Decorative glass glow */}
@@ -34,7 +34,7 @@ export default function AboutAndEducation() {
               initial={{ opacity: 0, x: -60 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ type: "spring", stiffness: 45, damping: 14, delay: 0.1 }}
+              transition={{ duration: 0.35, delay: 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="lg:col-span-7 flex flex-col"
             >
               <div className="bg-white/60 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800 rounded-xl p-6 sm:p-8 shadow-xl glass-panel flex-1 flex flex-col justify-between">
@@ -47,7 +47,7 @@ export default function AboutAndEducation() {
                   </p>
                 </div>
  
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 pt-6 border-t border-gray-150 dark:border-zinc-800">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 pt-6 border-t border-gray-100 dark:border-zinc-800">
                   <div className="flex gap-3">
                     <div className="p-2 h-9 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 self-start">
                       <Flame className="w-4.5 h-4.5" />
@@ -84,7 +84,7 @@ export default function AboutAndEducation() {
               initial={{ opacity: 0, x: 60 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ type: "spring", stiffness: 45, damping: 14, delay: 0.25 }}
+              transition={{ duration: 0.35, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="lg:col-span-5 flex flex-col gap-4"
             >
               <div className="p-6 rounded-lg bg-gradient-to-tr from-blue-500/5 to-indigo-500/5 border border-blue-200/40 dark:border-zinc-800 shadow-sm relative overflow-hidden flex-1 flex flex-col justify-center">
@@ -133,7 +133,7 @@ export default function AboutAndEducation() {
         initial={{ opacity: 0, y: 60 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="py-10 relative overflow-hidden bg-gray-50/20 dark:bg-[#080808]/40"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -162,7 +162,7 @@ export default function AboutAndEducation() {
                   initial={{ opacity: 0, x: -65, scale: 0.95 }}
                   whileInView={{ opacity: 1, x: 0, scale: 1 }}
                   viewport={{ once: true, margin: "-80px" }}
-                  transition={{ type: "spring", stiffness: 45, damping: 11, delay: 0.1 }}
+                  transition={{ duration: 0.35, delay: 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
                   className="w-full sm:w-[45%] pl-10 sm:pl-0 sm:text-right text-left"
                 >
                   <div className="bg-white/60 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800 rounded-lg p-5 shadow-sm hover:shadow transition-all hover:border-gray-300 dark:hover:border-zinc-700 text-left">
@@ -180,7 +180,7 @@ export default function AboutAndEducation() {
                     </p>
 
                     {/* Expandable Module Badges */}
-                    <div className="mt-4 pt-4 border-t border-gray-150 dark:border-zinc-800">
+                    <div className="mt-4 pt-4 border-t border-gray-100 dark:border-zinc-800">
                       <h4 className="text-[10px] font-semibold font-sans text-gray-400 tracking-wide mb-2">Subject Specialisms</h4>
                       <div className="flex flex-wrap gap-1">
                         {education[0].modules.map((m) => (
@@ -212,7 +212,7 @@ export default function AboutAndEducation() {
                   initial={{ opacity: 0, x: 65, scale: 0.95 }}
                   whileInView={{ opacity: 1, x: 0, scale: 1 }}
                   viewport={{ once: true, margin: "-80px" }}
-                  transition={{ type: "spring", stiffness: 45, damping: 11, delay: 0.2 }}
+                  transition={{ duration: 0.35, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
                   className="w-full sm:w-[45%] pl-10 sm:pl-8"
                 >
                   <div className="bg-white/60 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800 rounded-lg p-5 shadow-sm hover:shadow transition-all hover:border-gray-300 dark:hover:border-zinc-700">
@@ -240,7 +240,7 @@ export default function AboutAndEducation() {
                   initial={{ opacity: 0, x: -65, scale: 0.95 }}
                   whileInView={{ opacity: 1, x: 0, scale: 1 }}
                   viewport={{ once: true, margin: "-80px" }}
-                  transition={{ type: "spring", stiffness: 45, damping: 11, delay: 0.35 }}
+                  transition={{ duration: 0.35, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
                   className="w-full sm:w-[45%] pl-10 sm:pl-0 sm:text-right"
                 >
                   <div className="bg-white/60 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800 rounded-lg p-5 shadow-sm hover:shadow transition-all hover:border-gray-300 dark:hover:border-zinc-700 text-left">
@@ -274,7 +274,7 @@ export default function AboutAndEducation() {
         initial={{ opacity: 0, y: 60 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="py-10 relative overflow-hidden"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -303,8 +303,8 @@ export default function AboutAndEducation() {
                   viewport={{ once: true }}
                   transition={{ 
                     type: "spring", 
-                    stiffness: 75, 
-                    damping: 10,  // low damping for playful bouncy spring elasticity
+                    stiffness: 200,
+                    damping: 18,
                     delay: idx * 0.16 
                   }}
                   className="h-full p-6 rounded-xl bg-white/60 dark:bg-zinc-900/65 hover:bg-neutral-50 dark:hover:bg-zinc-800/80 border border-gray-200/50 dark:border-zinc-800 shadow-md hover:shadow-xl hover:border-gray-300 dark:hover:border-zinc-700 transition-all text-left glass-panel relative overflow-hidden group flex flex-col justify-between"

@@ -31,7 +31,7 @@ export default function DesktopView({
   scrollToElement
 }: DesktopViewProps) {
   return (
-    <div className="min-h-screen text-gray-800 dark:text-gray-150 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white transition-colors duration-500">
+    <div className="min-h-screen text-gray-800 dark:text-gray-200 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white transition-colors duration-300">
       {/* 500px abstract background glass orb blur */}
       <div className="absolute top-0 left-1/4 -translate-y-24 w-[600px] h-[600px] bg-blue-600/[0.04] dark:bg-blue-500/[0.05] rounded-full blur-[140px] pointer-events-none animate-pulse-slow transform-gpu" />
       <div className="absolute top-[800px] right-0 w-[500px] h-[500px] bg-indigo-600/[0.03] dark:bg-indigo-500/[0.04] rounded-full blur-[120px] pointer-events-none transform-gpu" />
@@ -52,7 +52,7 @@ export default function DesktopView({
               <motion.div
                 initial={{ opacity: 0, x: -25 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.55, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="space-y-1.5"
               >
                 <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-gray-950 dark:text-white font-display leading-[1.08]">
@@ -67,7 +67,7 @@ export default function DesktopView({
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.7, delay: 0.35 }}
+                transition={{ duration: 0.45, delay: 0.25 }}
                 className="text-sm sm:text-base text-gray-650 dark:text-gray-400 max-w-xl leading-relaxed"
               >
                 Systems Engineer specializing in Generative AI (RAG pipelines, Fine-tuning) and scalable web architectures. Proven track record of optimizing AI model inference by 35% and automating 70% of enterprise work pipelines across multiple software developer roles.
@@ -77,7 +77,7 @@ export default function DesktopView({
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.45, delay: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="grid grid-cols-3 gap-4 py-4 max-w-lg"
               >
                 <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800/80 shadow-sm hover:scale-102 hover:border-blue-500/30 transition-all">
@@ -121,7 +121,7 @@ export default function DesktopView({
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.65 }}
+                transition={{ duration: 0.4, delay: 0.45 }}
                 className="flex flex-wrap gap-3 pt-2"
               >
                 <button
@@ -143,7 +143,7 @@ export default function DesktopView({
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 25 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.55, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="lg:col-span-5 flex justify-center items-center relative min-h-[450px] w-full"
             >
               {/* Spinning subtle outer orbit rings (optimized with GPU transform acceleration) */}
@@ -175,10 +175,10 @@ export default function DesktopView({
 
         {/* 4. EXPERIENCE SECTION */}
         <motion.div
-          initial={{ opacity: 0, x: -60, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="transform-gpu"
         >
           <ExperienceShowcase />
@@ -186,10 +186,10 @@ export default function DesktopView({
 
         {/* 5. PROJECTS SECTION */}
         <motion.div
-          initial={{ opacity: 0, y: 70, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="transform-gpu"
         >
           <ProjectShowcase />
@@ -197,10 +197,10 @@ export default function DesktopView({
 
         {/* 6. TECH STACK / SKILLS GRID SECTION */}
         <motion.div
-          initial={{ opacity: 0, rotateX: 6, y: 55 }}
-          whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="transform-gpu"
         >
           <SkillsGrid />
@@ -208,10 +208,10 @@ export default function DesktopView({
 
         {/* GITHUB & OPEN SOURCE ANALYTICS (Merged immediately after SkillsGrid) */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.99, y: 25 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10px" }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="transform-gpu"
         >
           <GithubOverview />
@@ -219,10 +219,10 @@ export default function DesktopView({
 
         {/* 8. LEADERSHIP & RESPONSIBILITIES */}
         <motion.div
-          initial={{ opacity: 0, x: 60, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="transform-gpu"
         >
           <LeadershipSection />
@@ -230,10 +230,10 @@ export default function DesktopView({
 
         {/* 10. CONTACT SECTION & RESUME DOSSIER */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.94, y: 35 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ type: "spring", stiffness: 45, damping: 13 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="transform-gpu"
         >
           <ContactSection />

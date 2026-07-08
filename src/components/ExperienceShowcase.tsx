@@ -21,7 +21,7 @@ export default function ExperienceShowcase() {
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="py-12 relative overflow-hidden bg-gray-50/50 dark:bg-black/30 border-t border-gray-100 dark:border-white/5"
     >
       {/* Visual background lights */}
@@ -47,7 +47,7 @@ export default function ExperienceShowcase() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="lg:col-span-4 flex flex-row lg:flex-col gap-2.5 overflow-x-auto pb-4 lg:pb-0 scrollbar-none"
           >
             {internships.map((internship, idx) => {
@@ -92,7 +92,7 @@ export default function ExperienceShowcase() {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+            transition={{ duration: 0.3, delay: 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="lg:col-span-8 min-h-[500px]"
           >
             <AnimatePresence mode="wait">
