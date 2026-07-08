@@ -246,11 +246,12 @@ export default app;
       }
 
       console.log("Fetching live data from GitHub API...");
-      const [profileRes, reposRes, eventsRes1, eventsRes2] = await Promise.all([
+      const [profileRes, reposRes, eventsRes1, eventsRes2, calendarRes] = await Promise.all([
         fetch("https://api.github.com/users/MADHAVAN200", { headers }).then(r => r.json()),
         fetch("https://api.github.com/users/MADHAVAN200/repos?per_page=100", { headers }).then(r => r.json()),
         fetch("https://api.github.com/users/MADHAVAN200/events?per_page=100&page=1", { headers }).then(r => r.json()),
         fetch("https://api.github.com/users/MADHAVAN200/events?per_page=100&page=2", { headers }).then(r => r.json()),
+        fetch("https://github-contributions-api.jogruber.de/v4/MADHAVAN200").then(r => r.json()).catch(() => null),
       ]);
 
       // If rate limited, throw error to trigger cached fallback
@@ -268,6 +269,7 @@ export default app;
           ...(Array.isArray(eventsRes1) ? eventsRes1 : []),
           ...(Array.isArray(eventsRes2) ? eventsRes2 : [])
         ],
+        calendar: calendarRes && calendarRes.contributions ? calendarRes.contributions : [],
         timestamp: now,
       };
 

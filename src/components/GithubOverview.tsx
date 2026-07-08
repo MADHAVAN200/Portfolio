@@ -203,6 +203,7 @@ export default function GithubOverview() {
   const [starredReposState, setStarredReposState] = useState(starredRepos);
   const [langUsageState, setLangUsageState] = useState(defaultLangUsage);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [calendarData, setCalendarData] = useState<{ date: string; count: number; level: number }[]>([]);
 
   const syncGithubData = async () => {
     setIsSyncing(true);
@@ -381,6 +382,59 @@ export default function GithubOverview() {
             }));
           } catch (errStreak) {}
         }
+
+        // 4. Process contributions calendar
+        if (Array.isArray(data.calendar) && data.calendar.length > 0) {
+          setCalendarData(data.calendar);
+          
+          try {
+            const currentYearStr = new Date().getFullYear().toString();
+            let totalYearContributions = 0;
+            data.calendar.forEach((day: any) => {
+              if (day.date && day.date.startsWith(currentYearStr)) {
+                totalYearContributions += (day.count || 0);
+              }
+            });
+            
+            // Calculate active streak
+            let streak = 0;
+            const sortedCalendar = [...data.calendar].sort((a: any, b: any) => 
+              new Date(b.date).getTime() - new Date(a.date).getTime()
+            );
+            
+            // Start from today or yesterday
+            const todayStr = new Date().toISOString().split('T')[0];
+            const yesterdayObj = new Date();
+            yesterdayObj.setDate(yesterdayObj.getDate() - 1);
+            const yesterdayStr = yesterdayObj.toISOString().split('T')[0];
+            
+            let startIndex = sortedCalendar.findIndex((day: any) => day.date === todayStr);
+            if (startIndex === -1 || sortedCalendar[startIndex].count === 0) {
+              const yIndex = sortedCalendar.findIndex((day: any) => day.date === yesterdayStr);
+              if (yIndex !== -1 && sortedCalendar[yIndex].count > 0) {
+                startIndex = yIndex;
+              }
+            }
+            
+            if (startIndex !== -1 && sortedCalendar[startIndex].count > 0) {
+              for (let i = startIndex; i < sortedCalendar.length; i++) {
+                if (sortedCalendar[i].count > 0) {
+                  streak++;
+                } else {
+                  break;
+                }
+              }
+            }
+            
+            setProfileStats((prev) => ({
+              ...prev,
+              yearContributions: totalYearContributions > 0 ? totalYearContributions : prev.yearContributions,
+              commitStreak: streak > 0 ? streak : prev.commitStreak,
+            }));
+          } catch (calErr) {
+            console.warn("Error processing calendar metrics:", calErr);
+          }
+        }
       }
     } catch (err) {
       console.warn("Backend dynamic GitHub overview failed.", err);
@@ -415,14 +469,30 @@ export default function GithubOverview() {
           year: "numeric",
         });
 
-        // Overlay actual real commit counts from GitHub Events API if available!
-        const realCount = dynamicEvents[dateString] || 0;
-        const count = realCount > 0 ? realCount : (simulatedCount === 0 ? 0 : simulatedCount + (index % 3 === 0 ? 2 : 0));
+        // Format dayDate to YYYY-MM-DD for looking up in real calendarData
+        const year = dayDate.getFullYear();
+        const month = String(dayDate.getMonth() + 1).padStart(2, "0");
+        const dateDay = String(dayDate.getDate()).padStart(2, "0");
+        const apiDateStr = `${year}-${month}-${dateDay}`;
+
+        const foundDay = calendarData.find((d) => d.date === apiDateStr);
+        let count = 0;
+        let isReal = false;
+
+        if (foundDay) {
+          count = foundDay.count;
+          isReal = foundDay.count > 0;
+        } else {
+          // Fallback to simulated counts while syncing or if backend API call yields nothing
+          const realEventCount = dynamicEvents[dateString] || 0;
+          count = realEventCount > 0 ? realEventCount : (simulatedCount === 0 ? 0 : simulatedCount + (index % 3 === 0 ? 2 : 0));
+          isReal = realEventCount > 0;
+        }
 
         row.push({
           date: dateString,
           count: count,
-          isReal: realCount > 0,
+          isReal: isReal,
         });
       }
       grid.push(row);
@@ -447,7 +517,7 @@ export default function GithubOverview() {
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       onViewportEnter={() => setHasBeenInView(true)}
       viewport={{ once: true, margin: "-10px" }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="py-10 relative overflow-hidden bg-gray-50/30 dark:bg-black/20 border-t border-gray-200/35 dark:border-zinc-800/20"
     >
       {/* Visual background flares */}

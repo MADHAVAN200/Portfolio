@@ -1,24 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  Terminal,
-  Cpu,
-  RefreshCw,
-  FolderDot,
-  Linkedin,
-  Github,
-  Mail,
-  FileCode,
   CornerDownLeft,
-  Command,
-  Monitor,
-  CheckCircle,
 } from "lucide-react";
 
 export default function MacBookWindow() {
   const [terminalHistory, setTerminalHistory] = useState<string[]>([
     "Last login: " + new Date().toDateString() + " on ttys001",
     "Welcome to Madhavan's Interactive Shell.",
-    "Type 'help' or run quick commands to explore.",
+    "Type 'help' or tap quick commands below.",
   ]);
   const [terminalInput, setTerminalInput] = useState("");
   const [isTypingSimulated, setIsTypingSimulated] = useState(false);
@@ -39,76 +28,76 @@ export default function MacBookWindow() {
         response = [
           `$ ${trimmed}`,
           "Available Commands:",
-          "  • neofetch   - Display system specifications & profile metrics",
-          "  • cat bio    - Print professional background & core mission",
-          "  • skills     - Print core technology & tools architecture",
-          "  • projects   - View portfolio projects & scroll to section",
-          "  • contact    - Fetch communication channels & socials",
-          "  • clear      - Clear active terminal scroll buffer",
+          "  neofetch   - System specs & profile",
+          "  cat bio    - Professional background",
+          "  skills     - Technology stack",
+          "  projects   - Portfolio projects",
+          "  contact    - Communication channels",
+          "  clear      - Clear terminal buffer",
         ];
         break;
 
       case "neofetch":
         response = [
           `$ ${trimmed}`,
-          "                  ,x88888x,        madhavan@macbook-pro",
-          "               ,88888888888x,      --------------------",
-          "             ,888888888888888k,    OS: macOS Ventura 13.5 (Darwin Kernel)",
-          "            8888888888888555'      Host: Madhavan Nadar Portfolio Enterprise",
-          "           88888888888888'         Kernel: 22.6.0 Arm64 Architecture",
-          "           88888888888888,         Uptime: Fully Continuous Active State",
-          "           '88888888888888o,       Shell: zsh (interactive zsh interface)",
-          "            '88888888888995o,      Terminal: madhavan_terminal",
-          "             '888888888888o,       CGPA Score: 9.61 (Elite distinction scholars)",
-          "               'x88888888o'        Current Specialty: Generative AI, ML, Web Core",
-          "                  'x88888x'",
+          "  ,x88888x,     madhavan@macbook-pro",
+          " ,8888888888,   -------------------",
+          " 88888888888'   OS: macOS Ventura 13.5",
+          " 88888888888,   Host: MN Portfolio",
+          " '888888888o,   Kernel: 22.6.0 Arm64",
+          "  '888888888'   Uptime: Continuous",
+          "    'x8888x'    Shell: zsh (interactive)",
+          "               CGPA: 8.68 Elite",
+          "               Focus: GenAI, ML, Web",
         ];
         break;
 
       case "cat bio":
         response = [
           `$ ${trimmed}`,
-          "--- PROFESSIONAL PROFILE & BIO ---",
-          "Madhavan Nadar is an agile computer engineering expert and software architect specializing in decentralized systems, AI agents, and robust full-stack infrastructure.",
-          "As SIES Tech Head & Google DSC Lead, Madhavan orchestrates production-ready systems that scale seamlessly to solve high-density real-world user flows.",
-          "Location: Mumbai, India (Open to global research and product mandates)",
+          "--- PROFESSIONAL PROFILE ---",
+          "Madhavan Nadar â€” computer engineering",
+          "expert in AI agents, decentralized",
+          "systems & full-stack architecture.",
+          "SIES Tech Head & Google DSC Lead.",
+          "Location: Mumbai, India",
         ];
         break;
 
       case "skills":
         response = [
           `$ ${trimmed}`,
-          "--- TECHNICAL SPECS & CORES ---",
-          "• Machine Learning: PyTorch, TensorFlow, Scikit-learn, HuggingFace Transformers, NLP",
-          "• Web Systems: TypeScript, Next.js, React, Node.js, Express, Tailwind CSS, REST APIs",
-          "• Datastores: GCP Cloud SQL (PostgreSQL), Firebase Firestore, Redis, AWS S3",
-          "• Decentralization: EVM Smart Contracts, Solidity, Ether.js, Cryptography",
+          "--- TECHNICAL STACK ---",
+          "â€¢ ML: PyTorch, TF, HuggingFace, NLP",
+          "â€¢ Web: TS, Next.js, React, Node, REST",
+          "â€¢ DB: PostgreSQL, Firebase, Redis, S3",
+          "â€¢ Infra: GCP, AWS, Docker, Solidity",
         ];
         break;
 
       case "projects":
         response = [
           `$ ${trimmed}`,
-          "--- NAVIGATING TO PROJECT PORTFOLIO ---",
-          "• Automated Inventory Optimizers (PyTorch / Next.js)",
-          "• AI Career SkillMapper Guidance Suite (TS / Gemini)",
-          "• Crisis Dashboard and Dispatch (Satellite / Satellite API)",
-          "• Smart Railway Traffic Schedulers (EVM/Solidity nodes)",
-          "• AI Slide PowerPoint Engine (Express / DB)",
+          "--- PROJECT PORTFOLIO ---",
+          "â€¢ Inventory Optimizer (PyTorch/Next.js)",
+          "â€¢ AI Career SkillMapper (TS/Gemini)",
+          "â€¢ Crisis Dashboard (Satellite API)",
+          "â€¢ Railway Scheduler (EVM/Solidity)",
+          "â€¢ AI Slide Engine (Express/DB)",
           "",
-          "[Success] Projects detailed above; viewport focus maintained.",
+          "[Success] Projects listed above.",
         ];
         break;
 
       case "contact":
         response = [
           `$ ${trimmed}`,
-          "--- CONNECTIVITY DATA SENSORS ---",
-          "• Email: madhavannadar23@gmail.com",
-          "• LinkedIn: linkedin.com/in/madhavan-nadar-33a489265",
-          "• GitHub: github.com/MADHAVAN200",
+          "--- CONTACT ---",
+          "â€¢ Email: madhavannadar23@gmail.com",
+          "â€¢ LinkedIn: /in/madhavan-nadar-33a489265",
+          "â€¢ GitHub: github.com/MADHAVAN200",
           "",
-          "[Success] Contact info detailed; viewport focus maintained.",
+          "[Success] Contact info loaded.",
         ];
         break;
 
@@ -120,22 +109,24 @@ export default function MacBookWindow() {
       case "coffee":
         response = [
           `$ ${trimmed}`,
-          "☕ Brewing premium roasted arabica beans on virtual port 80...",
-          "Done! Here is your computer science fuel. Have a great day!",
+          "â˜• Brewing premium arabica on port 80...",
+          "Done! Here's your CS fuel. â˜•",
         ];
         break;
 
       case "sudo rm -rf /":
         response = [
           `$ ${trimmed}`,
-          "⚠️ Permission Denied: Madhavan is protecting his core workspace from cosmic deletion! Nice try. 😉",
+          "âš ï¸ Permission Denied: Madhavan is",
+          "protecting his workspace. Nice try! ðŸ˜‰",
         ];
         break;
 
       default:
         response = [
           `$ ${trimmed}`,
-          `zsh: command not found: ${trimmed}. Type 'help' to audit system queries.`,
+          `zsh: command not found: ${trimmed}`,
+          "Type 'help' to list commands.",
         ];
         break;
     }
@@ -200,39 +191,48 @@ export default function MacBookWindow() {
     inputRef.current?.focus();
   };
 
+  const quickCommands = [
+    { label: "neofetch", color: "hover:border-blue-500" },
+    { label: "cat bio", color: "hover:border-amber-500" },
+    { label: "skills", color: "hover:border-indigo-500" },
+    { label: "projects", color: "hover:border-emerald-500" },
+    { label: "contact", color: "hover:border-violet-500" },
+    { label: "clear", color: "hover:border-red-500/50 hover:bg-red-950/20 text-zinc-400" },
+  ];
+
   return (
     <div 
       onClick={focusTerminal}
-      className="relative w-full max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl border border-zinc-850 dark:border-zinc-800/85 bg-zinc-950/95 text-white cursor-text font-mono"
+      className="relative w-full max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl border border-zinc-800/85 bg-zinc-950 text-white cursor-text font-mono"
     >
-      {/* Sleek Top MacOS Title Bar - EXACTLY MATCHING THE TELEMETRY TERMINAL IN THE HEATMAP */}
-      <div className="bg-zinc-900/80 px-5 py-3 flex items-center justify-between border-b border-zinc-800 text-[11px] font-mono select-none">
+      {/* Sleek Top MacOS Title Bar */}
+      <div className="bg-zinc-900/80 px-3 md:px-5 py-2.5 flex items-center justify-between border-b border-zinc-800 font-mono select-none">
         <div className="flex items-center gap-2">
           {/* macOS window circles */}
-          <div className="flex gap-1.5 mr-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors cursor-pointer" />
-            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80 hover:bg-yellow-500 transition-colors cursor-pointer" />
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-500/80 hover:bg-blue-400 transition-colors cursor-pointer" />
+          <div className="flex gap-1.5 mr-1.5">
+            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors cursor-pointer" />
+            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-yellow-500/80 hover:bg-yellow-500 transition-colors cursor-pointer" />
+            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-blue-500/80 hover:bg-blue-400 transition-colors cursor-pointer" />
           </div>
-          <span className="text-zinc-400 font-bold tracking-tight">terminal — portfolio_session.sh</span>
+          <span className="text-zinc-400 font-bold tracking-tight text-[9px] md:text-[10px]">terminal â€” portfolio_session.sh</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[10px] text-zinc-500 font-mono tracking-wide uppercase font-bold">ONLINE</span>
+          <span className="text-[9px] md:text-[10px] text-zinc-500 font-mono tracking-wide uppercase font-bold">ONLINE</span>
         </div>
       </div>
 
       {/* Terminal Viewport */}
-      <div className="p-5 text-left bg-zinc-950 flex flex-col h-[340px] md:h-[380px] justify-between">
+      <div className="px-3 md:px-5 pt-3 md:pt-5 pb-3 text-left bg-zinc-950 flex flex-col h-[270px] md:h-[360px] justify-between">
         {/* Output Logs Scroll Area */}
         <div 
           ref={viewportRef}
-          className="flex-1 overflow-y-auto pr-1 space-y-1.5 custom-scrollbar text-[11px] sm:text-xs"
+          className="flex-1 overflow-y-auto overflow-x-hidden pr-1 space-y-1 md:space-y-1.5"
         >
           {terminalHistory.map((line, idx) => (
             <div
               key={idx}
-              className={`whitespace-pre-wrap leading-relaxed ${
+              className={`break-words leading-relaxed text-[9px] md:text-[11px] ${
                 line.startsWith("$")
                   ? "text-blue-400 font-bold"
                   : line.includes("command not found")
@@ -250,66 +250,31 @@ export default function MacBookWindow() {
 
           {/* Typing simulation view */}
           {isTypingSimulated && (
-            <div className="flex items-center gap-1.5 text-zinc-300 font-semibold">
-              <span className="text-emerald-500 font-bold">madhavan@macbook-pro</span>
+            <div className="flex items-center gap-1 text-zinc-300 font-semibold text-[9px] md:text-[11px]">
+              <span className="text-emerald-500 font-bold">madhavan@mac</span>
               <span className="text-zinc-500">:</span>
               <span className="text-blue-400 font-bold">~</span>
               <span className="text-zinc-400 font-bold">$</span>
               <span className="text-white ml-0.5">{simulatedProgress}</span>
-              <span className="w-2 h-4 bg-blue-500 animate-[pulse_0.8s_infinite]" />
+              <span className="w-1.5 h-3 md:w-2 md:h-4 bg-blue-500 animate-[pulse_0.8s_infinite]" />
             </div>
           )}
         </div>
 
         {/* Bottom Interactive Block: Preset Helpers & Raw Shell Prompt */}
-        <div className="border-t border-zinc-900 pt-3.5 mt-3 select-none">
-          {/* Quick Query presets bar to keep it highly accessible on mobile/desktop */}
-          <div className="flex flex-wrap items-center gap-1.5 mb-3">
-            <span className="text-[9.5px] text-zinc-500 mr-1 uppercase font-extrabold tracking-wider font-mono">
-              Quick commands:
-            </span>
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); handleCommand("neofetch"); }}
-              className="px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-[10.5px] text-zinc-300 cursor-pointer hover:border-blue-500 transition-colors"
-            >
-              neofetch
-            </button>
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); handleCommand("cat bio"); }}
-              className="px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-[10.5px] text-zinc-300 cursor-pointer hover:border-amber-500 transition-colors"
-            >
-              cat bio
-            </button>
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); handleCommand("skills"); }}
-              className="px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-[10.5px] text-zinc-300 cursor-pointer hover:border-indigo-500 transition-colors"
-            >
-              skills
-            </button>
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); handleCommand("projects"); }}
-              className="px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-[10.5px] text-zinc-300 cursor-pointer hover:border-emerald-500 transition-colors"
-            >
-              projects
-            </button>
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); handleCommand("contact"); }}
-              className="px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-[10.5px] text-zinc-300 cursor-pointer hover:border-indigo-500 transition-colors"
-            >
-              contact
-            </button>
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); handleCommand("clear"); }}
-              className="px-2 py-0.5 rounded bg-zinc-900 hover:bg-red-950/20 border border-zinc-800 hover:border-red-500/50 text-[10.5px] text-zinc-400 cursor-pointer transition-colors text-center"
-            >
-              clear
-            </button>
+        <div className="border-t border-zinc-800/80 pt-2 mt-2 select-none">
+          {/* Quick Command Buttons - 3-column grid on mobile, flex-wrap on desktop */}
+          <div className="grid grid-cols-3 md:flex md:flex-wrap gap-1 mb-2">
+            {quickCommands.map((cmd) => (
+              <button
+                key={cmd.label}
+                type="button"
+                onClick={(e) => { e.stopPropagation(); handleCommand(cmd.label); }}
+                className={`px-1.5 md:px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-[8.5px] md:text-[10.5px] text-zinc-300 cursor-pointer transition-colors text-center truncate ${cmd.color}`}
+              >
+                {cmd.label}
+              </button>
+            ))}
           </div>
 
           {/* Interactive Shell Input Prompt */}
@@ -318,24 +283,24 @@ export default function MacBookWindow() {
               e.preventDefault();
               handleCommand(terminalInput);
             }}
-            className="flex items-center gap-1.5 focus-within:text-white"
+            className="flex items-center gap-1 md:gap-1.5 focus-within:text-white"
           >
-            <span className="text-emerald-500 font-bold select-none">&rarr;</span>
-            <span className="text-blue-400 font-semibold select-none font-mono">~</span>
-            <span className="text-zinc-500 select-none font-bold">&gt;</span>
+            <span className="text-emerald-500 font-bold select-none text-[10px] md:text-sm">&rarr;</span>
+            <span className="text-blue-400 font-semibold select-none font-mono text-[9px] md:text-[11px]">~</span>
+            <span className="text-zinc-500 select-none font-bold text-[9px] md:text-[11px]">&gt;</span>
             <input
               ref={inputRef}
               type="text"
               value={terminalInput}
               disabled={isTypingSimulated}
               onChange={(e) => setTerminalInput(e.target.value)}
-              placeholder={isTypingSimulated ? "Booting shell session..." : "Type command (e.g. 'help') and press enter..."}
-              className="flex-grow bg-transparent border-none outline-none text-white font-mono text-[11px] sm:text-xs placeholder-zinc-700 focus:ring-0 active:ring-0 p-0 ml-1 select-text"
+              placeholder={isTypingSimulated ? "Booting..." : "Type a command..."}
+              className="flex-grow bg-transparent border-none outline-none text-white font-mono text-[9px] md:text-[11px] placeholder-zinc-700 focus:ring-0 active:ring-0 p-0 ml-0.5 select-text"
               aria-label="Active Terminal Input Buffer"
             />
             {/* Enter/return visual icon */}
-            <div className="text-zinc-500 px-1 py-0.5 rounded flex items-center justify-center opacity-40">
-              <CornerDownLeft className="w-3.5 h-3.5" />
+            <div className="text-zinc-500 px-0.5 py-0.5 rounded flex items-center justify-center opacity-40">
+              <CornerDownLeft className="w-2.5 h-2.5 md:w-3.5 md:h-3.5" />
             </div>
           </form>
         </div>
