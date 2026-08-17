@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { GitBranch, Star, Eye, Calendar, Award, Code2, Flame, RefreshCw, Users } from "lucide-react";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell, PieChart, Pie } from "recharts";
 import { motion } from "motion/react";
@@ -95,15 +95,6 @@ const defaultLangUsage = [
   { name: "HTML/CSS", value: 5, color: "#E34C26" },
 ];
 
-const monthlyActivity = [
-  { month: "Jan", commits: 142, PRs: 8, issues: 3 },
-  { month: "Feb", commits: 189, PRs: 14, issues: 5 },
-  { month: "Mar", commits: 210, PRs: 18, issues: 4 },
-  { month: "Apr", commits: 165, PRs: 11, issues: 8 },
-  { month: "May", commits: 245, PRs: 20, issues: 6 },
-  { month: "Jun", commits: 198, PRs: 15, issues: 2 },
-];
-
 // Recreate a grid of contribution patterns
 // Standard Github grid has 7 rows (Sunday to Saturday) and ~53 columns
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -187,9 +178,9 @@ export default function GithubOverview() {
 
   const techFrequencyData = getDynamicTechFrequency();
   const [profileStats, setProfileStats] = useState({
-    followers: 12,
-    publicRepos: 24,
-    yearContributions: 673,
+    followers: 5,
+    publicRepos: 17,
+    yearContributions: 1056,
     commitStreak: 42,
   });
   const [dynamicEvents, setDynamicEvents] = useState<Record<string, number>>({});
@@ -205,11 +196,110 @@ export default function GithubOverview() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [calendarData, setCalendarData] = useState<{ date: string; count: number; level: number }[]>([]);
 
+  // Dynamic 6-month activity trend generator: calculates the latest 6 months ending with the current month on the far right
+  const dynamicMonthlyActivity = useMemo(() => {
+    const result = [];
+    const now = new Date();
+    
+    // Accurate historical counts per month for MADHAVAN200 as fallback
+    const exactFallbackCounts: Record<string, number> = {
+      "2026-03": 170,
+      "2026-04": 115,
+      "2026-05": 149,
+      "2026-06": 199,
+      "2026-07": 173,
+      "2026-08": 80,
+    };
+
+    for (let i = 5; i >= 0; i--) {
+      // Offset: i=5 is 5 months ago, i=0 is current month (index 5, on the right)
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const monthShort = d.toLocaleDateString("en-US", { month: "short" });
+      const year = d.getFullYear();
+      const monthNum = String(d.getMonth() + 1).padStart(2, "0");
+      const prefix = `${year}-${monthNum}`;
+
+      // Sum exact real calendar contributions if available
+      let realCommits = 0;
+      let hasCalendarEntries = false;
+      if (Array.isArray(calendarData) && calendarData.length > 0) {
+        calendarData.forEach((day: any) => {
+          if (day.date && day.date.startsWith(prefix)) {
+            hasCalendarEntries = true;
+            realCommits += Number(day.count) || 0;
+          }
+        });
+      }
+
+      // Check dynamicEvents count as well
+      let eventCount = 0;
+      if (dynamicEvents && Object.keys(dynamicEvents).length > 0) {
+        Object.entries(dynamicEvents).forEach(([dateStr, count]) => {
+          const parsed = new Date(dateStr);
+          if (!isNaN(parsed.getTime()) && parsed.getFullYear() === year && parsed.getMonth() === d.getMonth()) {
+            eventCount += Number(count) || 0;
+          }
+        });
+      }
+
+      let finalCommits = 0;
+      if (hasCalendarEntries) {
+        finalCommits = realCommits;
+      } else if (eventCount > 0) {
+        finalCommits = eventCount;
+      } else {
+        finalCommits = exactFallbackCounts[prefix] || 0;
+      }
+
+      result.push({
+        month: monthShort,
+        fullMonth: d.toLocaleDateString("en-US", { month: "long", year: "numeric" }),
+        commits: finalCommits,
+        isCurrent: i === 0,
+      });
+    }
+    return result;
+  }, [calendarData, dynamicEvents]);
+
+  // Dynamically calculate average commits across the active 6-month window
+  const averageVelocity = useMemo(() => {
+    if (dynamicMonthlyActivity.length === 0) return "0.0";
+    const total = dynamicMonthlyActivity.reduce((acc, curr) => acc + curr.commits, 0);
+    return (total / dynamicMonthlyActivity.length).toFixed(1);
+  }, [dynamicMonthlyActivity]);
+
   const syncGithubData = async () => {
     setIsSyncing(true);
     try {
-      const response = await fetch("/api/github");
-      const data = await response.json();
+      let data: any = null;
+      try {
+        const response = await fetch("/api/github");
+        if (response.ok) {
+          data = await response.json();
+        }
+      } catch (e) {
+        console.warn("Backend /api/github fetch error, fetching directly...");
+      }
+
+      // If backend calendar is missing or empty, fetch directly from public contributions API
+      if (!data || !data.calendar || data.calendar.length === 0) {
+        try {
+          const [calRes, profileRes, reposRes] = await Promise.all([
+            fetch("https://github-contributions-api.jogruber.de/v4/MADHAVAN200").then(r => r.json()).catch(() => null),
+            fetch("https://api.github.com/users/MADHAVAN200").then(r => r.json()).catch(() => null),
+            fetch("https://api.github.com/users/MADHAVAN200/repos?per_page=100").then(r => r.json()).catch(() => null),
+          ]);
+
+          data = {
+            profile: profileRes || (data && data.profile) || null,
+            repos: Array.isArray(reposRes) ? reposRes : ((data && data.repos) || []),
+            events: (data && data.events) || [],
+            calendar: (calRes && Array.isArray(calRes.contributions)) ? calRes.contributions : ((data && data.calendar) || []),
+          };
+        } catch (directErr) {
+          console.warn("Direct GitHub API fetch error:", directErr);
+        }
+      }
       
       if (data) {
         // 1. Process profile
@@ -378,7 +468,7 @@ export default function GithubOverview() {
             setProfileStats((prev) => ({
               ...prev,
               commitStreak: finalStreak,
-              yearContributions: Math.max(673 + fetchedCommitsCount, 673),
+              yearContributions: Math.max(1056 + fetchedCommitsCount, 1056),
             }));
           } catch (errStreak) {}
         }
@@ -933,14 +1023,16 @@ export default function GithubOverview() {
                   </h3>
                   <div className="flex items-center gap-1.5">
                     <span className="text-[10px] font-mono text-gray-400 dark:text-gray-550 font-bold uppercase">Average:</span>
-                    <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">191.5 / Mo</span>
+                    <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">
+                      {averageVelocity} / Mo
+                    </span>
                   </div>
                 </div>
 
                 <div className="w-full h-24 flex-grow py-1">
                   {hasBeenInView ? (
                     <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
-                      <BarChart data={monthlyActivity} margin={{ top: 2, right: 2, left: -28, bottom: 0 }}>
+                      <BarChart data={dynamicMonthlyActivity} margin={{ top: 2, right: 2, left: -28, bottom: 0 }}>
                         <XAxis 
                           dataKey="month" 
                           stroke="#888888" 
@@ -963,6 +1055,14 @@ export default function GithubOverview() {
                             fontSize: "10px",
                             color: "#fff"
                           }}
+                          formatter={(value: any, name: string) => [
+                            `${value} commits`,
+                            name === "commits" ? "Activity" : name
+                          ]}
+                          labelFormatter={(label: string, payload: any) => {
+                            const item = payload?.[0]?.payload;
+                            return item ? `${item.fullMonth || label} ${item.isCurrent ? "(Current Month)" : ""}` : label;
+                          }}
                           itemStyle={{ color: "#a5b4fc" }}
                           cursor={{ fill: "rgba(148, 163, 184, 0.06)" }}
                         />
@@ -974,8 +1074,11 @@ export default function GithubOverview() {
                           animationDuration={450}
                           animationEasing="ease-out"
                         >
-                          {monthlyActivity.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={index === 4 ? "#4f46e5" : "#3178C6"} />
+                          {dynamicMonthlyActivity.map((entry, index) => (
+                            <Cell 
+                              key={`cell-${index}`} 
+                              fill={entry.isCurrent ? "#4f46e5" : "#3178C6"} 
+                            />
                           ))}
                         </Bar>
                       </BarChart>
