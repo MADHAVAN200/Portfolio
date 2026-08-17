@@ -30,15 +30,15 @@ export const education = [
     ],
     achievements: [
       {
-        title: "Technical Head — AI & DS Student Council",
+        title: "Technical Head | AI & DS Student Council",
         desc: "Elected to lead technical initiatives and curate hands-on workshops. Organized dynamic hackathons and code labs covering NLP, Deep Learning, and computer vision pipelines for 200+ students.",
       },
       {
-        title: "Winner — Inter-College Hackathon 2023",
+        title: "Winner | Inter-College Hackathon 2023",
         desc: "Designed and prototyped an automated ML emergency triage priority routing framework, winning 1st place among 40+ engineering groups.",
       },
       {
-        title: "Published Researcher — Construction AI",
+        title: "Published Researcher | Construction AI",
         desc: "Authored and published a research study on integrating predictive machine learning modeling and automated natural language auditing to optimize construction project delays and safety constraints.",
       },
     ],
@@ -661,16 +661,16 @@ export const projects = [
 ];
 
 export const achievements = [
-  "Smart India Hackathon Finalist — Selected in Top 5 among 500+ national project submissions for innovative data solutions.",
-  "Intercollege Ideation Hackathon — Achieved 3rd place among 40+ competing teams with automated emergency triage UI concept.",
-  "Cognition Project Competition — Secured 1st place in the Departmental Project Presentation Competition for AI-driven risk modeling.",
+  "Smart India Hackathon Finalist: Selected in Top 5 among 500+ national project submissions for innovative data solutions.",
+  "Intercollege Ideation Hackathon: Achieved 3rd place among 40+ competing teams with automated emergency triage UI concept.",
+  "Cognition Project Competition: Secured 1st place in the Departmental Project Presentation Competition for AI-driven risk modeling.",
 ];
 
 export const responsibilities = [
   {
-    title: "Freelancer — AI & Software Solutions (2024 - Present)",
+    title: "Freelancer | AI & Software Solutions (2024 - Present)",
     detail:
-      "Delivered 8+ freelance AI and software engagements for clients across requirement analysis, product design, development, and deployment support — spanning LLM integrations, automation pipelines, and full-stack web applications.",
+      "Delivered 8+ freelance AI and software engagements for clients across requirement analysis, product design, development, and deployment support, spanning LLM integrations, automation pipelines, and full-stack web applications.",
     techStack: ["React", "Node.js", "Python", "LLM APIs", "REST APIs", "Automation Scripting"],
     highlights: [
       "Designed and delivered 8+ end-to-end client projects from discovery to production deployment.",
@@ -679,7 +679,7 @@ export const responsibilities = [
     ],
   },
   {
-    title: "GDG Mumbai — UI/UX Lead (2025), UI/UX Member (2024)",
+    title: "GDG Mumbai | UI/UX Lead (2025), UI/UX Member (2024)",
     detail:
       "Led design initiatives by managing a 6-person creative team, overseeing branding assets, and driving UI/UX strategy to improve event engagement and grow the community's digital presence across Google Developer Group Mumbai.",
     techStack: ["Figma", "Adobe XD", "Design Systems", "Prototyping", "Brand Strategy"],
@@ -690,7 +690,7 @@ export const responsibilities = [
     ],
   },
   {
-    title: "SIES GST Council — Design Head (2025), Design Coordinator (2024)",
+    title: "SIES GST Council | Design Head (2025), Design Coordinator (2024)",
     detail:
       "Coordinated council activities, student events, and campus initiatives while managing visual communication, strategic planning, and stakeholder engagement for the SIES Graduate School of Technology Student Council.",
     techStack: ["Figma", "Canva", "Event Planning", "Communication Strategy", "Leadership"],

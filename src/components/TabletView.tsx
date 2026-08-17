@@ -249,7 +249,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
             </div>
           </button>
 
-          {/* Horizontal scrollable pill nav — shows all items */}
+          {/* Horizontal scrollable pill nav (shows all items) */}
           <div className="flex-1 flex items-center justify-center overflow-x-auto scrollbar-none">
             <div className="flex items-center gap-0.5 bg-gray-100/60 dark:bg-white/5 px-1 py-1 rounded-full border border-gray-200/40 dark:border-white/10 w-max">
               {navItems.map((item) => (
@@ -296,7 +296,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
         </div>
       </nav>
 
-      {/* Menu overlay kept for overflow cases — not used in regular tablet layout */}
+      {/* Menu overlay kept for overflow cases: not used in regular tablet layout */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -666,7 +666,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                     ))}
                   </div>
 
-                  {/* Stack Matrix — fixed dark colors */}
+                  {/* Stack Matrix: fixed dark colors */}
                   <div>
                     <span className="text-[8px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest block mb-1.5">Stack Matrix</span>
                     <div className="flex flex-wrap gap-1.5">

@@ -683,7 +683,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                     ))}
                   </div>
 
-                  {/* Stack Matrix — fixed dark colors */}
+                  {/* Stack Matrix: fixed dark colors */}
                   <div>
                     <span className="text-[8px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest block mb-1.5">Stack Matrix</span>
                     <div className="flex flex-wrap gap-1.5">

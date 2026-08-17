@@ -76,7 +76,7 @@ SIES Graduate School of Technology (2022 - 2026)
 ----------------------------------------
 PROFESSIONAL EXPERIENCE
 ----------------------------------------
-1. MitrasAI Inc | Software Engineering Intern — AI/ML (June 2024 - Present)
+1. MitrasAI Inc | Software Engineering Intern (AI/ML) (June 2024 - Present)
    * Engineered production-grade LLM applications, RAG Pipelines, and optimized prompts.
    * Boosted prediction accuracy by 35%, automated manual report pipelines by 70%.
 
@@ -372,7 +372,7 @@ Generated securely from madhavan-portfolio.local
               <div className="flex items-center gap-2.5">
                 <FileText className="w-5 h-5 text-indigo-600" />
                 <h3 className="font-extrabold text-sm sm:text-base text-gray-900">
-                  Madhavan Nadar — Interactive Curriculum Vitae
+                  Madhavan Nadar | Interactive Curriculum Vitae
                 </h3>
               </div>
               <div className="flex gap-2">
@@ -423,7 +423,7 @@ Generated securely from madhavan-portfolio.local
                 <div className="space-y-3.5">
                   <div>
                     <div className="flex justify-between items-center text-xs">
-                      <strong className="text-gray-950">Software Engineering Intern — AI/ML &bull; MitrasAI Inc</strong>
+                      <strong className="text-gray-950">Software Engineering Intern (AI/ML) &bull; MitrasAI Inc</strong>
                       <span className="font-mono text-gray-500 text-[10px]">June 2024 - Present</span>
                     </div>
                     <p className="text-[10px] italic text-gray-500 mt-0.5">Prompt Engineering, LLM applications, RAG pipelines, NLP</p>
@@ -470,7 +470,7 @@ Generated securely from madhavan-portfolio.local
                     <span className="font-mono text-[10px]">2022 - 2026</span>
                   </div>
                   <p className="text-xs mt-0.5 text-gray-700">
-                    B.E. in Artificial Intelligence and Data Science &mdash; <strong>CGPA: 8.68 / 10</strong>
+                    B.E. in Artificial Intelligence and Data Science &bull; <strong>CGPA: 8.68 / 10</strong>
                   </p>
                 </div>
               </div>
