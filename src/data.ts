@@ -170,10 +170,130 @@ export const internships = [
   },
 ];
 
-export const projects = [
+export interface ProjectItem {
+  slug: string;
+  title: string;
+  link: string;
+  liveLink?: string;
+  playStoreLink?: string;
+  appStoreLink?: string;
+  tech: string[];
+  description: string;
+  detailedDescription: string;
+  features: string[];
+  stats: Record<string, string>;
+  category: string;
+  architecture: string[];
+  workflow: string[];
+  challenges: string[];
+  outcomes: string[];
+  video?: string;
+  videoDuration?: string;
+  badge?: string;
+}
+
+export const projects: ProjectItem[] = [
+  {
+    slug: "accounting-automation",
+    title: "Accounting Automation",
+    video: "/projects/accounting-automation/video.mp4?v=1790517087238",
+    videoDuration: "1:00 Walkthrough",
+    badge: "Double-Entry Ledger & Reconciliation",
+    link: "https://github.com/MADHAVAN200/Accounting-Automation",
+    tech: ["React 19", "Vite", "TypeScript", "Tailwind CSS", "Python", "FastAPI", "SQLite 3 (WAL)", "Gemini API", "Double-Entry Engine"],
+    description:
+      "An audit-grade, AI-driven financial operating system that bridges raw bank statements, invoice documents, and strict double-entry bookkeeping with SHA-256 deduplication and 3-way fuzzy reconciliation.",
+    detailedDescription:
+      "Accounting Automation (LedgerAI) is an audit-grade autonomous financial operating system built on strict double-entry bookkeeping principles. It mathematically guarantees that total debits equal total credits, eliminates duplicate bank feed items via SHA-256 transaction fingerprints, and executes multi-factor fuzzy reconciliation between invoices and bank logs. Featuring 11 integrated modules including real-time general ledger, statutory tax calculation (TDS and GST ITC), maker-checker dual authorization, and an AI SQL-grounded Copilot, the system provides complete financial visibility with zero hardcoded mocks over an embedded SQLite 3 WAL database.",
+    features: [
+      "Autonomous Double-Entry Core: Enforces mathematical balance invariants across general ledgers and trial balances with zero discrepancies.",
+      "SHA-256 Transaction Fingerprinting: Cryptographically hashes transaction attributes to prevent duplicate entries across overlapping bank statement imports.",
+      "3-Way Multi-Factor Reconciliation: Correlates bank feeds, purchase invoices, and vendor records using fuzzy matching algorithms and confidence scoring.",
+      "Statutory Tax & Compliance Engine: Automatically calculates and validates applicable TDS deductions and GST input tax credit allocations.",
+      "Maker-Checker Dual Governance: Segregates duties between transaction drafters and approvers with tamper-evident audit trails and chained logs.",
+      "AI Copilot & Natural-Language Queries: Context-aware conversational assistant grounded in SQL schema to query financial metrics and balance sheets in plain English.",
+    ],
+    stats: { reconciliation: "3-Way\nFuzzy", invariant: "Debits =\nCredits", dedup: "SHA-256\nHash" },
+    category: "Enterprise & Full-Stack Systems",
+    architecture: [
+      "React 19 & TypeScript Frontend Studio",
+      "FastAPI & Python Core Accounting Engine",
+      "SQLite 3 WAL Transaction Store",
+      "Gemini API for Invoice OCR & SQL Copilot",
+      "Multi-Factor Fuzzy Matching Pipeline",
+    ],
+    workflow: [
+      "Accountants upload raw bank feeds or vendor invoices in PDF or CSV formats.",
+      "SHA-256 hashes deduplicate rows while OCR extractors parse vendor line items.",
+      "The rule engine auto-classifies transactions into balanced double-entry vouchers.",
+      "Fuzzy reconciliation aligns bank movements against open accounts payable.",
+      "Supervisors review and approve entries under maker-checker access controls.",
+    ],
+    challenges: [
+      "Enforcing strict double-entry balance equality during real-time multi-currency conversions and FX gain/loss adjustments.",
+      "Handling non-standard invoice layouts and noisy OCR scans without generating phantom accounting entries.",
+      "Maintaining sub-50ms query response times across large general ledger audit trails in an embedded SQLite engine.",
+    ],
+    outcomes: [
+      "Automated 85%+ of manual invoice entry and bank reconciliation cycles for finance teams.",
+      "Achieved 100% mathematical ledger balance consistency with automated invariant enforcement.",
+      "Streamlined statutory tax audits by maintaining immutable, chained transaction logs.",
+    ],
+  },
+  {
+    slug: "ai-research-ops",
+    title: "AI Research Ops - Autonomous Multi-Stage Verification Platform",
+    video: "/projects/ai-research-ops/video.mp4?v=1790517087238",
+    videoDuration: "0:32 Walkthrough",
+    badge: "Autonomous API Intelligence",
+    link: "https://github.com/MADHAVAN200/AI-Research-Ops",
+    tech: ["FastAPI", "Python", "Pydantic v2", "React 18", "TypeScript", "Groq API", "Google Gemini", "Vite"],
+    description:
+      "An autonomous 6-stage AI intelligence and verification platform that benchmarks, extracts, and validates 11 atomic API integration claims across 100 enterprise software ecosystems with zero hallucinations.",
+    detailedDescription:
+      "AI Research Ops is an enterprise-grade agentic verification system built with FastAPI and React 18. It automates primary developer documentation discovery, 11-claim integration schema extraction (Pydantic v2), tri-rubric scoring (Technical Score, Access Friction, and Agent Readiness), blind dual-agent corroboration, and deterministic human QA reconciliation across 100 enterprise software platforms with a 95.0% verified accuracy benchmark.",
+    features: [
+      "Autonomous 6-Stage Pipeline: Orchestrates primary documentation discovery, claim extraction, tri-rubric scoring, blind dual-agent verification, human QA audit, and deterministic reconciliation.",
+      "100-App Ecosystem Benchmark: Comprehensive multi-dimensional evaluation covering CRM, Developer Tools, Messaging, Payments, and Scraping platforms.",
+      "11-Claim Atomic Matrix: Formulates strict Pydantic v2 schemas validating OAuth2/API Key auth, rate limits, SDK availability, sandbox environments, and admin governance.",
+      "Model Context Protocol (MCP) Standard: Tracks official vendor MCP servers, open-source community adapters, and direct REST tool-calling readiness.",
+      "Live Query & Execution Engine: Real-time interactive terminal executing on-demand research passes with live step logs and streaming updates.",
+      "Dual-Layer Blind Verifier: Eliminates AI hallucinations through an independent Stage 4 corroboration agent operating without extraction context.",
+    ],
+    stats: { apps_audited: "100 Apps", accuracy: "95.0% Verified", claims: "11 Atomic Claims" },
+    category: "AI & Deep Tech Solutions",
+    architecture: [
+      "FastAPI Async Agent Backend",
+      "Pydantic v2 Strict Claim Validation",
+      "Dual-LLM Engine (Groq LLaMA-3 & Gemini)",
+      "Blind Independent Corroboration Agent",
+      "Deterministic QA Reconciliation Engine",
+      "React 18 + Vite High-Performance Dashboard",
+    ],
+    workflow: [
+      "Primary Discovery: Queries 8 documentation vectors for endpoints, SDKs, and auth specifications.",
+      "Claim Extraction: Parses and structures 11 atomic claims with primary citations.",
+      "Tri-Rubric Scoring: Computes Technical Score (0-10), Friction Level, and Agent Readiness.",
+      "Blind Verification: Independent second agent cross-checks claims without extraction context.",
+      "Reconciliation: Applies deterministic human QA overrides into the final verified dataset.",
+    ],
+    challenges: [
+      "Preventing LLM hallucinations across complex enterprise authentication and gating rules.",
+      "Handling heterogeneous API documentation structures across 100 disparate vendors.",
+      "Standardizing emerging Model Context Protocol (MCP) tooling definitions alongside legacy REST/GraphQL APIs.",
+    ],
+    outcomes: [
+      "Achieved 95.0% verified corroboration accuracy across all 100 benchmark applications.",
+      "Zero schema defects via strict Pydantic v2 validation and deterministic merge rules.",
+      "Sub-second interactive querying across the complete 100-app dataset in React 18.",
+    ],
+  },
   {
     slug: "text2viz-ai-analytics-visualization-platform",
     title: "Natural Language Analytics & Visualisation Platform",
+    video: "/projects/text2viz-ai-analytics-visualization-platform/video.mp4?v=1790517087238",
+    videoDuration: "1:00 Walkthrough",
+    badge: "Full Voice & SQL Demo",
     link: "https://github.com/MADHAVAN200/Text-to-Visualisation",
     tech: ["React (TypeScript)", "Express.js", "Python FastAPI", "LLaMA-3 (Groq API)", "SQLite / MySQL / PostgreSQL", "Web Speech API", "Recharts", "Tailwind CSS"],
     description:
@@ -218,6 +338,9 @@ export const projects = [
   {
     slug: "labskraft-assessment-learning-cloud-platform",
     title: "LabsKraft - Cloud Learning & Assessment Platform",
+    video: "/projects/labskraft-assessment-learning-cloud-platform/video.mp4?v=1790517087238",
+    videoDuration: "0:55 Walkthrough",
+    badge: "Cloud Exam & VM Proctor",
     link: "",
     tech: ["Node.js", "Express", "MySQL", "AWS Cognito", "AWS S3", "Knex.js", "React 19", "Vite 7", "Framer Motion", "Tailwind CSS"],
     description:
@@ -261,6 +384,9 @@ export const projects = [
   {
     slug: "aws-manager-automated-cloud-optimization-billing-suite",
     title: "AWS Manager - Automated Cloud Optimization & Billing Suite",
+    video: "/projects/aws-manager-automated-cloud-optimization-billing-suite/video.mp4?v=1790517087238",
+    videoDuration: "1:00 Walkthrough",
+    badge: "DevOps Cost Optimizer",
     link: "",
     tech: ["Python Flask", "Boto3 AWS SDK", "React (Vite)", "SQLite", "gspread (Google Sheets)", "APScheduler", "Fernet Cryptography"],
     description:
@@ -305,6 +431,9 @@ export const projects = [
   {
     slug: "ai-powered-b2b-scraper-analytics-platform",
     title: "AI-Powered B2B Scraper & Analytics Platform",
+    video: "/projects/ai-powered-b2b-scraper-analytics-platform/video.mp4?v=1790517087238",
+    videoDuration: "1:00 Walkthrough",
+    badge: "Market Intelligence",
     link: "https://github.com/MADHAVAN200/AI-Powered-B2B-Scraper-Analytics-Platform",
     tech: ["Python", "Groq AI LLaMA-3.1", "SQLite", "Flask", "Chart.js", "BeautifulSoup", "HTML Heurist Parsing"],
     description:
@@ -349,6 +478,9 @@ export const projects = [
   {
     slug: "ai-ppt-presentation-generator",
     title: "AI PPT Presentation Generator",
+    video: "/projects/ai-ppt-presentation-generator/video.mp4?v=1790517087238",
+    videoDuration: "1:00 Walkthrough",
+    badge: "AI Presentation Studio",
     link: "https://github.com/MADHAVAN200/AI-PPT-Generator",
     tech: ["React 19", "Express.js", "Gemini API", "Groq LLaMA", "PptxGenJS", "Supabase", "Tailwind CSS"],
     description:
@@ -392,6 +524,9 @@ export const projects = [
   {
     slug: "mano-workforce-intelligence-platform",
     title: "Mano Workforce Intelligence Platform",
+    video: "/projects/mano-workforce-intelligence-platform/video.mp4?v=1790517087238",
+    videoDuration: "1:12 Walkthrough",
+    badge: "500+ Active Users • iOS & Android",
     link: "https://github.com/MADHAVAN200/Attendance-Web",
     liveLink: "https://attendance.mano.co.in/",
     playStoreLink: "https://play.google.com/store/apps/details?id=co.mano.attendance",
@@ -441,6 +576,9 @@ export const projects = [
   {
     slug: "ai-powered-forecasting-inventory-optimization",
     title: "AI-Powered Forecasting, Inventory & Optimisation System",
+    video: "/projects/ai-powered-forecasting-inventory-optimization/video.mp4?v=1790517087238",
+    videoDuration: "1:00 Walkthrough",
+    badge: "Walmart Sparkathon Finalist",
     link: "https://github.com/MADHAVAN200/AI-Powered-forecasting-inventory-and-optimization-system",
     tech: ["Python", "Time Series", "Predictive Analytics", "React", "REST APIs"],
     description:
@@ -483,6 +621,9 @@ export const projects = [
   {
     slug: "ai-driven-construction-erp-rag-intelligence",
     title: "AI-Driven Construction ERP with RAG Intelligence",
+    video: "/projects/ai-driven-construction-erp-rag-intelligence/video.mp4?v=1790517087238",
+    videoDuration: "1:00 Walkthrough",
+    badge: "Enterprise RAG Intelligence",
     link: "https://github.com/Mano-Bharathii/MANO-ERP.git",
     tech: ["Python", "LangChain", "FAISS", "Node.js", "React", "MySQL", "AWS"],
     description:
@@ -527,6 +668,9 @@ export const projects = [
   {
     slug: "ai-based-crisis-management-system",
     title: "AI-Based Crisis Management System",
+    video: "/projects/ai-based-crisis-management-system/video.mp4?v=1790517087238",
+    videoDuration: "1:00 Walkthrough",
+    badge: "Disaster Response AI",
     link: "https://github.com/MADHAVAN200/DisasterIQ",
     tech: ["Python", "Deep Learning", "NLP", "Multi-source data fusion", "SMS fallback", "React"],
     description:
@@ -570,6 +714,9 @@ export const projects = [
   {
     slug: "ai-powered-skill-mapper",
     title: "AI-Powered Skill Mapper",
+    video: "/projects/ai-powered-skill-mapper/video.mp4?v=1790517087238",
+    videoDuration: "1:00 Walkthrough",
+    badge: "Career AI Platform",
     link: "https://github.com/MADHAVAN200/Career_roadmap.git",
     tech: ["Python", "LangChain", "Generative AI", "RAG", "React"],
     description:
@@ -612,6 +759,9 @@ export const projects = [
   {
     slug: "ai-powered-railway-traffic-optimisation-system",
     title: "AI-Powered Railway Traffic Optimisation System",
+    video: "/projects/ai-powered-railway-traffic-optimisation-system/video.mp4?v=1790517087238",
+    videoDuration: "1:00 Walkthrough",
+    badge: "Sub-50ms Solver",
     link: "https://github.com/MADHAVAN200/Railway_Automations.git",
     tech: [
       "Python",

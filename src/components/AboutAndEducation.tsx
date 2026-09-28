@@ -22,7 +22,7 @@ export default function AboutAndEducation() {
           {/* Section title */}
           <div className="text-center max-w-3xl mx-auto mb-10">
 
-            <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white font-display">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white font-display">
               Systems Engineer & AI Specialist
             </h2>
           </div>
@@ -39,10 +39,10 @@ export default function AboutAndEducation() {
             >
               <div className="bg-white/60 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800 rounded-xl p-6 sm:p-8 shadow-xl glass-panel flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 font-display">
+                  <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4 font-display">
                     Madhavan Nadar
                   </h3>
-                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed font-sans font-normal font-light">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed font-sans font-normal">
                     {summary.text}
                   </p>
                 </div>
@@ -139,10 +139,10 @@ export default function AboutAndEducation() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-10">
-            <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white font-display">
-              Educational Milestones
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white font-display">
+              Education
             </h2>
-            <p className="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">
+            <p className="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto font-normal">
               Rigorous theoretical training in machine learning systems, deep neural nets, and cloud engineering topologies.
             </p>
           </div>
@@ -166,16 +166,16 @@ export default function AboutAndEducation() {
                   className="w-full sm:w-[45%] pl-10 sm:pl-0 sm:text-right text-left"
                 >
                   <div className="bg-white/60 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800 rounded-lg p-5 shadow-sm hover:shadow transition-all hover:border-gray-300 dark:hover:border-zinc-700 text-left">
-                    <span className="text-[10px] font-mono uppercase bg-blue-100/50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-md">
+                    <span className="text-[10px] font-poppins uppercase bg-blue-100/50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-md font-medium">
                       {education[0].year}
                     </span>
-                    <h3 className="text-base font-extrabold text-gray-900 dark:text-white mt-2.5 font-display">
+                    <h3 className="text-base font-semibold text-gray-900 dark:text-white mt-2.5 font-display">
                       {education[0].degree}
                     </h3>
                     <p className="text-xs font-normal text-gray-500 dark:text-gray-400 mt-1">
                       {education[0].institute}
                     </p>
-                    <p className="text-xs font-mono text-blue-600 dark:text-blue-400 font-medium mt-2.5">
+                    <p className="text-xs font-poppins text-blue-600 dark:text-blue-400 font-medium mt-2.5">
                       {education[0].detail}
                     </p>
 
@@ -184,7 +184,7 @@ export default function AboutAndEducation() {
                       <h4 className="text-[10px] font-semibold font-sans text-gray-400 tracking-wide mb-2">Subject Specialisms</h4>
                       <div className="flex flex-wrap gap-1">
                         {education[0].modules.map((m) => (
-                          <span key={m} className="text-[9px] font-mono bg-gray-50 dark:bg-zinc-800 border border-gray-100 dark:border-zinc-700 text-gray-600 dark:text-zinc-300 px-1.5 py-0.5 rounded">
+                          <span key={m} className="text-[9px] font-poppins bg-gray-50 dark:bg-zinc-800 border border-gray-100 dark:border-zinc-700 text-gray-600 dark:text-zinc-300 px-1.5 py-0.5 rounded">
                             {m}
                           </span>
                         ))}
@@ -216,16 +216,16 @@ export default function AboutAndEducation() {
                   className="w-full sm:w-[45%] pl-10 sm:pl-8"
                 >
                   <div className="bg-white/60 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800 rounded-lg p-5 shadow-sm hover:shadow transition-all hover:border-gray-300 dark:hover:border-zinc-700">
-                    <span className="text-[10px] font-mono uppercase bg-indigo-100/50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-md">
+                    <span className="text-[10px] font-poppins uppercase bg-indigo-100/50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-md">
                       {education[1].year}
                     </span>
-                    <h3 className="text-sm font-bold text-gray-900 dark:text-white mt-2 font-display">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mt-2 font-display">
                       {education[1].degree}
                     </h3>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 font-normal">
                       {education[1].institute}
                     </p>
-                    <p className="text-xs font-mono text-blue-600 dark:text-blue-400 font-medium mt-2">
+                    <p className="text-xs font-poppins text-blue-600 dark:text-blue-400 font-normal mt-2">
                       {education[1].detail}
                     </p>
                   </div>
@@ -244,16 +244,16 @@ export default function AboutAndEducation() {
                   className="w-full sm:w-[45%] pl-10 sm:pl-0 sm:text-right"
                 >
                   <div className="bg-white/60 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800 rounded-lg p-5 shadow-sm hover:shadow transition-all hover:border-gray-300 dark:hover:border-zinc-700 text-left">
-                    <span className="text-[10px] font-mono uppercase bg-gray-100 dark:bg-white/15 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded-md">
+                    <span className="text-[10px] font-poppins uppercase bg-gray-100 dark:bg-white/15 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded-md font-medium">
                       {education[2].year}
                     </span>
-                    <h3 className="text-sm font-bold text-gray-900 dark:text-white mt-2 font-display">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mt-2 font-display">
                       {education[2].degree}
                     </h3>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                       {education[2].institute}
                     </p>
-                    <p className="text-xs font-mono text-blue-600 dark:text-blue-400 font-medium mt-2">
+                    <p className="text-xs font-poppins text-blue-600 dark:text-blue-400 font-medium mt-2">
                       {education[2].detail}
                     </p>
                   </div>
@@ -280,8 +280,8 @@ export default function AboutAndEducation() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Header */}
           <div className="text-center max-w-3xl mx-auto mb-10">
-            <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white font-display">
-              Hackathons & Trophies
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white font-display">
+              Achievements
             </h2>
           </div>
 
@@ -316,13 +316,13 @@ export default function AboutAndEducation() {
                     <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/25 flex items-center justify-center mb-4 text-center">
                       <Trophy className="w-5.5 h-5.5" />
                     </div>
-                    <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-blue-650 dark:text-blue-400 block mb-1">
+                    <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-blue-650 dark:text-blue-400 block mb-1">
                       {highlight.subtitle}
                     </span>
-                    <h3 className="text-lg font-extrabold text-gray-900 dark:text-white font-display">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white font-display">
                       {highlight.title}
                     </h3>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2.5 leading-relaxed font-semibold">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2.5 leading-relaxed font-normal">
                       {ach}
                     </p>
                   </div>

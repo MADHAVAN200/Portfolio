@@ -124,7 +124,7 @@ Generated securely from madhavan-portfolio.local
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white font-display">
+          <h2 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white font-display">
             Collaborate on Intelligent Systems
           </h2>
           <p className="mt-3 text-lg text-gray-600 dark:text-gray-400">
@@ -138,7 +138,7 @@ Generated securely from madhavan-portfolio.local
           <div className="lg:col-span-5 h-full flex flex-col">
             <div className="bg-white/60 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800 rounded-xl p-6 sm:p-8 shadow-xl glass-panel text-left h-full flex flex-col justify-between">
               <div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 font-display">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 font-display">
                   Contact &amp; Coordinates
                 </h3>
 
@@ -371,20 +371,20 @@ Generated securely from madhavan-portfolio.local
             <div className="p-5 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <FileText className="w-5 h-5 text-indigo-600" />
-                <h3 className="font-extrabold text-sm sm:text-base text-gray-900">
+                <h3 className="font-semibold text-sm sm:text-base text-gray-900">
                   Madhavan Nadar | Interactive Curriculum Vitae
                 </h3>
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={handleDownloadDraft}
-                  className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold shadow flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-medium shadow flex items-center gap-1.5 cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" /> Download TXT File
                 </button>
                 <button
                   onClick={() => setShowResumeModal(false)}
-                  className="p-2 rounded-xl bg-white border border-gray-200 hover:bg-gray-150 text-gray-600 text-[11px] font-bold cursor-pointer"
+                  className="p-2 rounded-xl bg-white border border-gray-200 hover:bg-gray-150 text-gray-600 text-[11px] font-medium cursor-pointer"
                 >
                   Collapse
                 </button>
@@ -395,8 +395,8 @@ Generated securely from madhavan-portfolio.local
             <div className="p-6 overflow-y-auto space-y-6 font-sans text-xs bg-white text-left selection:bg-indigo-200">
               {/* Header block */}
               <div className="text-center pb-5 border-b border-gray-200 space-y-1">
-                <h4 className="text-2xl font-extrabold text-gray-900">MADHAVAN NADAR</h4>
-                <p className="text-xs uppercase font-mono tracking-widest text-indigo-600 font-bold">
+                <h4 className="text-2xl font-bold text-gray-900">MADHAVAN NADAR</h4>
+                <p className="text-xs uppercase font-mono tracking-widest text-indigo-600 font-semibold">
                   AI Engineer &bull; Data Scientist &bull; Full-Stack Architect
                 </p>
                 <p className="text-[10px] text-gray-500 font-mono">
@@ -406,17 +406,17 @@ Generated securely from madhavan-portfolio.local
 
               {/* Bio block */}
               <div className="space-y-1.5">
-                <h5 className="font-extrabold text-xs uppercase tracking-wider text-indigo-600 border-b border-gray-200 pb-1">
+                <h5 className="font-semibold text-xs uppercase tracking-wider text-indigo-600 border-b border-gray-200 pb-1">
                   Professional summary
                 </h5>
-                <p className="text-xs text-gray-700 leading-relaxed font-medium">
+                <p className="text-xs text-gray-700 leading-relaxed font-normal">
                   Driven AI undergraduate passionate about leveraging data and AI to solve complex enterprise problems. Highly competent in designing ML neural systems, prompting, federated architectures, construction ERP, and automated workflow modules. Proven leader elected as Design head and UI/UX leads at GDG and GST.
                 </p>
               </div>
 
               {/* Work history */}
               <div className="space-y-4">
-                <h5 className="font-extrabold text-xs uppercase tracking-wider text-indigo-600 border-b border-gray-200 pb-1">
+                <h5 className="font-semibold text-xs uppercase tracking-wider text-indigo-600 border-b border-gray-200 pb-1">
                   Professional Tenure
                 </h5>
 
@@ -461,7 +461,7 @@ Generated securely from madhavan-portfolio.local
 
               {/* Education section */}
               <div className="space-y-2">
-                <h5 className="font-extrabold text-xs uppercase tracking-wider text-indigo-600 border-b border-gray-200 pb-1">
+                <h5 className="font-semibold text-xs uppercase tracking-wider text-indigo-600 border-b border-gray-200 pb-1">
                   Academia
                 </h5>
                 <div>

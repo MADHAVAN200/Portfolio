@@ -11,8 +11,8 @@ export default function LeadershipSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white font-display">
-            Executive Roles
+          <h2 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white font-display">
+            Leadership
           </h2>
           <p className="mt-3 text-lg text-gray-600 dark:text-gray-400">
             Fostering technical growth, designing beautiful products, and managing high-performance creative departments.
@@ -44,21 +44,21 @@ export default function LeadershipSection() {
                     </div>
                   </div>
 
-                  <h3 className="text-lg font-black text-gray-950 dark:text-white font-display leading-tight">
+                  <h3 className="text-lg font-semibold text-gray-950 dark:text-white font-display leading-tight">
                     {role.title}
                   </h3>
-                  <p className="text-xs text-gray-600 dark:text-zinc-400 mt-3.5 leading-relaxed">
+                  <p className="text-xs text-gray-600 dark:text-zinc-400 mt-3.5 leading-relaxed font-normal">
                     {role.detail}
                   </p>
 
                   {/* Highlights Bullet-points */}
                   <div className="mt-6 space-y-3 pt-4 border-t border-gray-150 dark:border-zinc-800">
-                    <h4 className="text-[10px] font-semibold font-sans tracking-wide text-gray-500 dark:text-zinc-400">
+                    <h4 className="text-[10px] font-medium font-sans tracking-wide text-gray-500 dark:text-zinc-400">
                       Key Outcomes
                     </h4>
                     <ul className="space-y-2 text-xs text-gray-700 dark:text-zinc-300">
                       {role.highlights.map((hl, hIdx) => (
-                        <li key={hIdx} className="flex gap-2">
+                        <li key={hIdx} className="flex gap-2 font-normal">
                           <CheckCircle2 className="w-4 h-4 text-indigo-500 dark:text-indigo-400 shrink-0 mt-0.5" />
                           <span>{hl}</span>
                         </li>
@@ -72,7 +72,7 @@ export default function LeadershipSection() {
                   {role.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="text-[10px] font-mono font-medium bg-gray-100 dark:bg-zinc-800/80 text-gray-700 dark:text-zinc-200 px-2 py-0.5 rounded border border-transparent dark:border-zinc-700/45"
+                      className="text-[10px] font-mono font-normal bg-gray-100 dark:bg-zinc-800/80 text-gray-700 dark:text-zinc-200 px-2 py-0.5 rounded border border-transparent dark:border-zinc-700/45"
                     >
                       {tech}
                     </span>

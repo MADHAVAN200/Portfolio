@@ -55,10 +55,10 @@ export default function DesktopView({
                 transition={{ duration: 0.55, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="space-y-1.5"
               >
-                <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-gray-950 dark:text-white font-display leading-[1.08]">
+                <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-gray-950 dark:text-white font-display leading-[1.08]">
                   {profile.name}
                 </h1>
-                <p className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-300 bg-clip-text text-transparent leading-relaxed tracking-tight">
+                <p className="text-lg sm:text-2xl font-medium bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-300 bg-clip-text text-transparent leading-relaxed tracking-tight">
                   {profile.headline}
                 </p>
               </motion.div>
@@ -68,7 +68,7 @@ export default function DesktopView({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.45, delay: 0.25 }}
-                className="text-sm sm:text-base text-gray-650 dark:text-gray-400 max-w-xl leading-relaxed"
+                className="text-sm sm:text-base text-gray-650 dark:text-gray-400 max-w-xl leading-relaxed font-normal"
               >
                 Systems Engineer specializing in Generative AI (RAG pipelines, Fine-tuning) and scalable web architectures. Proven track record of optimizing AI model inference by 35% and automating 70% of enterprise work pipelines across multiple software developer roles.
               </motion.p>
@@ -81,37 +81,37 @@ export default function DesktopView({
                 className="grid grid-cols-3 gap-4 py-4 max-w-lg"
               >
                 <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800/80 shadow-sm hover:scale-102 hover:border-blue-500/30 transition-all">
-                  <span className="block text-2xl font-black text-blue-600 dark:text-blue-400 font-display">
+                  <span className="block text-2xl font-bold text-blue-600 dark:text-blue-400 font-display">
                     70%
                   </span>
-                  <span className="block text-[10px] font-bold text-gray-900 dark:text-white font-sans mt-1">
+                  <span className="block text-[10px] font-medium text-gray-800 dark:text-zinc-200 font-sans mt-1">
                     Workflow Automation
                   </span>
-                  <span className="block text-[9px] font-mono text-gray-500 dark:text-zinc-500 mt-0.5">
+                  <span className="block text-[9px] font-mono font-normal text-gray-400 dark:text-zinc-500 mt-0.5">
                     Enterprise Operations
                   </span>
                 </div>
 
                 <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800/80 shadow-sm hover:scale-102 hover:border-blue-500/30 transition-all">
-                  <span className="block text-2xl font-black text-blue-600 dark:text-blue-400 font-display">
+                  <span className="block text-2xl font-bold text-blue-600 dark:text-blue-400 font-display">
                     8+
                   </span>
-                  <span className="block text-[10px] font-bold text-gray-900 dark:text-white font-sans mt-1">
+                  <span className="block text-[10px] font-medium text-gray-800 dark:text-zinc-200 font-sans mt-1">
                     Client Deliveries
                   </span>
-                  <span className="block text-[9px] font-mono text-gray-500 dark:text-zinc-500 mt-0.5">
+                  <span className="block text-[9px] font-mono font-normal text-gray-400 dark:text-zinc-500 mt-0.5">
                     Production systems
                   </span>
                 </div>
 
                 <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800/80 shadow-sm hover:scale-102 hover:border-blue-500/30 transition-all">
-                  <span className="block text-2xl font-black text-blue-600 dark:text-blue-400 font-display">
+                  <span className="block text-2xl font-bold text-blue-600 dark:text-blue-400 font-display">
                     Top 5
                   </span>
-                  <span className="block text-[10px] font-bold text-gray-900 dark:text-white font-sans mt-1">
+                  <span className="block text-[10px] font-medium text-gray-800 dark:text-zinc-200 font-sans mt-1">
                     National Finalist
                   </span>
-                  <span className="block text-[9px] font-mono text-gray-500 dark:text-zinc-500 mt-0.5">
+                  <span className="block text-[9px] font-mono font-normal text-gray-400 dark:text-zinc-500 mt-0.5">
                     Smart India Hackathon
                   </span>
                 </div>
@@ -126,13 +126,13 @@ export default function DesktopView({
               >
                 <button
                   onClick={() => scrollToElement("projects")}
-                  className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow hover:shadow-lg transition-all flex items-center gap-1.5 cursor-pointer hover:scale-102"
+                  className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow hover:shadow-lg transition-all flex items-center gap-1.5 cursor-pointer hover:scale-102"
                 >
                   View Project Showcase <ArrowRight className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => scrollToElement("contact")}
-                  className="px-6 py-3 rounded-xl border border-gray-250/50 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/40 hover:bg-neutral-50 dark:hover:bg-zinc-800/60 text-gray-950 dark:text-white text-xs font-bold shadow-sm transition-all cursor-pointer hover:scale-102"
+                  className="px-6 py-3 rounded-xl border border-gray-250/50 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/40 hover:bg-neutral-50 dark:hover:bg-zinc-800/60 text-gray-950 dark:text-white text-xs font-medium shadow-sm transition-all cursor-pointer hover:scale-102"
                 >
                   Contact Me
                 </button>
