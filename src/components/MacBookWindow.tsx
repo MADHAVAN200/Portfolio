@@ -56,7 +56,7 @@ export default function MacBookWindow() {
         response = [
           `$ ${trimmed}`,
           "--- PROFESSIONAL PROFILE ---",
-          "Madhavan Nadar â€” computer engineering",
+          "Madhavan Nadar - Computer Engineering",
           "expert in AI agents, decentralized",
           "systems & full-stack architecture.",
           "SIES Tech Head & Google DSC Lead.",
@@ -68,10 +68,10 @@ export default function MacBookWindow() {
         response = [
           `$ ${trimmed}`,
           "--- TECHNICAL STACK ---",
-          "â€¢ ML: PyTorch, TF, HuggingFace, NLP",
-          "â€¢ Web: TS, Next.js, React, Node, REST",
-          "â€¢ DB: PostgreSQL, Firebase, Redis, S3",
-          "â€¢ Infra: GCP, AWS, Docker, Solidity",
+          "• ML: PyTorch, TF, HuggingFace, NLP",
+          "• Web: TS, Next.js, React, Node, REST",
+          "• DB: PostgreSQL, Firebase, Redis, S3",
+          "• Infra: GCP, AWS, Docker, Solidity",
         ];
         break;
 
@@ -79,11 +79,11 @@ export default function MacBookWindow() {
         response = [
           `$ ${trimmed}`,
           "--- PROJECT PORTFOLIO ---",
-          "â€¢ Inventory Optimizer (PyTorch/Next.js)",
-          "â€¢ AI Career SkillMapper (TS/Gemini)",
-          "â€¢ Crisis Dashboard (Satellite API)",
-          "â€¢ Railway Scheduler (EVM/Solidity)",
-          "â€¢ AI Slide Engine (Express/DB)",
+          "• Inventory Optimizer (PyTorch/Next.js)",
+          "• AI Career SkillMapper (TS/Gemini)",
+          "• Crisis Dashboard (Satellite API)",
+          "• Railway Scheduler (EVM/Solidity)",
+          "• AI Slide Engine (Express/DB)",
           "",
           "[Success] Projects listed above.",
         ];
@@ -93,9 +93,9 @@ export default function MacBookWindow() {
         response = [
           `$ ${trimmed}`,
           "--- CONTACT ---",
-          "â€¢ Email: madhavannadar23@gmail.com",
-          "â€¢ LinkedIn: /in/madhavan-nadar-33a489265",
-          "â€¢ GitHub: github.com/MADHAVAN200",
+          "• Email: madhavannadar23@gmail.com",
+          "• LinkedIn: /in/madhavan-nadar-33a489265",
+          "• GitHub: github.com/MADHAVAN200",
           "",
           "[Success] Contact info loaded.",
         ];
@@ -109,16 +109,16 @@ export default function MacBookWindow() {
       case "coffee":
         response = [
           `$ ${trimmed}`,
-          "â˜• Brewing premium arabica on port 80...",
-          "Done! Here's your CS fuel. â˜•",
+          "☕ Brewing premium arabica on port 80...",
+          "Done! Here's your CS fuel. ☕",
         ];
         break;
 
       case "sudo rm -rf /":
         response = [
           `$ ${trimmed}`,
-          "âš ï¸ Permission Denied: Madhavan is",
-          "protecting his workspace. Nice try! ðŸ˜‰",
+          "⚠️ Permission Denied: Madhavan is",
+          "protecting his workspace. Nice try! 😉",
         ];
         break;
 
@@ -214,7 +214,7 @@ export default function MacBookWindow() {
             <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-yellow-500/80 hover:bg-yellow-500 transition-colors cursor-pointer" />
             <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-blue-500/80 hover:bg-blue-400 transition-colors cursor-pointer" />
           </div>
-          <span className="text-zinc-400 font-bold tracking-tight text-[9px] md:text-[10px]">terminal â€” portfolio_session.sh</span>
+          <span className="text-zinc-400 font-bold tracking-tight text-[9px] md:text-[10px]">terminal - portfolio_session.sh</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />

@@ -1,10 +1,26 @@
-import React, { useState, useEffect, useMemo } from "react";
+﻿import React, { useState, useEffect, useMemo } from "react";
 import { GitBranch, Star, Eye, Calendar, Award, Code2, Flame, RefreshCw, Users } from "lucide-react";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell, PieChart, Pie } from "recharts";
 import { motion } from "motion/react";
 import { projects, internships, responsibilities } from "../data";
 
 const starredRepos = [
+  {
+    name: "Accounting-Automation",
+    desc: "Autonomous double-entry accounting and reconciliation platform with SHA-256 bank deduplication, statutory tax engines, and SQL Copilot.",
+    lang: "TypeScript",
+    stars: 1,
+    forks: 0,
+    link: "https://github.com/MADHAVAN200/Accounting-Automation",
+  },
+  {
+    name: "AI-Research-Ops",
+    desc: "Autonomous 6-stage AI intelligence and verification platform benchmarking 100 enterprise software ecosystems and MCP integrations.",
+    lang: "Python",
+    stars: 1,
+    forks: 0,
+    link: "https://github.com/MADHAVAN200/AI-Research-Ops",
+  },
   {
     name: "AI-Powered-forecasting-inventory-and-optimization-system",
     desc: "AI Powered forecasting, inventory and optimization system is a comprehensive, enterprise-level AI solution designed to revolutionize fresh food inventory management.",
@@ -857,15 +873,15 @@ export default function GithubOverview() {
                 {/* Sub-Legend & Quick Stats Column */}
                 <div className="sm:col-span-4 space-y-2.5 pl-0 sm:pl-3 border-t sm:border-t-0 sm:border-l border-gray-150 dark:border-white/5 pt-3 sm:pt-0 text-left">
                   <div className="bg-gray-50/50 dark:bg-white/2 p-2.5 rounded-lg border border-gray-100/30 dark:border-white/5">
-                    <div className="text-[9px] uppercase font-mono tracking-wider text-gray-400 dark:text-gray-500 font-bold">Project Integration</div>
-                    <div className="text-sm font-black text-blue-600 dark:text-blue-400 font-display mt-0.5 animate-pulse">High Density</div>
+                    <div className="text-[9px] uppercase font-mono tracking-wider text-gray-400 dark:text-gray-500 font-medium">Project Integration</div>
+                    <div className="text-sm font-bold text-blue-600 dark:text-blue-400 font-display mt-0.5 animate-pulse">High Density</div>
                     <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-normal font-normal">
                       Full-stack microservices linked with AWS, LLMs, and databases.
                     </p>
                   </div>
                   <div className="bg-gray-50/50 dark:bg-white/2 p-2.5 rounded-lg border border-gray-100/30 dark:border-white/5">
-                    <div className="text-[9px] uppercase font-mono tracking-wider text-gray-400 dark:text-gray-500 font-bold">Standard Stack</div>
-                    <div className="text-sm font-black text-indigo-500 dark:text-indigo-400 font-display mt-0.5">React & Python</div>
+                    <div className="text-[9px] uppercase font-mono tracking-wider text-gray-400 dark:text-gray-500 font-medium">Standard Stack</div>
+                    <div className="text-sm font-bold text-indigo-500 dark:text-indigo-400 font-display mt-0.5">React & Python</div>
                     <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-normal font-normal">
                       Type-safe frontend design paired with modular Python and REST algorithms.
                     </p>
@@ -878,7 +894,7 @@ export default function GithubOverview() {
             <div className="bg-white/70 dark:bg-[#0c0c0f]/85 border border-gray-200/50 dark:border-zinc-800/80 rounded-xl p-5 shadow-md dark:shadow-none glass-panel text-left">
               <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-white/5 mb-4">
                 <div>
-                  <h3 className="text-sm font-bold text-gray-950 dark:text-white flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-gray-950 dark:text-white flex items-center gap-2">
                     <Flame className="w-4.5 h-4.5 text-indigo-500 animate-pulse" /> Quantitative Technical Impact Indices
                   </h3>
                   <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 font-normal font-sans">
@@ -890,10 +906,10 @@ export default function GithubOverview() {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {/* Metric 1 */}
                 <div className="p-3 rounded-lg bg-gray-50/50 dark:bg-zinc-900/35 border border-gray-150 dark:border-zinc-850/60 shadow-sm hover:scale-[1.02] hover:border-blue-500/20 transition-all">
-                  <div className="text-xl font-black font-display text-blue-600 dark:text-blue-400 leading-none">
+                  <div className="text-xl font-bold font-display text-blue-600 dark:text-blue-400 leading-none">
                     +35%
                   </div>
-                  <div className="text-[10px] font-bold text-gray-800 dark:text-white mt-1 leading-tight">Prompt Gains</div>
+                  <div className="text-[10px] font-medium text-gray-800 dark:text-white mt-1 leading-tight">Prompt Gains</div>
                   <p className="text-[9px] text-gray-500 dark:text-gray-450 mt-1.5 leading-normal font-normal">
                     Model inference accuracy optimized on major corporate college products.
                   </p>
@@ -901,10 +917,10 @@ export default function GithubOverview() {
 
                 {/* Metric 2 */}
                 <div className="p-3 rounded-lg bg-gray-50/50 dark:bg-zinc-900/35 border border-gray-150 dark:border-zinc-850/60 shadow-sm hover:scale-[1.02] hover:border-blue-500/20 transition-all">
-                  <div className="text-xl font-black font-display text-indigo-500 dark:text-indigo-400 leading-none">
+                  <div className="text-xl font-bold font-display text-indigo-500 dark:text-indigo-400 leading-none">
                     70%
                   </div>
-                  <div className="text-[10px] font-bold text-gray-800 dark:text-white mt-1 leading-tight">Admin Bypass</div>
+                  <div className="text-[10px] font-medium text-gray-800 dark:text-white mt-1 leading-tight">Admin Bypass</div>
                   <p className="text-[9px] text-gray-500 dark:text-gray-450 mt-1.5 leading-normal font-normal">
                     Manual workforce hours cut using conversational RAG pipelines.
                   </p>
@@ -912,10 +928,10 @@ export default function GithubOverview() {
 
                 {/* Metric 3 */}
                 <div className="p-3 rounded-lg bg-gray-50/50 dark:bg-zinc-900/35 border border-gray-150 dark:border-zinc-850/60 shadow-sm hover:scale-[1.02] hover:border-blue-500/20 transition-all">
-                  <div className="text-xl font-black font-display text-emerald-600 dark:text-emerald-400 leading-none">
+                  <div className="text-xl font-bold font-display text-emerald-600 dark:text-emerald-400 leading-none">
                     30%+
                   </div>
-                  <div className="text-[10px] font-bold text-gray-800 dark:text-white mt-1 leading-tight">FinOps Cost cut</div>
+                  <div className="text-[10px] font-medium text-gray-800 dark:text-white mt-1 leading-tight">FinOps Cost cut</div>
                   <p className="text-[9px] text-gray-500 dark:text-gray-450 mt-1.5 leading-normal font-normal">
                     Cloud instance fees eliminated via proactive, idle-aware stop daemons.
                   </p>
@@ -923,10 +939,10 @@ export default function GithubOverview() {
 
                 {/* Metric 4 */}
                 <div className="p-3 rounded-lg bg-gray-50/50 dark:bg-zinc-900/35 border border-gray-150 dark:border-zinc-850/60 shadow-sm hover:scale-[1.02] hover:border-blue-500/20 transition-all">
-                  <div className="text-xl font-black font-display text-amber-500 dark:text-amber-400 leading-none">
+                  <div className="text-xl font-bold font-display text-amber-500 dark:text-amber-400 leading-none">
                     &lt;30ms
                   </div>
-                  <div className="text-[10px] font-bold text-gray-800 dark:text-white mt-1 leading-tight">Event Latency</div>
+                  <div className="text-[10px] font-medium text-gray-800 dark:text-white mt-1 leading-tight">Event Latency</div>
                   <p className="text-[9px] text-gray-500 dark:text-gray-450 mt-1.5 leading-normal font-normal">
                     Real-time Socket.io and Redis data transmission loop under concurrent pressure.
                   </p>
@@ -941,10 +957,10 @@ export default function GithubOverview() {
               <div className="p-4 sm:p-5 rounded-lg bg-white/70 dark:bg-[#0c0c0f]/85 border border-gray-200/50 dark:border-zinc-800/80 shadow-sm flex flex-col justify-between lg:flex-1 glass-panel text-left h-full">
                 {/* Unified Card Header */}
                 <div className="flex items-center justify-between pb-2.5 border-b border-gray-150 dark:border-white/5 mb-3">
-                  <h3 className="text-xs font-bold text-gray-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider font-mono">
+                  <h3 className="text-xs font-semibold text-gray-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider font-poppins">
                     <Code2 className="w-4 h-4 text-indigo-500" /> Tech Allocation
                   </h3>
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 uppercase">
+                  <span className="text-[10px] font-poppins font-medium px-2 py-0.5 rounded bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 uppercase">
                     Full-Stack AI
                   </span>
                 </div>
@@ -985,7 +1001,7 @@ export default function GithubOverview() {
                           <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: entry.color }} />
                           <span className="text-gray-750 dark:text-gray-300 truncate">{entry.name}</span>
                         </div>
-                        <span className="text-gray-500 font-mono dark:text-gray-400 ml-1 shrink-0">{entry.value}%</span>
+                        <span className="text-gray-500 font-poppins dark:text-gray-400 ml-1 shrink-0">{entry.value}%</span>
                       </div>
                     ))}
                   </div>
@@ -993,7 +1009,7 @@ export default function GithubOverview() {
 
                 {/* Stack Distribution Summary */}
                 <div className="w-full border-t border-gray-150 dark:border-white/5 pt-2.5 mt-2">
-                  <h4 className="text-[10px] font-bold text-gray-900 dark:text-white uppercase tracking-wider font-mono mb-1.5">
+                  <h4 className="text-[10px] font-bold text-gray-900 dark:text-white uppercase tracking-wider font-poppins mb-1.5">
                     Core Activity Share
                   </h4>
                   <div className="w-full h-1.5 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden flex">

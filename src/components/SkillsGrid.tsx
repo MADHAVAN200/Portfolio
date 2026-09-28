@@ -35,11 +35,11 @@ export default function SkillsGrid() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white font-display">
-            Professional Skill Canopy
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white font-display">
+            Skills
           </h2>
           <p className="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed font-sans">
-            Explore core competencies, tech stacks, and methodologies gathered across key production projects, full-stack simulations, and elite software engineering engagements.
+            Tools and technologies I work with across AI, full-stack, cloud, and mobile development.
           </p>
         </div>
 
@@ -49,7 +49,7 @@ export default function SkillsGrid() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 w-5 h-5" />
             <input
               type="text"
-              placeholder="Filter competencies (e.g., Llama, React, AWS, Postgres)..."
+              placeholder="Search skills (e.g. React, Python, AWS, LLaMA)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-3 text-sm rounded-xl bg-white/80 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800/80 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 shadow-sm transition-all"
@@ -70,7 +70,7 @@ export default function SkillsGrid() {
                 className="h-full bg-white/60 dark:bg-zinc-900/40 border border-gray-200/50 dark:border-zinc-800 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-zinc-700/80 transition-all duration-300 glass-panel flex flex-col justify-start"
               >
                 {/* Category Header */}
-                <h3 className="text-sm font-bold font-display tracking-wide text-gray-950 dark:text-white border-b border-gray-100 dark:border-zinc-800/60 pb-3 mb-4 flex items-center gap-2">
+                <h3 className="text-sm font-semibold font-display tracking-wide text-gray-950 dark:text-white border-b border-gray-100 dark:border-zinc-800/60 pb-3 mb-4 flex items-center gap-2">
                   <span className="w-1.5 h-3.5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full shrink-0" />
                   {category.title}
                 </h3>
@@ -84,11 +84,11 @@ export default function SkillsGrid() {
                     >
                       {/* Skill Title & Level badge */}
                       <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs font-semibold text-gray-900 dark:text-zinc-100 font-sans tracking-tight">
+                        <span className="text-xs font-medium text-gray-900 dark:text-zinc-100 font-sans tracking-tight">
                           {skill.name}
                         </span>
                         <span
-                          className={`text-[9px] px-2 py-0.5 rounded font-mono font-semibold shrink-0 uppercase tracking-wider ${
+                          className={`text-[9px] px-2 py-0.5 rounded font-poppins font-medium shrink-0 uppercase tracking-wider ${
                             skill.level === "Expert"
                               ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
                               : skill.level === "Advanced"
@@ -102,7 +102,7 @@ export default function SkillsGrid() {
 
                       {/* Experience Tag */}
                       <div className="flex items-center text-[10px] text-gray-500 dark:text-zinc-400 font-sans">
-                        <span className="flex items-center gap-1 font-medium">
+                        <span className="flex items-center gap-1 font-normal">
                           <CheckCircle2 className="w-3 h-3 text-indigo-500 timeline-pulse shrink-0" />
                           Experience: {skill.experience}
                         </span>
