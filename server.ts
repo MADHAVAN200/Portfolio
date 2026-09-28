@@ -223,6 +223,10 @@ function getGeminiClient(): GoogleGenAI | null {
 const app = express();
 app.use(express.json());
 
+// Serve static assets from public/ folder (enables HTTP 206 Partial Content range requests for video streaming)
+app.use("/projects", express.static(path.join(process.cwd(), "public", "projects")));
+app.use(express.static(path.join(process.cwd(), "public")));
+
 // Export app for serverless environments (like Vercel)
 export default app;
 

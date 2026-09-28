@@ -1,8 +1,47 @@
+# Dependencies
 node_modules/
-build/
+.pnp
+.pnp.js
+
+# Production build outputs
 dist/
+build/
+out/
+
+# Testing & Coverage
 coverage/
-.DS_Store
-*.log
+*.lcov
+
+# Environment & local credentials
 .env*
 !.env.example
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Temporary files & compositions
+compositions/
+*.tmp
+*.temp
+.cache/
+.temp/
+tmp/
+
+# Editor & OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Antigravity & AI agent scratch
+.system_generated/

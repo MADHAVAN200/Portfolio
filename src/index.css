@@ -5,6 +5,7 @@
 @theme {
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Poppins", sans-serif;
+  --font-poppins: "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
@@ -69,4 +70,9 @@ body {
 
 .animate-pulse-slow {
   animation: pulse-slow 12s ease-in-out infinite;
+}
+
+
+.font-poppins {
+  font-family: "Poppins", ui-sans-serif, system-ui, sans-serif !important;
 }
