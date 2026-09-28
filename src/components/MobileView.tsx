@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+﻿import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "motion/react";
 import {
   Sparkles,
@@ -34,9 +34,11 @@ import {
   Users,
   Flame,
   Compass,
-  GraduationCap
+  GraduationCap,
+  Play,
+  Film
 } from "lucide-react";
-import { profile, summary, education, internships, projects, achievements, responsibilities, personalDetails, techStackCategories } from "../data";
+import { profile, summary, education, internships, projects, ProjectItem, achievements, responsibilities, personalDetails, techStackCategories } from "../data";
 import MacBookWindow from "./MacBookWindow";
 import GithubOverview from "./GithubOverview";
 
@@ -325,7 +327,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 onClick={() => { scrollToElement("contact"); setIsMenuOpen(false); }}
                 className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-colors"
               >
-                Collaborate with Madhavan <ArrowRight className="w-3.5 h-3.5" />
+                Work With Me <ArrowRight className="w-3.5 h-3.5" />
               </button>
               <div className="flex items-center justify-between">
                 <span className="text-[9px] font-mono text-gray-400 dark:text-gray-500">AI Systems Engineer</span>
@@ -372,10 +374,10 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               transition={{ type: "tween", ease: [0.25, 0.46, 0.45, 0.94], duration: 0.3, delay: 0.05 }}
               className="space-y-1"
             >
-              <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-tight">
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight">
                 {profile.name}
               </h1>
-              <p className="text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
+              <p className="text-sm font-medium bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
                 {profile.headline}
               </p>
             </motion.div>
@@ -384,9 +386,9 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.16 }}
-              className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed"
+              className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed font-normal"
             >
-              Systems Engineer specializing in Generative AI (RAG pipelines, Fine-tuning) and scalable web architectures. Proven track record of optimizing AI model inference by 35% and automating 70% of enterprise work pipelines across multiple software developer roles.
+              I build AI-powered applications and full-stack systems. I have worked across LLM pipelines, cloud infrastructure, and cross-platform mobile apps in production environments.
             </motion.p>
 
             {/* Metrics */}
@@ -407,8 +409,8 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                   whileTap={{ scale: 0.98 }}
                   className="p-2.5 rounded-lg bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-center shadow-sm cursor-default"
                 >
-                  <span className="block text-lg font-black text-blue-600 dark:text-blue-400">{m.value}</span>
-                  <span className="block text-[8.5px] font-bold text-gray-700 dark:text-gray-200 mt-0.5">{m.label}</span>
+                  <span className="block text-lg font-bold text-blue-600 dark:text-blue-400">{m.value}</span>
+                  <span className="block text-[8.5px] font-medium text-gray-700 dark:text-gray-200 mt-0.5">{m.label}</span>
                 </motion.div>
               ))}
             </motion.div>
@@ -459,7 +461,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
           <SectionWrap>
             <div className="text-center">
 
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">AI Systems Specialist</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">About Me</h2>
             </div>
           </SectionWrap>
 
@@ -500,7 +502,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 <div className="p-4 rounded-xl bg-gradient-to-tr from-blue-500/5 to-indigo-500/5 border border-blue-200/30 dark:border-zinc-700/50 flex-1 flex flex-col justify-center h-full">
                   <h4 className="text-[9.5px] font-bold text-blue-600 dark:text-blue-400 uppercase mb-0.5">Philosophy</h4>
                   <p className="text-[9.5px] text-gray-600 dark:text-gray-300 leading-normal font-light">
-                    "True craftsmanship in technical leadership is born from bridging computer-science foundations with a strategic understanding of business outcomes."
+                    "I build systems that are reliable, fast, and built to scale. Good engineering should solve real problems without unnecessary complexity."
                   </p>
                 </div>
               </SectionWrap>
@@ -525,7 +527,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
           <SectionWrap>
             <div className="text-center">
 
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Educational Milestones</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Education</h2>
             </div>
           </SectionWrap>
 
@@ -541,16 +543,16 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 <div className="absolute -left-[19px] top-2 w-3 h-3 rounded-full bg-blue-500 border-2 border-white dark:border-[#050505] shadow-sm" />
                 <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm grid grid-cols-12 gap-3 items-center hover:border-blue-500/30 transition-colors">
                   <div className="col-span-12 space-y-0.5">
-                    <span className="text-[8px] font-mono uppercase bg-blue-100/50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded">
+                    <span className="text-[8px] font-poppins uppercase bg-blue-100/50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded">
                       {edu.year}
                     </span>
                     <h3 className="text-[10.5px] font-bold text-gray-900 dark:text-white mt-1">{edu.degree}</h3>
                     <p className="text-[8.5px] text-gray-500 dark:text-gray-400">{edu.institute}</p>
-                    <p className="text-[8.5px] font-mono text-blue-600 dark:text-blue-400 font-medium">{edu.detail}</p>
+                    <p className="text-[8.5px] font-poppins text-blue-600 dark:text-blue-400 font-medium">{edu.detail}</p>
                   </div>
                   <div className="col-span-12 flex flex-wrap gap-1 pt-1.5">
                     {edu.modules && edu.modules.slice(0, 6).map((m) => (
-                      <span key={m} className="text-[8px] font-mono bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 px-1.5 py-0.5 rounded border border-gray-200 dark:border-zinc-700">
+                      <span key={m} className="text-[8px] font-poppins bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 px-1.5 py-0.5 rounded border border-gray-200 dark:border-zinc-700">
                         {m}
                       </span>
                     ))}
@@ -568,7 +570,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
           <SectionWrap>
             <div className="text-center">
 
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Hackathons &amp; Trophies</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Achievements</h2>
             </div>
           </SectionWrap>
 
@@ -609,7 +611,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Enterprise Experience</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Experience</h2>
             </div>
           </SectionWrap>
 
@@ -651,9 +653,8 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <span className="text-[7px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-500/20">{internships[activeInternship].domain}</span>
-                      <h3 className="text-[10.5px] font-bold text-gray-950 dark:text-white mt-1.5">{internships[activeInternship].role}</h3>
-                      <p className="text-[8px] text-gray-500 dark:text-gray-500 font-mono mt-0.5">{internships[activeInternship].company} &bull; {internships[activeInternship].duration}</p>
+                      <h3 className="text-[10.5px] font-bold text-gray-950 dark:text-white">{internships[activeInternship].role}</h3>
+                      <p className="text-[8px] text-gray-500 dark:text-gray-500 font-poppins mt-0.5">{internships[activeInternship].company} &bull; {internships[activeInternship].duration}</p>
                     </div>
                   </div>
 
@@ -662,33 +663,33 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                   </div>
 
                   <div>
-                    <span className="text-[8px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest block mb-1.5">Quantified KPI Metrics</span>
+                    <span className="text-[8px] font-poppins font-medium text-gray-400 dark:text-gray-500 uppercase tracking-widest block mb-1.5">Metrics</span>
                     <div className="grid grid-cols-3 gap-2.5">
                       {Object.entries(internships[activeInternship].metrics).map(([k, v]) => (
                         <div key={k} className="p-2.5 rounded-lg bg-gray-50 dark:bg-zinc-800 border border-gray-100 dark:border-zinc-700 text-center">
-                          <span className="block text-xs font-black text-blue-600 dark:text-blue-400">{v}</span>
-                          <span className="block text-[7px] uppercase font-mono text-gray-500 dark:text-gray-400 mt-0.5">{k.replace(/_/g, " ")}</span>
+                          <span className="block text-xs font-bold text-blue-600 dark:text-blue-400">{v}</span>
+                          <span className="block text-[7px] uppercase font-poppins font-normal text-gray-500 dark:text-gray-400 mt-0.5">{k.replace(/_/g, " ")}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   <div className="space-y-2.5">
-                    <span className="text-[8px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest block">Core Deliverables</span>
+                    <span className="text-[8px] font-poppins font-medium text-gray-400 dark:text-gray-500 uppercase tracking-widest block">What I Did</span>
                     {internships[activeInternship].details.map((det, idx) => (
                       <div key={idx} className="flex gap-2 text-[8px] text-gray-600 dark:text-gray-400 leading-relaxed">
-                        <span className="w-4 h-4 rounded bg-blue-500/5 dark:bg-blue-500/10 text-blue-500 flex items-center justify-center shrink-0 font-mono text-[8px] font-bold">0{idx + 1}</span>
+                        <span className="w-4 h-4 rounded bg-blue-500/5 dark:bg-blue-500/10 text-blue-500 flex items-center justify-center shrink-0 font-poppins text-[8px] font-bold">0{idx + 1}</span>
                         <p className="pt-0.5">{det}</p>
                       </div>
                     ))}
                   </div>
 
-                  {/* Stack Matrix: fixed dark colors */}
+                  {/* Tech Stack: fixed dark colors */}
                   <div>
-                    <span className="text-[8px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest block mb-1.5">Stack Matrix</span>
+                    <span className="text-[8px] font-poppins font-medium text-gray-400 dark:text-gray-500 uppercase tracking-widest block mb-1.5">Tech Stack</span>
                     <div className="flex flex-wrap gap-1.5">
                       {internships[activeInternship].technologies.map((t) => (
-                        <span key={t} className="text-[8px] font-mono bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-200 px-2 py-0.5 rounded border border-gray-200 dark:border-zinc-600">
+                        <span key={t} className="text-[8px] font-poppins font-medium bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-200 px-2 py-0.5 rounded border border-gray-200 dark:border-zinc-600">
                           {t}
                         </span>
                       ))}
@@ -706,7 +707,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Showcase of Engineering Depth</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Projects</h2>
             </div>
           </SectionWrap>
 
@@ -737,28 +738,66 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 variants={fadeUp} 
                 whileHover={{ y: -4, scale: 1.015 }}
                 whileTap={{ scale: 0.995 }}
-                className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm flex flex-col justify-between gap-3 cursor-default"
+                onClick={() => setSelectedProjectSlug(p.slug)}
+                className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm flex flex-col justify-between gap-3 cursor-pointer select-none"
               >
                 <div>
-                  <div className="mb-3.5">
-                    <span className="inline-block text-[8px] font-mono bg-blue-100/50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400 px-2 py-0.5 rounded border border-blue-200/20 dark:border-blue-800/40">
-                      {p.category}
-                    </span>
+                  {/* Clean Running Video Thumbnail */}
+                  <div
+                    onClick={() => setSelectedProjectSlug(p.slug)}
+                    className="relative aspect-video rounded-lg overflow-hidden bg-black border border-gray-200/70 dark:border-zinc-800 cursor-pointer group/thumb shadow-xs mb-2.5"
+                  >
+                    {p.video ? (
+                      <video
+                        src={p.video}
+                                                autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        className="w-full h-full object-cover group-hover/thumb:scale-103 transition-transform"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-zinc-900" />
+                    )}
                   </div>
-                  <h3 className="text-[10.5px] font-bold text-gray-900 dark:text-white leading-snug">{p.title}</h3>
-                  <p className="text-[8px] text-gray-600 dark:text-gray-400 leading-relaxed mt-1.5">{p.description}</p>
+
+                  <h3 className="text-[10.5px] font-semibold text-gray-900 dark:text-white leading-snug">{p.title}</h3>
+                  <p className="text-[8px] text-gray-600 dark:text-gray-400 leading-relaxed mt-1.5 font-normal">{p.description}</p>
+                  {p.stats && (
+                    <div className="grid grid-cols-3 gap-1 py-1.5">
+                      {Object.entries(p.stats).slice(0, 3).map(([k, val]) => (
+                        <div key={k} className="p-1 rounded-md bg-gray-50/80 dark:bg-zinc-950/70 border border-gray-150 dark:border-zinc-800 text-center flex flex-col justify-center min-w-0">
+                          <span className="block text-[9.5px] font-bold text-blue-600 dark:text-blue-400 leading-tight whitespace-pre-line truncate">{String(val)}</span>
+                          <span className="block text-[6.5px] uppercase font-poppins font-normal tracking-wider text-gray-500 dark:text-zinc-400 mt-0.5 truncate">{k.replace(/_/g, " ")}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-2.5 pt-2.5 border-t border-gray-100 dark:border-zinc-700">
                   <div className="flex flex-wrap gap-1">
                     {p.tech.slice(0, 4).map((t) => (
-                      <span key={t} className="text-[8px] font-mono bg-gray-50 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 px-1.5 py-0.5 rounded border border-gray-200 dark:border-zinc-700">
+                      <span key={t} className="text-[8px] font-poppins font-medium bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded border border-blue-200/60 dark:border-blue-800/40">
                         {t}
                       </span>
                     ))}
                     {p.tech.length > 4 && <span className="text-[8px] text-gray-400 self-center font-medium">+{p.tech.length - 4} more</span>}
                   </div>
                   <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                    {p.video && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedProjectSlug(p.slug);
+                        }}
+                        className="flex items-center gap-1 px-2 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-[8px] font-bold shadow-xs transition-all cursor-pointer"
+                      >
+                        <Play className="w-2 h-2 fill-current" />
+                        <span>Watch Video &amp; Details</span>
+                      </button>
+                    )}
                     {p.link && (
                       <motion.a
                         whileHover={{ scale: 1.04 }}
@@ -766,6 +805,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                         href={p.link}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800 text-[9px] font-semibold text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-zinc-700 transition-all"
                         title="GitHub Repository"
                       >
@@ -780,6 +820,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                         href={p.liveLink as string}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-blue-200 dark:border-blue-900/40 bg-blue-50 dark:bg-blue-950/20 text-[9px] font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-950/40 transition-all"
                         title="Live Application Demo"
                       >
@@ -794,6 +835,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                         href={p.playStoreLink as string}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-green-200 dark:border-green-900/40 bg-green-50 dark:bg-green-950/15 text-[9px] font-medium text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-950/30 transition-all"
                         title="Google Play Store"
                       >
@@ -808,6 +850,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                         href={p.appStoreLink as string}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50 dark:bg-indigo-950/15 text-[9px] font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-950/30 transition-all"
                         title="Apple App Store"
                       >
@@ -818,7 +861,10 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                     <motion.button
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
-                      onClick={() => setSelectedProjectSlug(p.slug)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedProjectSlug(p.slug);
+                      }}
                       className="text-blue-600 dark:text-blue-400 flex items-center gap-0.5 hover:underline cursor-pointer text-[9px] font-semibold ml-auto"
                     >
                       Case Study <ArrowRight className="w-3.5 h-3.5" />
@@ -836,7 +882,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
         <div className="max-w-4xl mx-auto space-y-5">
           <SectionWrap>
             <div className="text-center">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Competency Canopy</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Skills</h2>
             </div>
           </SectionWrap>
 
@@ -873,7 +919,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                         <span className="text-[8px] font-semibold text-gray-900 dark:text-gray-100 block">{s.name}</span>
                         <span className="text-[7.5px] text-gray-400 mt-0.5 block">Experience: {s.experience}</span>
                       </div>
-                      <span className={`text-[7.5px] px-1.5 py-0.5 rounded font-mono font-bold shrink-0 uppercase tracking-wide border ${
+                      <span className={`text-[7.5px] px-1.5 py-0.5 rounded font-poppins font-semibold shrink-0 uppercase tracking-wide border ${
                         s.level === "Expert"
                           ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
                           : s.level === "Advanced"
@@ -899,7 +945,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
           <SectionWrap>
             <div className="text-center">
 
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Executive Roles</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Leadership</h2>
             </div>
           </SectionWrap>
 
@@ -940,27 +986,27 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
           <SectionWrap>
             <div className="text-center">
 
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Secure Inbox &amp; CV</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Get in Touch</h2>
             </div>
           </SectionWrap>
 
           <SectionWrap>
             <div className="grid grid-cols-12 gap-4 items-stretch">
-              {/* Coordinates */}
+              {/* Contact Info */}
               <motion.div
                 whileHover={{ y: -3, scale: 1.01 }}
                 whileTap={{ scale: 0.995 }}
                 className="col-span-12 p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm flex flex-col justify-between cursor-default"
               >
                 <div className="space-y-5">
-                  <h3 className="text-xs font-bold text-gray-900 dark:text-white">Coordinates</h3>
+                  <h3 className="text-xs font-bold text-gray-900 dark:text-white">Contact Info</h3>
                   <div className="space-y-4">
                     <div className="flex gap-2.5">
                       <div className="p-2 rounded bg-emerald-500/10 text-emerald-600 shrink-0">
                         <Phone className="w-4.5 h-4.5" />
                       </div>
                       <div>
-                        <span className="text-[8px] uppercase font-mono tracking-wider text-gray-400 dark:text-gray-500 block">Hotlines</span>
+                        <span className="text-[8px] uppercase font-mono tracking-wider text-gray-400 dark:text-gray-500 block">Phone</span>
                         <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 block mt-0.5">{personalDetails.phoneNumbers.join(" / ")}</span>
                       </div>
                     </div>
@@ -969,7 +1015,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                         <Mail className="w-4.5 h-4.5" />
                       </div>
                       <div>
-                        <span className="text-[8px] uppercase font-mono tracking-wider text-gray-400 dark:text-gray-500 block">Inquiries</span>
+                        <span className="text-[8px] uppercase font-mono tracking-wider text-gray-400 dark:text-gray-500 block">Email</span>
                         <a
                           href={`https://mail.google.com/mail/?view=cm&fs=1&to=${personalDetails.emails[0]}`}
                           target="_blank"
@@ -1020,7 +1066,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               >
                 <div>
                   <h3 className="text-xs font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                    <Send className="w-4 h-4 text-blue-500" /> Send Secure Transmission
+                    <Send className="w-4 h-4 text-blue-500" /> Send Message
                   </h3>
                   {contactSuccess ? (
                     <motion.div
@@ -1096,7 +1142,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                         disabled={isSubmittingContact}
                         className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg disabled:opacity-50 cursor-pointer shadow-sm transition-colors"
                       >
-                        {isSubmittingContact ? "Encrypting Payload..." : "Send Secure Transmission"}
+                        {isSubmittingContact ? "Sending..." : "Send Message"}
                       </motion.button>
                     </form>
                   )}
@@ -1116,7 +1162,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               <span>Madhavan Nadar</span>
             </div>
             <p className="text-[9px] text-gray-500 dark:text-zinc-400 leading-normal max-w-xs mx-auto">
-              AI Systems Developer &amp; UI/UX Specialist. Focused on robust backend systems, distributed AI pipelines, and high-performance frontend engineering.
+              AI & Full-Stack Engineer based in Mumbai. Building production-grade systems and AI applications.
             </p>
           </div>
           <div className="flex gap-2.5">
@@ -1152,16 +1198,32 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               className="bg-white dark:bg-[#0d0d10] w-full max-h-[82vh] rounded-t-2xl border-t border-gray-200 dark:border-zinc-800 shadow-2xl flex flex-col relative"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="sticky top-0 bg-white/95 dark:bg-[#0d0d10]/95 border-b border-gray-150 dark:border-zinc-800 p-4 flex justify-between items-center z-25">
+              <div className="sticky top-0 bg-white/95 dark:bg-[#0d0d10]/95 p-4 flex justify-between items-center z-25">
                 <div>
-                  <span className="text-[8px] font-mono uppercase tracking-wider text-gray-400 block leading-none">{activeProject.category}</span>
-                  <h3 className="text-[12px] font-bold text-gray-950 dark:text-white mt-1">{activeProject.title}</h3>
+                  <h3 className="text-[12px] font-bold text-gray-950 dark:text-white">{activeProject.title}</h3>
                 </div>
                 <button onClick={() => setSelectedProjectSlug(null)} className="p-1 rounded-lg bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-300 font-bold cursor-pointer">
                   <X className="w-4 h-4" />
                 </button>
               </div>
               <div className="p-4 overflow-y-auto space-y-4.5 flex-1 text-left">
+                {/* Media deck in drawer */}
+                {activeProject.video && (
+                  <div className="space-y-2">
+                    <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-gray-200 dark:border-zinc-800 shadow-md">
+                      <video
+                        key={activeProject.video}
+                        src={activeProject.video}
+                                                controls
+                        autoPlay
+                        playsInline
+                        preload="auto"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <div className="space-y-1.5">
                   <h4 className="text-[8px] font-bold uppercase tracking-wider text-gray-400">Brief</h4>
                   <p className="text-[8.5px] text-gray-600 dark:text-gray-300 leading-relaxed">{activeProject.detailedDescription}</p>
@@ -1177,17 +1239,56 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                     ))}
                   </ul>
                 </div>
+                {activeProject.stats && (
+                  <div className="p-3 bg-gray-50/50 dark:bg-zinc-900/40 border border-gray-150 dark:border-zinc-800 rounded-lg space-y-1.5">
+                    <h4 className="text-[8px] font-bold uppercase tracking-wider text-gray-400">Metrics</h4>
+                    <div className="grid grid-cols-2 gap-1.5">
+                      {Object.entries(activeProject.stats).map(([k, v]) => (
+                        <div key={k} className="p-1.5 text-center rounded-md bg-white dark:bg-zinc-900/80 border border-gray-200/50 dark:border-zinc-800 shadow-xs flex flex-col justify-center min-w-0">
+                          <span className="block text-[10px] font-semibold text-blue-600 dark:text-blue-400 break-words leading-tight whitespace-pre-line">
+                            {String(v)}
+                          </span>
+                          <span className="block text-[6.5px] font-poppins font-normal tracking-wide text-gray-500 dark:text-zinc-400 capitalize mt-0.5 leading-tight">
+                            {k.replace(/_/g, " ")}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="p-3.5 bg-gray-50/50 dark:bg-zinc-900/40 border border-gray-150 dark:border-zinc-800 rounded-lg space-y-2">
-                  <h4 className="text-[8px] font-bold uppercase tracking-wider text-gray-400">Architecture Pipeline</h4>
+                  <h4 className="text-[8px] font-bold uppercase tracking-wider text-gray-400">Architecture</h4>
                   <div className="space-y-2">
                     {activeProject.architecture.map((a, i) => (
                       <div key={i} className="flex items-center gap-2 text-[8.5px]">
-                        <span className="w-4 h-4 rounded-full bg-blue-100 dark:bg-zinc-800 text-blue-600 dark:text-blue-300 flex items-center justify-center font-mono font-bold shrink-0 text-[8px]">{i + 1}</span>
+                        <span className="w-4 h-4 rounded-full bg-blue-100 dark:bg-zinc-800 text-blue-600 dark:text-blue-300 flex items-center justify-center font-poppins font-bold shrink-0 text-[8px]">{i + 1}</span>
                         <span className="text-gray-700 dark:text-gray-200">{a}</span>
                       </div>
                     ))}
                   </div>
                 </div>
+                {activeProject.workflow && (
+                  <div className="space-y-1.5">
+                    <h4 className="text-[8px] font-bold uppercase tracking-wider text-gray-400">Workflow</h4>
+                    <div className="relative pl-4 space-y-2 before:absolute before:top-2 before:bottom-2 before:left-[7px] before:w-0.5 before:bg-gradient-to-b before:from-blue-500 before:to-gray-300 dark:before:to-zinc-800">
+                      {activeProject.workflow.map((step, idx) => (
+                        <div key={idx} className="relative flex items-start gap-2">
+                          <div className="absolute -left-[11px] top-1.5 w-2 h-2 rounded-full border-2 border-blue-500 bg-white dark:bg-zinc-900 z-10" />
+                          <div className="flex-1 p-1.5 rounded-md border border-gray-150 dark:border-zinc-800 bg-gray-50/50 dark:bg-white/[0.015]">
+                            <span className="text-[7.5px] font-poppins font-medium uppercase tracking-wider text-blue-600 dark:text-blue-400 block mb-0.5">
+                              Phase 0{idx + 1}
+                            </span>
+                            <p className="text-[8px] text-gray-700 dark:text-gray-300 leading-relaxed font-poppins font-normal">
+                              {step}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="p-3.5 bg-gray-50/50 dark:bg-zinc-900/40 border border-gray-150 dark:border-zinc-800 rounded-lg">
                   <h4 className="text-[8px] font-bold uppercase tracking-wider text-red-500 mb-2">Challenges</h4>
                   <ul className="space-y-1.5 text-[8.5px] text-gray-600 dark:text-gray-300">
@@ -1204,6 +1305,30 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                     ))}
                   </ul>
                 </div>
+              </div>
+              {/* Sticky Drawer Footer with Tech Stack Badges */}
+              <div className="px-4 py-2.5 border-t border-gray-150 dark:border-zinc-800 bg-gray-50/90 dark:bg-[#0d0d10]/95 flex flex-wrap items-center justify-between gap-1.5 text-xs shrink-0">
+                <div className="flex flex-wrap items-center gap-1">
+                  {activeProject.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="text-[8px] font-poppins font-medium bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded border border-blue-200/70 dark:border-blue-800/50"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                {activeProject.liveLink && (
+                  <a
+                    href={activeProject.liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-[9px] font-semibold transition-all shadow-xs"
+                  >
+                    <Globe className="w-2.5 h-2.5" />
+                    <span>Live App</span>
+                  </a>
+                )}
               </div>
             </motion.div>
           </div>
@@ -1227,7 +1352,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               className="bg-white text-gray-900 w-full max-w-2xl rounded-xl shadow-2xl border border-gray-200 overflow-hidden max-h-[85vh] flex flex-col"
             >
               <div className="p-5 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
-                <span className="font-bold text-sm text-gray-900">Curriculum Vitae Preview</span>
+                <span className="font-bold text-sm text-gray-900">Resume Preview</span>
                 <div className="flex gap-2">
                   <button onClick={handleDownloadResume} className="px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-bold shadow-sm flex items-center gap-1.5 cursor-pointer">
                     <Download className="w-3.5 h-3.5" /> Download TXT
@@ -1239,18 +1364,18 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               </div>
               <div className="p-6 overflow-y-auto space-y-6 text-xs text-left">
                 <div className="text-center pb-5 border-b border-gray-200">
-                  <h4 className="text-xl font-black text-gray-950">MADHAVAN NADAR</h4>
-                  <p className="text-[10px] uppercase font-mono tracking-widest text-indigo-600 font-bold">AI Engineer &bull; Full-Stack Architect</p>
+                  <h4 className="text-xl font-bold text-gray-950">MADHAVAN NADAR</h4>
+                  <p className="text-[10px] uppercase font-mono tracking-widest text-indigo-600 font-semibold">AI & Full-Stack Engineer</p>
                   <p className="text-[10px] text-gray-500 mt-1 font-mono">Mumbai, India &bull; madhavannadar23@gmail.com</p>
                 </div>
                 <div className="space-y-1.5">
-                  <h5 className="font-bold text-xs uppercase tracking-wider text-indigo-600 border-b border-gray-200 pb-1">Professional summary</h5>
-                  <p className="text-xs text-gray-600 leading-relaxed font-medium">
-                    Driven AI undergraduate passionate about leveraging data and AI to solve complex enterprise problems. Highly competent in designing ML neural systems, prompting, federated architectures, construction ERP, and automated workflow modules.
+                  <h5 className="font-semibold text-xs uppercase tracking-wider text-indigo-600 border-b border-gray-200 pb-1">Professional summary</h5>
+                  <p className="text-xs text-gray-600 leading-relaxed font-normal">
+                    AI and full-stack engineer with hands-on experience in LLM applications, cloud deployments, and cross-platform development. Currently in final year of B.E. in AI & Data Science.
                   </p>
                 </div>
                 <div className="space-y-4">
-                  <h5 className="font-bold text-xs uppercase tracking-wider text-indigo-600 border-b border-gray-200 pb-1">Experience Tenure</h5>
+                  <h5 className="font-semibold text-xs uppercase tracking-wider text-indigo-600 border-b border-gray-200 pb-1">Experience</h5>
                   {internships.map((intern, idx) => (
                     <div key={idx} className="space-y-1">
                       <div className="flex justify-between items-center text-xs font-bold">
@@ -1295,7 +1420,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
             <CheckCircle2 className="w-5 h-5 text-emerald-500 animate-bounce animate-pulse" />
             <div className="text-left flex-1 min-w-0">
               <p className="text-xs font-bold leading-tight font-display">Message Sent</p>
-              <p className="text-[10px] text-gray-500 dark:text-zinc-400 mt-0.5 truncate">Your transmission has been securely routed.</p>
+              <p className="text-[10px] text-gray-500 dark:text-zinc-400 mt-0.5 truncate">I'll get back to you soon.</p>
             </div>
           </motion.div>
         )}
