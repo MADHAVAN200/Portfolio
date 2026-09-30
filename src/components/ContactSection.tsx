@@ -53,7 +53,7 @@ export default function ContactSection() {
     // Generate a simple print-ready text file representation of the portfolio details and download it
     const text = `
 ========================================
-MADHAVAN NADAR - AI & DATA SCIENCE ENGINEER
+MADHAVAN NADAR | AI & DATA SCIENCE ENGINEER
 ========================================
 Email: ${personalDetails.emails[0]} | ${personalDetails.emails[1]}
 Phone: ${personalDetails.phoneNumbers.join(" / ")}
@@ -70,7 +70,7 @@ Passionate about leveraging data and AI to solve complex problems and create imp
 ----------------------------------------
 EDUCATION OVERVIEW
 ----------------------------------------
-B.E. - Artificial Intelligence and Data Science (CGPA: 8.68)
+B.E. in Artificial Intelligence and Data Science (CGPA: 8.68)
 SIES Graduate School of Technology (2022 - 2026)
 
 ----------------------------------------
@@ -89,18 +89,18 @@ PROFESSIONAL EXPERIENCE
 ----------------------------------------
 PROJECTS METRICS
 ----------------------------------------
-* AI-Powered Consultant Evaluation (Groq Llama 3.3 / PDF Case Parsing / Live Sims) - HA Rotating Failover
-* Voice2Viz (Speech & Text Visualisation / Safe SQL SELECT Sandbox) - Natural Language Analytics & Charting
-* LabsKraft (React 19 / Node.js / MySQL / Proctored Assessment Platform) - Automated Evaluation Engine
-* AWS Manager Cloud Optimization (Boto3 / Cost Explorer / Idle-Stop Engine) - 70% Workflow Automation
-* AI-Powered B2B Scraper & Analytics (Llama-3.1 / Scraping / Chart.js) - 239+ Products Processed
-* AI Powered Forecasting System (LSTM / Flower Federated) - 92% Forecast Accuracy
-* Mintech Mining Safety App (Flutter / AI) - 70% Less Report Latency
-* DisasterIQ (Satellite imagery / ML decision) - 92% Incident Classification
-* AI Construction ERP (Durable MySQL / LLM summarise) - 60% Effort Saved
-* AI Railway Traffic Optimizer (MILP scheduling / Edge) - 60% Train Delay Reduction
-* SkillMapper AI Skill Sorting - 94% Recommendation Match
-* MANO Attendance Workforce Platform - 99.2% Attendance accuracy
+* AI-Powered Consultant Evaluation (Groq Llama 3.3 / PDF Case Parsing / Live Sims): HA Rotating Failover
+* Voice2Viz (Speech & Text Visualisation / Safe SQL SELECT Sandbox): Natural Language Analytics & Charting
+* LabsKraft (React 19 / Node.js / MySQL / Proctored Assessment Platform): Automated Evaluation Engine
+* AWS Manager Cloud Optimization (Boto3 / Cost Explorer / Idle-Stop Engine): 70% Workflow Automation
+* AI-Powered B2B Scraper & Analytics (Llama-3.1 / Scraping / Chart.js): 239+ Products Processed
+* AI Powered Forecasting System (LSTM / Flower Federated): 92% Forecast Accuracy
+* Mintech Mining Safety App (Flutter / AI): 70% Less Report Latency
+* DisasterIQ (Satellite imagery / ML decision): 92% Incident Classification
+* AI Construction ERP (Durable MySQL / LLM summarise): 60% Effort Saved
+* AI Railway Traffic Optimizer (MILP scheduling / Edge): 60% Train Delay Reduction
+* SkillMapper AI Skill Sorting: 94% Recommendation Match
+* MANO Attendance Workforce Platform: 99.2% Attendance accuracy
 
 Generated securely from madhavan-portfolio.local
 ========================================
@@ -397,10 +397,10 @@ Generated securely from madhavan-portfolio.local
               <div className="text-center pb-5 border-b border-gray-200 space-y-1">
                 <h4 className="text-2xl font-bold text-gray-900">MADHAVAN NADAR</h4>
                 <p className="text-xs uppercase font-mono tracking-widest text-indigo-600 font-semibold">
-                  AI Engineer &bull; Data Scientist &bull; Full-Stack Architect
+                  AI Engineer | Data Scientist | Full-Stack Architect
                 </p>
                 <p className="text-[10px] text-gray-500 font-mono">
-                  Mumbai, India &bull; madhavannadar23@gmail.com &bull; +91-9869140691
+                  Mumbai, India | madhavannadar23@gmail.com | +91-9869140691
                 </p>
               </div>
 
@@ -423,7 +423,7 @@ Generated securely from madhavan-portfolio.local
                 <div className="space-y-3.5">
                   <div>
                     <div className="flex justify-between items-center text-xs">
-                      <strong className="text-gray-950">Software Engineering Intern (AI/ML) &bull; MitrasAI Inc</strong>
+                      <strong className="text-gray-950">Software Engineering Intern (AI/ML) | MitrasAI Inc</strong>
                       <span className="font-mono text-gray-500 text-[10px]">June 2024 - Present</span>
                     </div>
                     <p className="text-[10px] italic text-gray-500 mt-0.5">Prompt Engineering, LLM applications, RAG pipelines, NLP</p>
@@ -436,7 +436,7 @@ Generated securely from madhavan-portfolio.local
 
                   <div>
                     <div className="flex justify-between items-center text-xs">
-                      <strong className="text-gray-950">Software Developer Intern &bull; Kloudkraft</strong>
+                      <strong className="text-gray-950">Software Developer Intern | Kloudkraft</strong>
                       <span className="font-mono text-gray-500 text-[10px]">Jan 2024 - May 2024</span>
                     </div>
                     <p className="text-[10px] italic text-gray-500 mt-0.5">SaaS Serverless Deployments, AWS Lambda, DynamoDB, Cognito</p>
@@ -448,7 +448,7 @@ Generated securely from madhavan-portfolio.local
 
                   <div>
                     <div className="flex justify-between items-center text-xs">
-                      <strong className="text-gray-950">Software Developer Intern &bull; Mano Project Pvt Ltd</strong>
+                      <strong className="text-gray-950">Software Developer Intern | Mano Project Pvt Ltd</strong>
                       <span className="font-mono text-gray-500 text-[10px]">June 2023 - Dec 2023</span>
                     </div>
                     <p className="text-[10px] italic text-gray-500 mt-0.5">Construction ERP development, Database Schemas, WebSockets</p>
@@ -470,7 +470,7 @@ Generated securely from madhavan-portfolio.local
                     <span className="font-mono text-[10px]">2022 - 2026</span>
                   </div>
                   <p className="text-xs mt-0.5 text-gray-700">
-                    B.E. in Artificial Intelligence and Data Science &bull; <strong>CGPA: 8.68 / 10</strong>
+                    B.E. in Artificial Intelligence and Data Science | <strong>CGPA: 8.68 / 10</strong>
                   </p>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { GitBranch, Star, Eye, Calendar, Award, Code2, Flame, RefreshCw, Users } from "lucide-react";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell, PieChart, Pie } from "recharts";
 import { motion } from "motion/react";
@@ -619,16 +619,13 @@ export default function GithubOverview() {
   return (
     <motion.section
       id="github"
-      initial={{ opacity: 0, y: 25, scale: 0.99 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      initial={{ opacity: 0, y: 15 }}
+      whileInView={{ opacity: 1, y: 0 }}
       onViewportEnter={() => setHasBeenInView(true)}
       viewport={{ once: true, margin: "-10px" }}
       transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="py-10 relative overflow-hidden bg-gray-50/30 dark:bg-black/20 border-t border-gray-200/35 dark:border-zinc-800/20"
     >
-      {/* Visual background flares */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-indigo-500/5 dark:bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none animate-pulse-slow" />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-10">
@@ -641,7 +638,7 @@ export default function GithubOverview() {
         </div>
 
         {/* Contribution Graph Platform */}
-        <div className="bg-white/70 dark:bg-[#0c0c0f]/85 border border-gray-200/50 dark:border-zinc-800/80 rounded-xl p-6 sm:p-8 shadow-xl dark:shadow-2xl mb-12 glass-panel transition-all hover:border-gray-300/50 dark:hover:border-zinc-700">
+        <div className="bg-white/70 dark:bg-[#0c0c0f]/85 border border-gray-200/50 dark:border-zinc-800/80 rounded-xl p-6 sm:p-8 mb-12">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 pb-6 border-b border-gray-100 dark:border-white/5">
             <div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
@@ -750,7 +747,7 @@ export default function GithubOverview() {
                     <span className="w-2 h-2 rounded-full bg-yellow-500/80" />
                     <span className="w-2 h-2 rounded-full bg-blue-500/80" />
                   </div>
-                  <span className="text-zinc-400 font-semibold">terminal - github_telemetry.log</span>
+                  <span className="text-zinc-400 font-semibold">terminal: github_telemetry.log</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />

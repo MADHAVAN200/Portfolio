@@ -41,53 +41,24 @@ import {
 import { profile, summary, education, internships, projects, ProjectItem, achievements, responsibilities, personalDetails, techStackCategories } from "../data";
 import MacBookWindow from "./MacBookWindow";
 import GithubOverview from "./GithubOverview";
+import SkillsGrid from "./SkillsGrid";
 
 const resumeUrl = (import.meta.env?.VITE_RESUME_URL) || "/resume.pdf";
 
-// ─── Animation Helpers ────────────────────────────────────────────────────────
-// Tween-based for predictable 0.28s duration, GPU-friendly, low-bandwidth safe.
+// --- Animation Helpers --------------------------------------------------------
+// Pure opacity-only fade: no y/x translation = no layout thrash, GPU-composited.
 const fadeUp = {
-  hidden: { opacity: 0, y: 10 },
+  hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    y: 0,
-    transition: {
-      type: "tween",
-      ease: [0.25, 0.46, 0.45, 0.94],
-      duration: 0.28
-    }
+    transition: { type: "tween", ease: "easeOut", duration: 0.22 }
   }
 };
-const fadeLeft = {
-  hidden: { opacity: 0, x: -10 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      type: "tween",
-      ease: [0.25, 0.46, 0.45, 0.94],
-      duration: 0.28
-    }
-  }
-};
-const fadeRight = {
-  hidden: { opacity: 0, x: 10 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      type: "tween",
-      ease: [0.25, 0.46, 0.45, 0.94],
-      duration: 0.28
-    }
-  }
-};
+const fadeLeft = fadeUp;
+const fadeRight = fadeUp;
 const stagger = {
   show: {
-    transition: {
-      staggerChildren: 0.045,
-      delayChildren: 0.01
-    }
+    transition: { staggerChildren: 0.025, delayChildren: 0 }
   }
 };
 
@@ -112,6 +83,42 @@ function CardStagger({ children, className = "" }: { children: React.ReactNode; 
 }
 
 // ─── Types ────────────────────────────────────────────────────────────────────
+// --- Tablet Video Thumbnail --------------------------------------------------
+function TabletVideoThumb({ src }: { src: string }) {
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  React.useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    el.load();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            el.play().catch(() => { });
+          } else {
+            el.pause();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [src]);
+  return (
+    <video
+      key={src}
+      ref={videoRef}
+      src={src}
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      className="w-full h-full object-cover"
+    />
+  );
+}
+
 interface TabletViewProps {
   theme: "light" | "dark";
   toggleTheme: () => void;
@@ -176,7 +183,7 @@ export default function TabletView({
   const handleDownloadResume = () => {
     const text = `
 ========================================
-MADHAVAN NADAR - AI & DATA SCIENCE ENGINEER
+MADHAVAN NADAR | AI & DATA SCIENCE ENGINEER
 ========================================
 Email: ${personalDetails.emails[0]} | ${personalDetails.emails[1]}
 Address: ${personalDetails.address}
@@ -205,49 +212,50 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
     })
     .filter((cat) => cat.skills.length > 0);
 
-  // ─── Scroll tracking for navbar ───────────────────────────────────────────
+
+  // RAF-throttled scroll handler (no layout reflow, no getBoundingClientRect)
   useEffect(() => {
+    let rafId = 0;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-      const sections = navItems.map((item) => document.getElementById(item.id));
-      const scrollPosition = window.scrollY + 100;
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section) {
-          const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-          if (sectionTop <= scrollPosition) {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        const sy = window.scrollY;
+        setScrolled(sy > 20);
+        const scrollPosition = sy + 100;
+        for (let i = navItems.length - 1; i >= 0; i--) {
+          const section = document.getElementById(navItems[i].id);
+          if (section && section.offsetTop <= scrollPosition) {
             setActiveSection(navItems[i].id);
             break;
           }
         }
-      }
+      });
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
   return (
-    <div className="min-h-screen text-gray-800 dark:text-gray-200 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white transition-colors duration-300 font-sans text-xs">
+    <div className="min-h-screen text-gray-800 dark:text-gray-200 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white font-sans text-xs">
       {/* Background Glows */}
-      <div className="fixed top-0 left-10 w-[400px] h-[400px] bg-blue-600/[0.04] dark:bg-blue-500/[0.06] rounded-full blur-[100px] pointer-events-none z-0" />
-      <div className="fixed top-[800px] right-0 w-[300px] h-[300px] bg-indigo-600/[0.03] dark:bg-indigo-500/[0.05] rounded-full blur-[90px] pointer-events-none z-0" />
 
       {/* ── Dedicated Tablet Navbar ─────────────────────────────────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
           ? "py-2.5 px-5 bg-white/90 dark:bg-[#050505]/92 border-b border-gray-200/60 dark:border-zinc-800/70 backdrop-blur-lg shadow-md"
           : "py-3.5 px-5 bg-transparent"
-      }`}>
+        }`}>
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
           {/* Logo */}
           <button
             onClick={() => { scrollToElement("hero"); setIsMenuOpen(false); }}
-            className="flex items-center gap-2 font-display font-bold text-gray-900 dark:text-white group shrink-0"
+            className="flex items-center font-display font-bold text-gray-900 dark:text-white group shrink-0"
+            aria-label="Home"
           >
             <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
               <Code2 className="w-4 h-4" />
-            </div>
-            <div className="flex flex-col items-start leading-none">
-              <span className="text-sm font-bold tracking-wide">MADHAVAN</span>
             </div>
           </button>
 
@@ -267,11 +275,10 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
-                  <span className={`relative z-10 transition-colors duration-200 ${
-                    activeSection === item.id
+                  <span className={`relative z-10 transition-colors duration-200 ${activeSection === item.id
                       ? "text-blue-600 dark:text-blue-400 font-semibold"
                       : "text-gray-600 dark:text-gray-400 hover:text-gray-950 dark:hover:text-white"
-                  }`}>
+                    }`}>
                     {item.label}
                   </span>
                 </button>
@@ -313,11 +320,10 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 <button
                   key={item.id}
                   onClick={() => { scrollToElement(item.id); setIsMenuOpen(false); }}
-                  className={`py-2.5 px-4 rounded-xl text-left text-sm font-semibold transition-all flex items-center justify-between group ${
-                    activeSection === item.id
+                  className={`py-2.5 px-4 rounded-xl text-left text-sm font-semibold transition-all flex items-center justify-between group ${activeSection === item.id
                       ? "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400"
                       : "text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5"
-                  }`}
+                    }`}
                 >
                   <span>{item.label}</span>
                   {activeSection === item.id && <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />}
@@ -388,8 +394,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               ].map((m) => (
                 <motion.div
                   key={m.label}
-                  whileHover={{ y: -2, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+
                   className="p-2.5 rounded-lg bg-white/70 dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 text-center shadow-sm cursor-default"
                 >
                   <span className="block text-lg font-bold text-blue-600 dark:text-blue-400">{m.value}</span>
@@ -406,16 +411,14 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               className="flex gap-2.5 pt-1.5"
             >
               <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
+
                 onClick={() => scrollToElement("projects")}
                 className="px-4.5 py-2 bg-blue-600 text-white rounded-xl font-bold flex items-center gap-1.5 shadow text-[10.5px] cursor-pointer"
               >
                 Projects Showcase <ArrowRight className="w-3.5 h-3.5" />
               </motion.button>
               <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
+
                 onClick={() => scrollToElement("contact")}
                 className="px-4.5 py-2 bg-white dark:bg-zinc-900 border border-gray-250 dark:border-zinc-700 text-gray-950 dark:text-white rounded-xl font-bold shadow-sm text-[10.5px] cursor-pointer"
               >
@@ -520,8 +523,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               <motion.div
                 key={idx}
                 variants={fadeUp}
-                whileHover={{ y: -3, scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
+
                 className="relative group cursor-default"
               >
                 <div className="absolute -left-[19px] top-2 w-3 h-3 rounded-full bg-blue-500 border-2 border-white dark:border-[#050505] shadow-sm" />
@@ -570,8 +572,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 <motion.div
                   key={idx}
                   variants={fadeUp}
-                  whileHover={{ y: -3, scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
+
                   className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm flex flex-col justify-between relative overflow-hidden group cursor-default"
                 >
                   <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/5 rounded-full blur-xl" />
@@ -606,12 +607,11 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 {internships.map((intern, idx) => (
                   <motion.button
                     key={idx}
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.97 }}
+
                     onClick={() => setActiveInternship(idx)}
                     className={`p-3 rounded-xl border text-left flex items-center gap-2.5 transition-all cursor-pointer ${activeInternship === idx
-                        ? "bg-white dark:bg-zinc-900 border-blue-500/40 shadow-sm"
-                        : "bg-transparent border-transparent hover:bg-white/40 dark:hover:bg-zinc-900/40"
+                      ? "bg-white dark:bg-zinc-900 border-blue-500/40 shadow-sm"
+                      : "bg-transparent border-transparent hover:bg-white/40 dark:hover:bg-zinc-900/40"
                       }`}
                   >
                     <div className={`w-7.5 h-7.5 rounded-lg flex items-center justify-center ${activeInternship === idx ? "bg-blue-500/10 text-blue-500" : "bg-gray-100 dark:bg-zinc-800 text-gray-400 dark:text-gray-500"}`}>
@@ -638,7 +638,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="text-lg font-bold text-gray-950 dark:text-white">{internships[activeInternship].role}</h3>
-                      <p className="text-[10px] text-gray-500 dark:text-gray-400 font-poppins mt-0.5">{internships[activeInternship].company} &bull; {internships[activeInternship].duration}</p>
+                      <p className="text-[10px] text-gray-500 dark:text-gray-400 font-poppins mt-0.5">{internships[activeInternship].company} | {internships[activeInternship].duration}</p>
                     </div>
                   </div>
 
@@ -700,12 +700,11 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               {projectCategories.map((cat) => (
                 <motion.button
                   key={cat}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
+
                   onClick={() => setProjectFilter(cat)}
                   className={`px-3.5 py-1 rounded-full text-[11px] font-bold border transition-all cursor-pointer ${projectFilter === cat
-                      ? "bg-gray-900 dark:bg-white text-white dark:text-gray-950 border-gray-900 dark:border-white shadow-sm"
-                      : "bg-white dark:bg-zinc-900 text-gray-500 dark:text-gray-300 border-gray-200 dark:border-zinc-700"
+                    ? "bg-gray-900 dark:bg-white text-white dark:text-gray-950 border-gray-900 dark:border-white shadow-sm"
+                    : "bg-white dark:bg-zinc-900 text-gray-500 dark:text-gray-300 border-gray-200 dark:border-zinc-700"
                     }`}
                 >
                   {cat}
@@ -718,210 +717,139 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
             {filteredProjects.map((p, idx) => {
               const isSingle = filteredProjects.length === 1 || (filteredProjects.length % 2 === 1 && idx === filteredProjects.length - 1);
               return (
-              <motion.div
-                key={p.slug}
-                variants={fadeUp}
-                whileHover={{ y: -4, scale: 1.015 }}
-                whileTap={{ scale: 0.995 }}
-                onClick={() => setSelectedProjectSlug(p.slug)}
-                className={`p-4 rounded-xl bg-white dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm flex flex-col justify-between gap-3 cursor-pointer select-none ${
-                  isSingle ? "col-span-2" : ""
-                }`}
-              >
-                <div>
-                  {/* Clean Running Video Thumbnail Banner */}
-                  <div
-                    onClick={() => setSelectedProjectSlug(p.slug)}
-                    className="relative aspect-video rounded-lg overflow-hidden bg-black border border-gray-200/70 dark:border-zinc-800 cursor-pointer group/thumb shadow-xs mb-3"
-                  >
-                    {p.video ? (
-                      <video
-                        src={p.video}
-                                                autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                        className="w-full h-full object-cover group-hover/thumb:scale-103 transition-transform"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-zinc-900" />
+                <motion.div
+                  key={p.slug}
+                  variants={fadeUp}
+                  onClick={() => setSelectedProjectSlug(p.slug)}
+                  className={`p-4 rounded-xl bg-white dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm flex flex-col justify-between gap-3 cursor-pointer select-none active:scale-[0.98] transition-transform duration-150 ${isSingle ? "col-span-2" : ""
+                    }`}
+                >
+                  <div>
+                    {/* Clean Running Video Thumbnail Banner */}
+                    <div
+                      onClick={() => setSelectedProjectSlug(p.slug)}
+                      className="relative aspect-video rounded-lg overflow-hidden bg-black border border-gray-200/70 dark:border-zinc-800 cursor-pointer group/thumb shadow-xs mb-3"
+                    >
+                      {p.video ? (
+                        <TabletVideoThumb src={p.video} />
+                      ) : (
+                        <div className="w-full h-full bg-zinc-900" />
+                      )}
+                    </div>
+
+                    <h3 className="text-sm font-semibold text-gray-950 dark:text-white leading-snug">{p.title}</h3>
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400 leading-relaxed mt-1.5 font-normal">{p.description}</p>
+                    {p.stats && (
+                      <div className="grid grid-cols-3 gap-1.5 py-2">
+                        {Object.entries(p.stats).slice(0, 3).map(([k, val]) => (
+                          <div key={k} className="p-1.5 rounded-lg bg-gray-50/80 dark:bg-zinc-950/70 border border-gray-150 dark:border-zinc-800 text-center flex flex-col justify-center min-w-0">
+                            <span className="block text-[11px] font-bold text-blue-600 dark:text-blue-400 leading-tight whitespace-pre-line truncate">{String(val)}</span>
+                            <span className="block text-[7.5px] uppercase font-poppins font-normal tracking-wider text-gray-500 dark:text-zinc-400 mt-0.5 truncate">{k.replace(/_/g, " ")}</span>
+                          </div>
+                        ))}
+                      </div>
                     )}
                   </div>
 
-                  <h3 className="text-sm font-semibold text-gray-950 dark:text-white leading-snug">{p.title}</h3>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 leading-relaxed mt-1.5 font-normal">{p.description}</p>
-                  {p.stats && (
-                    <div className="grid grid-cols-3 gap-1.5 py-2">
-                      {Object.entries(p.stats).slice(0, 3).map(([k, val]) => (
-                        <div key={k} className="p-1.5 rounded-lg bg-gray-50/80 dark:bg-zinc-950/70 border border-gray-150 dark:border-zinc-800 text-center flex flex-col justify-center min-w-0">
-                          <span className="block text-[11px] font-bold text-blue-600 dark:text-blue-400 leading-tight whitespace-pre-line truncate">{String(val)}</span>
-                          <span className="block text-[7.5px] uppercase font-poppins font-normal tracking-wider text-gray-500 dark:text-zinc-400 mt-0.5 truncate">{k.replace(/_/g, " ")}</span>
-                        </div>
+                  <div className="space-y-2.5 pt-2.5 border-t border-gray-150 dark:border-zinc-700/60">
+                    <div className="flex flex-wrap gap-1">
+                      {p.tech.slice(0, 4).map((t) => (
+                        <span key={t} className="text-[8px] font-poppins font-medium bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded border border-blue-200/60 dark:border-blue-800/40">
+                          {t}
+                        </span>
                       ))}
+                      {p.tech.length > 4 && <span className="text-[8px] text-gray-400 self-center font-medium">+{p.tech.length - 4} more</span>}
                     </div>
-                  )}
-                </div>
+                    <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                      {p.video && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedProjectSlug(p.slug);
+                          }}
+                          className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-[9px] font-bold shadow-xs transition-all cursor-pointer"
+                        >
+                          <Play className="w-2.5 h-2.5 fill-current" />
+                          <span>Watch Video &amp; Details</span>
+                        </button>
+                      )}
+                      {p.link && (
+                        <motion.a
 
-                <div className="space-y-2.5 pt-2.5 border-t border-gray-150 dark:border-zinc-700/60">
-                  <div className="flex flex-wrap gap-1">
-                    {p.tech.slice(0, 4).map((t) => (
-                      <span key={t} className="text-[8px] font-poppins font-medium bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded border border-blue-200/60 dark:border-blue-800/40">
-                        {t}
-                      </span>
-                    ))}
-                    {p.tech.length > 4 && <span className="text-[8px] text-gray-400 self-center font-medium">+{p.tech.length - 4} more</span>}
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2 pt-0.5">
-                    {p.video && (
-                      <button
+                          href={p.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800 text-[9px] font-semibold text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-zinc-700 transition-all"
+                          title="GitHub Repository"
+                        >
+                          <Github className="w-3 h-3 shrink-0" />
+                          <span>GitHub Link</span>
+                        </motion.a>
+                      )}
+                      {"liveLink" in p && p.liveLink && (
+                        <motion.a
+
+                          href={p.liveLink as string}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-blue-200 dark:border-blue-900/40 bg-blue-50 dark:bg-blue-950/20 text-[9px] font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-950/40 transition-all"
+                          title="Live Application Demo"
+                        >
+                          <Globe className="w-3 h-3 shrink-0" />
+                          <span>App Link</span>
+                        </motion.a>
+                      )}
+                      {"playStoreLink" in p && p.playStoreLink && (
+                        <motion.a
+
+                          href={p.playStoreLink as string}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-green-200 dark:border-green-900/40 bg-green-50 dark:bg-green-950/15 text-[9px] font-medium text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-950/30 transition-all"
+                          title="Google Play Store"
+                        >
+                          <Smartphone className="w-3 h-3 shrink-0" />
+                          <span>Play Store</span>
+                        </motion.a>
+                      )}
+                      {"appStoreLink" in p && p.appStoreLink && (
+                        <motion.a
+
+                          href={p.appStoreLink as string}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50 dark:bg-indigo-950/15 text-[9px] font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-950/30 transition-all"
+                          title="Apple App Store"
+                        >
+                          <Apple className="w-3 h-3 shrink-0" />
+                          <span>App Store</span>
+                        </motion.a>
+                      )}
+                      <motion.button
+
                         onClick={(e) => {
                           e.stopPropagation();
                           setSelectedProjectSlug(p.slug);
                         }}
-                        className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-[9px] font-bold shadow-xs transition-all cursor-pointer"
+                        className="text-blue-600 dark:text-blue-400 flex items-center gap-0.5 hover:underline cursor-pointer text-[9px] font-semibold ml-auto"
                       >
-                        <Play className="w-2.5 h-2.5 fill-current" />
-                        <span>Watch Video &amp; Details</span>
-                      </button>
-                    )}
-                    {p.link && (
-                      <motion.a
-                        whileHover={{ scale: 1.04 }}
-                        whileTap={{ scale: 0.96 }}
-                        href={p.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800 text-[9px] font-semibold text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-zinc-700 transition-all"
-                        title="GitHub Repository"
-                      >
-                        <Github className="w-3 h-3 shrink-0" />
-                        <span>GitHub Link</span>
-                      </motion.a>
-                    )}
-                    {"liveLink" in p && p.liveLink && (
-                      <motion.a
-                        whileHover={{ scale: 1.04 }}
-                        whileTap={{ scale: 0.96 }}
-                        href={p.liveLink as string}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-blue-200 dark:border-blue-900/40 bg-blue-50 dark:bg-blue-950/20 text-[9px] font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-950/40 transition-all"
-                        title="Live Application Demo"
-                      >
-                        <Globe className="w-3 h-3 shrink-0" />
-                        <span>App Link</span>
-                      </motion.a>
-                    )}
-                    {"playStoreLink" in p && p.playStoreLink && (
-                      <motion.a
-                        whileHover={{ scale: 1.04 }}
-                        whileTap={{ scale: 0.96 }}
-                        href={p.playStoreLink as string}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-green-200 dark:border-green-900/40 bg-green-50 dark:bg-green-950/15 text-[9px] font-medium text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-950/30 transition-all"
-                        title="Google Play Store"
-                      >
-                        <Smartphone className="w-3 h-3 shrink-0" />
-                        <span>Play Store</span>
-                      </motion.a>
-                    )}
-                    {"appStoreLink" in p && p.appStoreLink && (
-                      <motion.a
-                        whileHover={{ scale: 1.04 }}
-                        whileTap={{ scale: 0.96 }}
-                        href={p.appStoreLink as string}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50 dark:bg-indigo-950/15 text-[9px] font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-950/30 transition-all"
-                        title="Apple App Store"
-                      >
-                        <Apple className="w-3 h-3 shrink-0" />
-                        <span>App Store</span>
-                      </motion.a>
-                    )}
-                    <motion.button
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedProjectSlug(p.slug);
-                      }}
-                      className="text-blue-600 dark:text-blue-400 flex items-center gap-0.5 hover:underline cursor-pointer text-[9px] font-semibold ml-auto"
-                    >
-                      Case Study <ArrowRight className="w-3.5 h-3.5" />
-                    </motion.button>
-                  </div>
-                </div>
-              </motion.div>
-            ); })}
-          </CardStagger>
-        </div>
-      </section>
-
-      {/* ── SKILLS ─────────────────────────────────────────────────────────── */}
-      <section id="skills" className="py-6 px-4 border-t border-gray-200/50 dark:border-zinc-800/60">
-        <div className="max-w-4xl mx-auto space-y-5">
-          <SectionWrap>
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-950 dark:text-white mt-0.5">Skills</h2>
-            </div>
-          </SectionWrap>
-
-          <SectionWrap>
-            <div className="max-w-md mx-auto relative">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 w-4.5 h-4.5" />
-              <input
-                type="text"
-                placeholder="Search skills (Llama, AWS, React)..."
-                value={skillsSearch}
-                onChange={(e) => setSkillsSearch(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-[11px] rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1.5 focus:ring-violet-500/40 shadow-sm"
-              />
-            </div>
-          </SectionWrap>
-
-          <CardStagger className="grid grid-cols-2 gap-4">
-            {searchedCategories.map((cat) => (
-              <motion.div
-                key={cat.title}
-                variants={fadeUp}
-                whileHover={{ y: -3, scale: 1.01 }}
-                whileTap={{ scale: 0.995 }}
-                className="p-4 rounded-xl bg-white dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm flex flex-col justify-start cursor-default"
-              >
-                <h3 className="text-xs font-bold text-gray-950 dark:text-white border-b border-gray-100 dark:border-zinc-700 pb-2 mb-2.5 flex items-center gap-2">
-                  <span className="w-1.5 h-3.5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full" />
-                  {cat.title}
-                </h3>
-                <div className="space-y-1.5">
-                  {cat.skills.map((s) => (
-                    <div key={s.name} className="flex items-center justify-between gap-2 p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-800/30 transition-colors">
-                      <div>
-                        <span className="text-[10px] font-semibold text-gray-900 dark:text-gray-100 block">{s.name}</span>
-                        <span className="text-[8px] text-gray-400 mt-0.5 block">Experience: {s.experience}</span>
-                      </div>
-                      <span className={`text-[7.5px] px-1.5 py-0.5 rounded font-poppins font-semibold shrink-0 uppercase tracking-wide border ${s.level === "Expert"
-                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
-                          : s.level === "Advanced"
-                            ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20"
-                            : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
-                        }`}>
-                        {s.level}
-                      </span>
+                        Case Study <ArrowRight className="w-3.5 h-3.5" />
+                      </motion.button>
                     </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+                  </div>
+                </motion.div>
+              );
+            })}
           </CardStagger>
         </div>
       </section>
+
+      {/* ── SKILLS (BENTO GRID SHOWCASE) ─────────────────────────────────── */}
+      <SkillsGrid />
 
       <GithubOverview />
 
@@ -940,8 +868,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               <motion.div
                 key={idx}
                 variants={fadeUp}
-                whileHover={{ y: -3, scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
+
                 className="p-4 rounded-xl bg-white dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm relative overflow-hidden flex flex-col justify-between group h-full cursor-default"
               >
                 <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
@@ -980,8 +907,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
             <div className="grid grid-cols-12 gap-4 items-stretch">
               {/* Contact Info */}
               <motion.div
-                whileHover={{ y: -3, scale: 1.01 }}
-                whileTap={{ scale: 0.995 }}
+
                 className="col-span-5 p-4.5 rounded-xl bg-white/70 dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm flex flex-col justify-between h-full cursor-default"
               >
                 <div className="space-y-5">
@@ -1034,8 +960,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 </div>
                 <div className="pt-4 border-t border-gray-150 dark:border-zinc-700/60 mt-6">
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
+
                     onClick={() => window.open(resumeUrl, "_blank")}
                     className="w-full py-2.5 bg-gray-50 dark:bg-zinc-800 border border-gray-250 dark:border-zinc-700 text-gray-900 dark:text-white text-xs font-bold rounded-lg flex items-center justify-center gap-2 cursor-pointer"
                   >
@@ -1046,8 +971,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
 
               {/* Message Form */}
               <motion.div
-                whileHover={{ y: -3, scale: 1.01 }}
-                whileTap={{ scale: 0.995 }}
+
                 className="col-span-7 p-4.5 rounded-xl bg-white/70 dark:bg-zinc-900/70 border border-gray-200/50 dark:border-zinc-700/50 shadow-sm flex flex-col justify-between cursor-default"
               >
                 <div>
@@ -1122,8 +1046,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                         />
                       </div>
                       <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.97 }}
+
                         type="submit"
                         disabled={isSubmittingContact}
                         className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg disabled:opacity-50 cursor-pointer shadow-sm transition-colors"
@@ -1200,7 +1123,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                       <video
                         key={activeProject.video}
                         src={activeProject.video}
-                                                controls
+                        controls
                         autoPlay
                         playsInline
                         preload="auto"
@@ -1352,7 +1275,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 <div className="text-center pb-5 border-b border-gray-200">
                   <h4 className="text-xl font-bold text-gray-950">MADHAVAN NADAR</h4>
                   <p className="text-[10px] uppercase font-mono tracking-widest text-indigo-600 font-semibold">AI & Full-Stack Engineer</p>
-                  <p className="text-[10px] text-gray-500 mt-1 font-mono">Mumbai, India &bull; madhavannadar23@gmail.com</p>
+                  <p className="text-[10px] text-gray-500 mt-1 font-mono">Mumbai, India | madhavannadar23@gmail.com</p>
                 </div>
                 <div className="space-y-1.5">
                   <h5 className="font-semibold text-xs uppercase tracking-wider text-indigo-600 border-b border-gray-200 pb-1">Professional summary</h5>
@@ -1365,7 +1288,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                   {internships.map((intern, idx) => (
                     <div key={idx} className="space-y-1">
                       <div className="flex justify-between items-center text-xs font-bold">
-                        <span className="text-gray-900">{intern.role} &bull; {intern.company}</span>
+                        <span className="text-gray-900">{intern.role} | {intern.company}</span>
                         <span className="text-gray-500 font-mono text-[9px]">{intern.duration}</span>
                       </div>
                       <p className="text-[9px] text-gray-500 italic mt-0.5">{intern.summary}</p>

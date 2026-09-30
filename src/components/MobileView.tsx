@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "motion/react";
 import {
   Sparkles,
@@ -41,6 +41,64 @@ import {
 import { profile, summary, education, internships, projects, ProjectItem, achievements, responsibilities, personalDetails, techStackCategories } from "../data";
 import MacBookWindow from "./MacBookWindow";
 import GithubOverview from "./GithubOverview";
+import SkillsGrid from "./SkillsGrid";
+import ProjectAutomatorPopup from "./ProjectAutomatorPopup";
+
+function MobileProjectVideoThumb({ src }: { src: string }) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    const vid = videoRef.current;
+    if (!el || !vid) return;
+
+    const handleCanPlay = () => {
+      vid.play().catch(() => { });
+    };
+    vid.addEventListener("canplay", handleCanPlay);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            vid.play().catch(() => { });
+          } else {
+            vid.pause();
+          }
+        });
+      },
+      { rootMargin: "200px 0px", threshold: 0.05 }
+    );
+
+    observer.observe(el);
+    return () => {
+      vid.removeEventListener("canplay", handleCanPlay);
+      observer.disconnect();
+    };
+  }, [src]);
+
+  return (
+    <div ref={containerRef} className="w-full h-full relative bg-zinc-950 flex items-center justify-center">
+      {src ? (
+        <video
+          ref={videoRef}
+          src={src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/70">
+          <Play className="w-3.5 h-3.5 fill-current ml-0.5 text-white" />
+        </div>
+      )}
+    </div>
+  );
+}
 
 const resumeUrl = (import.meta.env?.VITE_RESUME_URL) || "/resume.pdf";
 
@@ -191,7 +249,7 @@ export default function MobileView({
   const handleDownloadResume = () => {
     const text = `
 ========================================
-MADHAVAN NADAR - AI & DATA SCIENCE ENGINEER
+MADHAVAN NADAR | AI & DATA SCIENCE ENGINEER
 ========================================
 Email: ${personalDetails.emails[0]} | ${personalDetails.emails[1]}
 Address: ${personalDetails.address}
@@ -242,27 +300,26 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
   }, []);
 
   return (
-    <div className="min-h-screen text-gray-700 dark:text-gray-200 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white transition-colors duration-300 font-sans text-xs">
+    <div className="min-h-screen text-gray-700 dark:text-gray-200 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white font-sans text-xs">
       {/* Background Glows */}
       <div className="fixed top-0 left-10 w-[400px] h-[400px] bg-blue-600/[0.04] dark:bg-blue-500/[0.06] rounded-full blur-[100px] pointer-events-none z-0" />
       <div className="fixed top-[800px] right-0 w-[300px] h-[300px] bg-indigo-600/[0.03] dark:bg-indigo-500/[0.05] rounded-full blur-[90px] pointer-events-none z-0" />
 
       {/* ── Dedicated Mobile Navbar ─────────────────────────────────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
           ? "py-2.5 px-4 bg-white/90 dark:bg-[#050505]/92 border-b border-gray-200/60 dark:border-zinc-800/70 backdrop-blur-lg shadow-md"
           : "py-3 px-4 bg-transparent"
-      }`}>
+        }`}>
         <div className="flex items-center justify-between">
           {/* Logo */}
           <button
             onClick={() => { scrollToElement("hero"); setIsMenuOpen(false); }}
-            className="flex items-center gap-2 font-display font-bold text-gray-900 dark:text-white group"
+            className="flex items-center font-display font-bold text-gray-900 dark:text-white group"
+            aria-label="Home"
           >
             <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
               <Code2 className="w-3.5 h-3.5" />
             </div>
-            <span className="text-[13px] tracking-wide">MADHAVAN</span>
           </button>
 
           {/* Right controls */}
@@ -302,20 +359,18 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 <button
                   key={item.id}
                   onClick={() => { scrollToElement(item.id); setIsMenuOpen(false); }}
-                  className={`relative w-full py-2.5 px-4 rounded-xl text-left text-sm font-semibold transition-all flex items-center justify-between group ${
-                    activeSection === item.id
+                  className={`relative w-full py-2.5 px-4 rounded-xl text-left text-sm font-semibold transition-all flex items-center justify-between group ${activeSection === item.id
                       ? "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400"
                       : "text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-blue-600 dark:hover:text-blue-400"
-                  }`}
+                    }`}
                 >
                   <span>{item.label}</span>
                   <div className="flex items-center gap-1.5">
                     {activeSection === item.id && (
                       <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
                     )}
-                    <ChevronRight className={`w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 ${
-                      activeSection === item.id ? "text-blue-500" : "text-gray-400"
-                    }`} />
+                    <ChevronRight className={`w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 ${activeSection === item.id ? "text-blue-500" : "text-gray-400"
+                      }`} />
                   </div>
                 </button>
               ))}
@@ -403,8 +458,8 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 { value: "8+", label: "Client Deliveries" },
                 { value: "Top 5", label: "SIH Finalist" }
               ].map((m) => (
-                <motion.div 
-                  key={m.label} 
+                <motion.div
+                  key={m.label}
                   whileHover={{ y: -2, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className="p-2.5 rounded-lg bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-center shadow-sm cursor-default"
@@ -421,18 +476,18 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               transition={{ type: "tween", ease: [0.25, 0.46, 0.45, 0.94], duration: 0.3, delay: 0.2 }}
               className="flex gap-2.5 pt-1.5"
             >
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => scrollToElement("projects")} 
+                onClick={() => scrollToElement("projects")}
                 className="px-4.5 py-2 bg-blue-600 text-white rounded-xl font-bold flex items-center gap-1.5 shadow text-[10.5px] cursor-pointer"
               >
                 Projects Showcase <ArrowRight className="w-3.5 h-3.5" />
               </motion.button>
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => scrollToElement("contact")} 
+                onClick={() => scrollToElement("contact")}
                 className="px-4.5 py-2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white rounded-xl font-bold shadow-sm text-[10.5px] cursor-pointer"
               >
                 Contact Me
@@ -533,9 +588,9 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
 
           <CardStagger className="relative pl-5 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-200 dark:before:bg-zinc-700 space-y-4">
             {education.map((edu, idx) => (
-              <motion.div 
-                key={idx} 
-                variants={fadeUp} 
+              <motion.div
+                key={idx}
+                variants={fadeUp}
                 whileHover={{ y: -3, scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
                 className="relative group cursor-default"
@@ -583,10 +638,10 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
               ];
               const highlight = highlights[idx % highlights.length];
               return (
-                <motion.div 
-                  key={idx} 
-                  variants={fadeUp} 
-                  whileHover={{ y: -3, scale: 1.01 }} 
+                <motion.div
+                  key={idx}
+                  variants={fadeUp}
+                  whileHover={{ y: -3, scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                   className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm flex flex-col justify-between relative overflow-hidden group cursor-default"
                 >
@@ -625,11 +680,10 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => setActiveInternship(idx)}
-                    className={`p-3 rounded-xl border text-left flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${
-                      activeInternship === idx
+                    className={`p-3 rounded-xl border text-left flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${activeInternship === idx
                         ? "bg-white dark:bg-zinc-900 border-blue-500/40 shadow-sm"
                         : "bg-transparent border-transparent hover:bg-white/40 dark:hover:bg-zinc-900/40"
-                    }`}
+                      }`}
                   >
                     <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${activeInternship === idx ? "bg-blue-500/10 text-blue-500" : "bg-gray-100 dark:bg-zinc-800 text-gray-400 dark:text-gray-500"}`}>
                       <Blocks className="w-3.5 h-3.5" />
@@ -654,7 +708,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="text-[10.5px] font-bold text-gray-950 dark:text-white">{internships[activeInternship].role}</h3>
-                      <p className="text-[8px] text-gray-500 dark:text-gray-500 font-poppins mt-0.5">{internships[activeInternship].company} &bull; {internships[activeInternship].duration}</p>
+                      <p className="text-[8px] text-gray-500 dark:text-gray-500 font-poppins mt-0.5">{internships[activeInternship].company} | {internships[activeInternship].duration}</p>
                     </div>
                   </div>
 
@@ -719,11 +773,10 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => setProjectFilter(cat)}
-                  className={`px-3 py-1 rounded-full text-[9.5px] font-bold border transition-all cursor-pointer shrink-0 ${
-                    projectFilter === cat
+                  className={`px-3 py-1 rounded-full text-[9.5px] font-bold border transition-all cursor-pointer shrink-0 ${projectFilter === cat
                       ? "bg-gray-900 dark:bg-white text-white dark:text-gray-950 border-gray-900 dark:border-white shadow-sm"
                       : "bg-white dark:bg-zinc-900 text-gray-500 dark:text-gray-300 border-gray-200 dark:border-zinc-700"
-                  }`}
+                    }`}
                 >
                   {cat}
                 </motion.button>
@@ -733,9 +786,9 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
 
           <CardStagger className="grid grid-cols-1 gap-3">
             {filteredProjects.map((p) => (
-              <motion.div 
-                key={p.slug} 
-                variants={fadeUp} 
+              <motion.div
+                key={p.slug}
+                variants={fadeUp}
                 whileHover={{ y: -4, scale: 1.015 }}
                 whileTap={{ scale: 0.995 }}
                 onClick={() => setSelectedProjectSlug(p.slug)}
@@ -748,15 +801,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                     className="relative aspect-video rounded-lg overflow-hidden bg-black border border-gray-200/70 dark:border-zinc-800 cursor-pointer group/thumb shadow-xs mb-2.5"
                   >
                     {p.video ? (
-                      <video
-                        src={p.video}
-                                                autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                        className="w-full h-full object-cover group-hover/thumb:scale-103 transition-transform"
-                      />
+                      <MobileProjectVideoThumb src={p.video} />
                     ) : (
                       <div className="w-full h-full bg-zinc-900" />
                     )}
@@ -877,65 +922,8 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
         </div>
       </section>
 
-      {/* ── SKILLS ─────────────────────────────────────────────────────────── */}
-      <section id="skills" className="py-5 px-4 border-t border-gray-200/50 dark:border-zinc-800/60">
-        <div className="max-w-4xl mx-auto space-y-5">
-          <SectionWrap>
-            <div className="text-center">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-0.5">Skills</h2>
-            </div>
-          </SectionWrap>
-
-          <SectionWrap>
-            <div className="max-w-md mx-auto relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search skills (Llama, AWS, React)..."
-                value={skillsSearch}
-                onChange={(e) => setSkillsSearch(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-[11px] rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1.5 focus:ring-violet-500/40 shadow-sm"
-              />
-            </div>
-          </SectionWrap>
-
-          <CardStagger className="grid grid-cols-1 gap-3">
-            {searchedCategories.map((cat) => (
-              <motion.div 
-                key={cat.title} 
-                variants={fadeUp} 
-                whileHover={{ y: -3, scale: 1.01 }}
-                whileTap={{ scale: 0.995 }}
-                className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 shadow-sm flex flex-col justify-start cursor-default"
-              >
-                <h3 className="text-[10.5px] font-bold text-gray-900 dark:text-white border-b border-gray-100 dark:border-zinc-700 pb-2 mb-2.5 flex items-center gap-2">
-                  <span className="w-1.5 h-3.5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full" />
-                  {cat.title}
-                </h3>
-                <div className="space-y-1.5">
-                  {cat.skills.map((s) => (
-                    <div key={s.name} className="flex items-center justify-between gap-2 p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-800/30 transition-colors">
-                      <div>
-                        <span className="text-[8px] font-semibold text-gray-900 dark:text-gray-100 block">{s.name}</span>
-                        <span className="text-[7.5px] text-gray-400 mt-0.5 block">Experience: {s.experience}</span>
-                      </div>
-                      <span className={`text-[7.5px] px-1.5 py-0.5 rounded font-poppins font-semibold shrink-0 uppercase tracking-wide border ${
-                        s.level === "Expert"
-                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
-                          : s.level === "Advanced"
-                          ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20"
-                          : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
-                      }`}>
-                        {s.level}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </CardStagger>
-        </div>
-      </section>
+      {/* ── SKILLS (BENTO GRID SHOWCASE) ─────────────────────────────────── */}
+      <SkillsGrid />
 
       <GithubOverview />
 
@@ -1183,155 +1171,13 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
       </footer>
 
 
-      {/* ── Case Study Drawer ──────────────────────────────────────────────── */}
+      {/* ── Automator Liquid Glass Project Drawer ────────────────────────── */}
       <AnimatePresence>
         {activeProject && (
-          <div
-            className="fixed inset-0 z-50 bg-gray-900/40 dark:bg-black/60 backdrop-blur-sm flex items-end justify-center"
-            onClick={() => setSelectedProjectSlug(null)}
-          >
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 28, stiffness: 260 }}
-              className="bg-white dark:bg-[#0d0d10] w-full max-h-[82vh] rounded-t-2xl border-t border-gray-200 dark:border-zinc-800 shadow-2xl flex flex-col relative"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="sticky top-0 bg-white/95 dark:bg-[#0d0d10]/95 p-4 flex justify-between items-center z-25">
-                <div>
-                  <h3 className="text-[12px] font-bold text-gray-950 dark:text-white">{activeProject.title}</h3>
-                </div>
-                <button onClick={() => setSelectedProjectSlug(null)} className="p-1 rounded-lg bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-300 font-bold cursor-pointer">
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-              <div className="p-4 overflow-y-auto space-y-4.5 flex-1 text-left">
-                {/* Media deck in drawer */}
-                {activeProject.video && (
-                  <div className="space-y-2">
-                    <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-gray-200 dark:border-zinc-800 shadow-md">
-                      <video
-                        key={activeProject.video}
-                        src={activeProject.video}
-                                                controls
-                        autoPlay
-                        playsInline
-                        preload="auto"
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  </div>
-                )}
-
-                <div className="space-y-1.5">
-                  <h4 className="text-[8px] font-bold uppercase tracking-wider text-gray-400">Brief</h4>
-                  <p className="text-[8.5px] text-gray-600 dark:text-gray-300 leading-relaxed">{activeProject.detailedDescription}</p>
-                </div>
-                <div className="space-y-2">
-                  <h4 className="text-[8px] font-bold uppercase tracking-wider text-gray-400">Features</h4>
-                  <ul className="space-y-1.5 text-[8.5px] text-gray-600 dark:text-gray-300 leading-relaxed">
-                    {activeProject.features.map((f, i) => (
-                      <li key={i} className="flex gap-2">
-                        <span className="text-zinc-500 shrink-0 select-none">&bull;</span>
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                {activeProject.stats && (
-                  <div className="p-3 bg-gray-50/50 dark:bg-zinc-900/40 border border-gray-150 dark:border-zinc-800 rounded-lg space-y-1.5">
-                    <h4 className="text-[8px] font-bold uppercase tracking-wider text-gray-400">Metrics</h4>
-                    <div className="grid grid-cols-2 gap-1.5">
-                      {Object.entries(activeProject.stats).map(([k, v]) => (
-                        <div key={k} className="p-1.5 text-center rounded-md bg-white dark:bg-zinc-900/80 border border-gray-200/50 dark:border-zinc-800 shadow-xs flex flex-col justify-center min-w-0">
-                          <span className="block text-[10px] font-semibold text-blue-600 dark:text-blue-400 break-words leading-tight whitespace-pre-line">
-                            {String(v)}
-                          </span>
-                          <span className="block text-[6.5px] font-poppins font-normal tracking-wide text-gray-500 dark:text-zinc-400 capitalize mt-0.5 leading-tight">
-                            {k.replace(/_/g, " ")}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <div className="p-3.5 bg-gray-50/50 dark:bg-zinc-900/40 border border-gray-150 dark:border-zinc-800 rounded-lg space-y-2">
-                  <h4 className="text-[8px] font-bold uppercase tracking-wider text-gray-400">Architecture</h4>
-                  <div className="space-y-2">
-                    {activeProject.architecture.map((a, i) => (
-                      <div key={i} className="flex items-center gap-2 text-[8.5px]">
-                        <span className="w-4 h-4 rounded-full bg-blue-100 dark:bg-zinc-800 text-blue-600 dark:text-blue-300 flex items-center justify-center font-poppins font-bold shrink-0 text-[8px]">{i + 1}</span>
-                        <span className="text-gray-700 dark:text-gray-200">{a}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {activeProject.workflow && (
-                  <div className="space-y-1.5">
-                    <h4 className="text-[8px] font-bold uppercase tracking-wider text-gray-400">Workflow</h4>
-                    <div className="relative pl-4 space-y-2 before:absolute before:top-2 before:bottom-2 before:left-[7px] before:w-0.5 before:bg-gradient-to-b before:from-blue-500 before:to-gray-300 dark:before:to-zinc-800">
-                      {activeProject.workflow.map((step, idx) => (
-                        <div key={idx} className="relative flex items-start gap-2">
-                          <div className="absolute -left-[11px] top-1.5 w-2 h-2 rounded-full border-2 border-blue-500 bg-white dark:bg-zinc-900 z-10" />
-                          <div className="flex-1 p-1.5 rounded-md border border-gray-150 dark:border-zinc-800 bg-gray-50/50 dark:bg-white/[0.015]">
-                            <span className="text-[7.5px] font-poppins font-medium uppercase tracking-wider text-blue-600 dark:text-blue-400 block mb-0.5">
-                              Phase 0{idx + 1}
-                            </span>
-                            <p className="text-[8px] text-gray-700 dark:text-gray-300 leading-relaxed font-poppins font-normal">
-                              {step}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <div className="p-3.5 bg-gray-50/50 dark:bg-zinc-900/40 border border-gray-150 dark:border-zinc-800 rounded-lg">
-                  <h4 className="text-[8px] font-bold uppercase tracking-wider text-red-500 mb-2">Challenges</h4>
-                  <ul className="space-y-1.5 text-[8.5px] text-gray-600 dark:text-gray-300">
-                    {activeProject.challenges.map((c, i) => (
-                      <li key={i} className="flex gap-1"><span className="text-red-400">&bull;</span><span>{c}</span></li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="p-3.5 bg-gray-50/50 dark:bg-zinc-900/40 border border-gray-150 dark:border-zinc-800 rounded-lg">
-                  <h4 className="text-[8px] font-bold uppercase tracking-wider text-emerald-500 mb-2">Outcomes</h4>
-                  <ul className="space-y-1.5 text-[8.5px] text-gray-600 dark:text-gray-300">
-                    {activeProject.outcomes.map((o, i) => (
-                      <li key={i} className="flex gap-1"><span className="text-emerald-400">&bull;</span><span>{o}</span></li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              {/* Sticky Drawer Footer with Tech Stack Badges */}
-              <div className="px-4 py-2.5 border-t border-gray-150 dark:border-zinc-800 bg-gray-50/90 dark:bg-[#0d0d10]/95 flex flex-wrap items-center justify-between gap-1.5 text-xs shrink-0">
-                <div className="flex flex-wrap items-center gap-1">
-                  {activeProject.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="text-[8px] font-poppins font-medium bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded border border-blue-200/70 dark:border-blue-800/50"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                {activeProject.liveLink && (
-                  <a
-                    href={activeProject.liveLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-[9px] font-semibold transition-all shadow-xs"
-                  >
-                    <Globe className="w-2.5 h-2.5" />
-                    <span>Live App</span>
-                  </a>
-                )}
-              </div>
-            </motion.div>
-          </div>
+          <ProjectAutomatorPopup
+            project={activeProject}
+            onClose={() => setSelectedProjectSlug(null)}
+          />
         )}
       </AnimatePresence>
 
@@ -1366,7 +1212,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                 <div className="text-center pb-5 border-b border-gray-200">
                   <h4 className="text-xl font-bold text-gray-950">MADHAVAN NADAR</h4>
                   <p className="text-[10px] uppercase font-mono tracking-widest text-indigo-600 font-semibold">AI & Full-Stack Engineer</p>
-                  <p className="text-[10px] text-gray-500 mt-1 font-mono">Mumbai, India &bull; madhavannadar23@gmail.com</p>
+                  <p className="text-[10px] text-gray-500 mt-1 font-mono">Mumbai, India | madhavannadar23@gmail.com</p>
                 </div>
                 <div className="space-y-1.5">
                   <h5 className="font-semibold text-xs uppercase tracking-wider text-indigo-600 border-b border-gray-200 pb-1">Professional summary</h5>
@@ -1379,7 +1225,7 @@ Phone: ${personalDetails.phoneNumbers.join(" / ")}
                   {internships.map((intern, idx) => (
                     <div key={idx} className="space-y-1">
                       <div className="flex justify-between items-center text-xs font-bold">
-                        <span className="text-gray-900">{intern.role} &bull; {intern.company}</span>
+                        <span className="text-gray-900">{intern.role} | {intern.company}</span>
                         <span className="text-gray-500 font-mono text-[9px]">{intern.duration}</span>
                       </div>
                       <p className="text-[9px] text-gray-500 italic mt-0.5">{intern.summary}</p>

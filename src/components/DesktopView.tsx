@@ -1,6 +1,7 @@
 import React from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import Navbar from "./Navbar";
+import CosmicPlanetaryHero from "./CosmicPlanetaryHero";
 import AboutAndEducation from "./AboutAndEducation";
 import ExperienceShowcase from "./ExperienceShowcase";
 import ProjectShowcase from "./ProjectShowcase";
@@ -8,7 +9,6 @@ import SkillsGrid from "./SkillsGrid";
 import GithubOverview from "./GithubOverview";
 import LeadershipSection from "./LeadershipSection";
 import ContactSection from "./ContactSection";
-import MacBookWindow from "./MacBookWindow";
 import { profile } from "../data";
 import {
   ArrowDown,
@@ -21,17 +21,19 @@ import {
 
 interface DesktopViewProps {
   theme: "light" | "dark";
-  toggleTheme: () => void;
+  toggleTheme: (e?: React.MouseEvent) => void;
   scrollToElement: (id: string) => void;
+  showScrollTop?: boolean;
 }
 
 export default function DesktopView({
   theme,
   toggleTheme,
-  scrollToElement
+  scrollToElement,
+  showScrollTop = false
 }: DesktopViewProps) {
   return (
-    <div className="min-h-screen text-gray-800 dark:text-gray-200 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white transition-colors duration-300">
+    <div className="min-h-screen text-gray-800 dark:text-gray-200 dark:bg-[#050505] bg-[#fafafa] selection:bg-blue-500 selection:text-white">
       {/* 500px abstract background glass orb blur */}
       <div className="absolute top-0 left-1/4 -translate-y-24 w-[600px] h-[600px] bg-blue-600/[0.04] dark:bg-blue-500/[0.05] rounded-full blur-[140px] pointer-events-none animate-pulse-slow transform-gpu" />
       <div className="absolute top-[800px] right-0 w-[500px] h-[500px] bg-indigo-600/[0.03] dark:bg-indigo-500/[0.04] rounded-full blur-[120px] pointer-events-none transform-gpu" />
@@ -39,134 +41,8 @@ export default function DesktopView({
       {/* Corporate Glass Header */}
       <Navbar theme={theme} toggleTheme={toggleTheme} />
 
-      {/* 1. HERO SECTION */}
-      <header id="hero" className="relative min-h-screen flex items-center justify-center pt-28 pb-16 overflow-hidden">
-        {/* Dynamic mesh dot overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e1e1e_1px,transparent_1px)] [background-size:16px_16px] opacity-70 pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left text column */}
-            <div className="lg:col-span-7 space-y-6 text-left">
-              {/* Large Display Heading */}
-              <motion.div
-                initial={{ opacity: 0, x: -25 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.55, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="space-y-1.5"
-              >
-                <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-gray-950 dark:text-white font-display leading-[1.08]">
-                  {profile.name}
-                </h1>
-                <p className="text-lg sm:text-2xl font-medium bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-300 bg-clip-text text-transparent leading-relaxed tracking-tight">
-                  {profile.headline}
-                </p>
-              </motion.div>
-
-              {/* Core Statement */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.45, delay: 0.25 }}
-                className="text-sm sm:text-base text-gray-650 dark:text-gray-400 max-w-xl leading-relaxed font-normal"
-              >
-                Systems Engineer specializing in Generative AI (RAG pipelines, Fine-tuning) and scalable web architectures. Proven track record of optimizing AI model inference by 35% and automating 70% of enterprise work pipelines across multiple software developer roles.
-              </motion.p>
-
-              {/* Metric stats counters */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="grid grid-cols-3 gap-4 py-4 max-w-lg"
-              >
-                <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800/80 shadow-sm hover:scale-102 hover:border-blue-500/30 transition-all">
-                  <span className="block text-2xl font-bold text-blue-600 dark:text-blue-400 font-display">
-                    70%
-                  </span>
-                  <span className="block text-[10px] font-medium text-gray-800 dark:text-zinc-200 font-sans mt-1">
-                    Workflow Automation
-                  </span>
-                  <span className="block text-[9px] font-mono font-normal text-gray-400 dark:text-zinc-500 mt-0.5">
-                    Enterprise Operations
-                  </span>
-                </div>
-
-                <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800/80 shadow-sm hover:scale-102 hover:border-blue-500/30 transition-all">
-                  <span className="block text-2xl font-bold text-blue-600 dark:text-blue-400 font-display">
-                    8+
-                  </span>
-                  <span className="block text-[10px] font-medium text-gray-800 dark:text-zinc-200 font-sans mt-1">
-                    Client Deliveries
-                  </span>
-                  <span className="block text-[9px] font-mono font-normal text-gray-400 dark:text-zinc-500 mt-0.5">
-                    Production systems
-                  </span>
-                </div>
-
-                <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-800/80 shadow-sm hover:scale-102 hover:border-blue-500/30 transition-all">
-                  <span className="block text-2xl font-bold text-blue-600 dark:text-blue-400 font-display">
-                    Top 5
-                  </span>
-                  <span className="block text-[10px] font-medium text-gray-800 dark:text-zinc-200 font-sans mt-1">
-                    National Finalist
-                  </span>
-                  <span className="block text-[9px] font-mono font-normal text-gray-400 dark:text-zinc-500 mt-0.5">
-                    Smart India Hackathon
-                  </span>
-                </div>
-              </motion.div>
-
-              {/* Action buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.45 }}
-                className="flex flex-wrap gap-3 pt-2"
-              >
-                <button
-                  onClick={() => scrollToElement("projects")}
-                  className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow hover:shadow-lg transition-all flex items-center gap-1.5 cursor-pointer hover:scale-102"
-                >
-                  View Project Showcase <ArrowRight className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => scrollToElement("contact")}
-                  className="px-6 py-3 rounded-xl border border-gray-250/50 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/40 hover:bg-neutral-50 dark:hover:bg-zinc-800/60 text-gray-950 dark:text-white text-xs font-medium shadow-sm transition-all cursor-pointer hover:scale-102"
-                >
-                  Contact Me
-                </button>
-              </motion.div>
-            </div>
-
-            {/* Right Display: Premium Interactive macOS MacBook Style Sandbox */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 25 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="lg:col-span-5 flex justify-center items-center relative min-h-[450px] w-full"
-            >
-              {/* Spinning subtle outer orbit rings (optimized with GPU transform acceleration) */}
-              <div className="absolute w-[340px] h-[340px] rounded-full border border-dashed border-blue-500/10 dark:border-blue-500/5 animate-[spin_45s_linear_infinite] pointer-events-none transform-gpu will-change-transform" />
-              <div className="absolute w-[420px] h-[420px] rounded-full border border-dashed border-indigo-500/5 dark:border-indigo-500/[0.02] animate-[spin_70s_linear_infinite] pointer-events-none transform-gpu will-change-transform" />
-
-              {/* The Interactive MacBook Window Wrapper */}
-              <div className="relative z-10 w-full">
-                <MacBookWindow />
-              </div>
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Scroll indicator anchor links */}
-        <button
-          onClick={() => scrollToElement("about1")}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 p-2 rounded-full border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/5 text-gray-500 dark:text-gray-400 cursor-pointer animate-bounce shadow-sm"
-          aria-label="Scroll down"
-        >
-          <ArrowDown className="w-4 h-4" />
-        </button>
-      </header>
+      {/* 1. COSMIC PLANETARY HERO SECTION (Inspired by diagram.com) */}
+      <CosmicPlanetaryHero scrollToElement={scrollToElement} />
 
       {/* CORE INTEGRATION PANELS */}
       <main>
@@ -292,6 +168,23 @@ export default function DesktopView({
           </div>
         </div>
       </footer>
+
+      {/* Floating Scroll-to-Top Button for Mobile, Tablet, and Desktop */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 12 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            onClick={() => scrollToElement("hero")}
+            className="fixed bottom-6 right-6 z-40 p-3 rounded-full bg-gray-950/85 hover:bg-gray-900 dark:bg-white/10 dark:hover:bg-white/20 text-white backdrop-blur-md border border-gray-800/60 dark:border-white/15 shadow-xl cursor-pointer transition-all hover:scale-110 active:scale-95 flex items-center justify-center"
+            aria-label="Scroll to top"
+          >
+            <ArrowDown className="w-4 h-4 rotate-180" />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
