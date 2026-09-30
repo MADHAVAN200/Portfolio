@@ -109,16 +109,16 @@ export default function MacBookWindow() {
       case "coffee":
         response = [
           `$ ${trimmed}`,
-          "☕ Brewing premium arabica on port 80...",
-          "Done! Here's your CS fuel. ☕",
+          "[brew] Brewing premium arabica on port 80...",
+          "Done! Ready to serve.",
         ];
         break;
 
       case "sudo rm -rf /":
         response = [
           `$ ${trimmed}`,
-          "⚠️ Permission Denied: Madhavan is",
-          "protecting his workspace. Nice try! 😉",
+          "[security] Permission Denied: Madhavan is",
+          "protecting his workspace. Nice try!",
         ];
         break;
 

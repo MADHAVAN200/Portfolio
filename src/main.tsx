@@ -12,10 +12,14 @@ if (import.meta.env.PROD) {
   console.error = () => {};
 }
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-    <Analytics />
-    <SpeedInsights />
-  </StrictMode>,
-);
+// Initialize application root with performance metrics and telemetry providers
+const container = document.getElementById('root');
+if (container) {
+  createRoot(container).render(
+    <StrictMode>
+      <App />
+      <Analytics />
+      <SpeedInsights />
+    </StrictMode>,
+  );
+}

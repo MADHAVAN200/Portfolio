@@ -6,12 +6,13 @@ A premium, modern, and high-fidelity personal portfolio web application built fo
 
 ## Key Features
 
-* **Dedicated Layouts**: Tailored components for Desktop (`App.tsx`), Tablet (`TabletView.tsx`), and Mobile (`MobileView.tsx`) form factors.
+* **Dedicated Layouts**: Tailored components for Desktop (`App.tsx`), Tablet (`TabletView.tsx`), and Mobile (`MobileView.tsx`) with full UI feature parity and unified responsiveness.
+* **Cosmic Planetary System**: Hardware-accelerated orbiting planetary backdrop positioned behind centered typography for maximum depth and visual clarity.
 * **Interactive Terminal**: A custom mock macOS/terminal interface (`MacBookWindow.tsx`) running real command parses (e.g., `help`, `projects`, `contact`, `clear`, `coffee`).
 * **Motion & Animations**: Fluid entrance transitions, staggering lists, spring effects, and hovering lifts powered by `motion/react` (Framer Motion).
 * **Project Case-Studies**: Full modal showcase for case-studies with technical stack breakdown, outcomes, and links.
 * **Visual Telemetry**: Dynamic UTC clocks, system metric visualizations, and interactive skill proficiency meters.
-* **Dual Theme Engine**: Custom Light/Dark mode transitions with persistence in LocalStorage.
+* **Dual Theme Engine**: Smooth, lag-free Light/Dark mode transitions with persistence in LocalStorage and optimized surface contrasts.
 * **Contact Channels**: Phone, email (redirects straight to Gmail compose layout), GitHub, and LinkedIn social links. Includes a print-ready TXT biography draft download.
 * **Production Build Settings**: Auto-silencing console logging in production builds.
 

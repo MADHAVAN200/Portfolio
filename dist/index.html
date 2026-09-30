@@ -45,9 +45,25 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Madhavan Nadar" />
-    <script type="module" crossorigin src="/assets/index-C60QjNFn.js"></script>
+
+    <!-- Synchronous Theme Script for Zero-Flash Initialization -->
+    <script>
+      (function() {
+        try {
+          var t = localStorage.getItem('portfolio-theme');
+          if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.style.backgroundColor = '#050505';
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.style.backgroundColor = '#fafafa';
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-DkJ8OKvK.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor-core-Db7fEnJG.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-Wgaz7bci.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-5kC9p8KS.css">
   </head>
   <body>
     <div id="root"></div>
