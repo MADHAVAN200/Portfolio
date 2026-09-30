@@ -117,7 +117,7 @@ export default function ExperienceShowcase() {
                       <span className="flex items-center gap-1.5 text-gray-800 dark:text-gray-300 font-medium">
                         <Briefcase className="w-4 h-4 text-blue-500" /> {internships[activeInternship].company}
                       </span>
-                      <span className="text-gray-300 dark:text-zinc-600 hidden sm:inline">&bull;</span>
+                      <span className="text-gray-300 dark:text-zinc-600 hidden sm:inline">|</span>
                       <span className="flex items-center gap-1.5">
                         <Calendar className="w-4 h-4 text-emerald-500" /> {internships[activeInternship].duration}
                       </span>

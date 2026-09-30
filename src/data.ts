@@ -1,6 +1,6 @@
 export const profile = {
   name: "Madhavan Nadar",
-  headline: "AI & Data Science Engineer • Full-Stack Developer",
+  headline: "AI & Data Science Engineer | Full-Stack Developer",
   location: "Mumbai, Maharashtra, India",
   bio: "Driven professional passionate about leveraging data and AI to solve complex problems and create impactful business solutions.",
   followers: 245,
@@ -16,7 +16,7 @@ export const education = [
   {
     institute: "SIES Graduate School of Technology",
     year: "2022 - 2026",
-    degree: "B.E. - Artificial Intelligence and Data Science",
+    degree: "B.E. in Artificial Intelligence and Data Science",
     detail: "CGPA: 8.68 / 10 | Focused on Deep Learning, Big Data Analytics, and Cloud Computing.",
     modules: [
       "Deep Learning & Neural Networks",
@@ -242,7 +242,7 @@ export const projects: ProjectItem[] = [
   },
   {
     slug: "ai-research-ops",
-    title: "AI Research Ops - Autonomous Multi-Stage Verification Platform",
+    title: "AI Research Ops: Autonomous Multi-Stage Verification Platform",
     video: "/projects/ai-research-ops/video.mp4?v=1790517087238",
     videoDuration: "0:32 Walkthrough",
     badge: "Autonomous API Intelligence",
@@ -337,7 +337,7 @@ export const projects: ProjectItem[] = [
   },
   {
     slug: "labskraft-assessment-learning-cloud-platform",
-    title: "LabsKraft - Cloud Learning & Assessment Platform",
+    title: "LabsKraft: Cloud Learning & Assessment Platform",
     video: "/projects/labskraft-assessment-learning-cloud-platform/video.mp4?v=1790517087238",
     videoDuration: "0:55 Walkthrough",
     badge: "Cloud Exam & VM Proctor",
@@ -383,7 +383,7 @@ export const projects: ProjectItem[] = [
   },
   {
     slug: "aws-manager-automated-cloud-optimization-billing-suite",
-    title: "AWS Manager - Automated Cloud Optimization & Billing Suite",
+    title: "AWS Manager: Automated Cloud Optimization & Billing Suite",
     video: "/projects/aws-manager-automated-cloud-optimization-billing-suite/video.mp4?v=1790517087238",
     videoDuration: "1:00 Walkthrough",
     badge: "DevOps Cost Optimizer",
@@ -526,7 +526,7 @@ export const projects: ProjectItem[] = [
     title: "Mano Workforce Intelligence Platform",
     video: "/projects/mano-workforce-intelligence-platform/video.mp4?v=1790517087238",
     videoDuration: "1:12 Walkthrough",
-    badge: "500+ Active Users • iOS & Android",
+    badge: "500+ Active Users | iOS & Android",
     link: "https://github.com/MADHAVAN200/Attendance-Web",
     liveLink: "https://attendance.mano.co.in/",
     playStoreLink: "https://play.google.com/store/apps/details?id=co.mano.attendance",
