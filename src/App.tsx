@@ -1,9 +1,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 
-// Lazy-loaded layouts for viewport code-splitting
+// Lazy-loaded main application view
 const DesktopView = React.lazy(() => import("./components/DesktopView"));
-const MobileView = React.lazy(() => import("./components/MobileView"));
-const TabletView = React.lazy(() => import("./components/TabletView"));
 
 // High-fidelity premium skeleton loader supporting both White (Light) and Black (Dark) modes
 interface SkeletonLoaderProps {
@@ -180,25 +178,94 @@ export default function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const toggleTheme = () => {
+  const toggleTheme = (e?: React.MouseEvent) => {
     const nextTheme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
+
+    const updateDOM = () => {
+      const root = window.document.documentElement;
+      if (nextTheme === "dark") {
+        root.classList.add("dark");
+        root.style.backgroundColor = "#050505";
+      } else {
+        root.classList.remove("dark");
+        root.style.backgroundColor = "#fafafa";
+      }
+      setTheme(nextTheme);
+      try {
+        localStorage.setItem("portfolio-theme", nextTheme);
+      } catch (err) {
+        // ignore
+      }
+    };
+
+    const hasViewTransition =
+      typeof document !== "undefined" &&
+      "startViewTransition" in document &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!hasViewTransition) {
+      updateDOM();
+      return;
+    }
+
     try {
-      localStorage.setItem("portfolio-theme", nextTheme);
-    } catch (e) {
-      // ignore
+      const x = e?.clientX;
+      const y = e?.clientY;
+
+      const transition = (document as any).startViewTransition(() => {
+        updateDOM();
+      });
+
+      if (x !== undefined && y !== undefined && (x !== 0 || y !== 0)) {
+        const endRadius = Math.hypot(
+          Math.max(x, window.innerWidth - x),
+          Math.max(y, window.innerHeight - y)
+        );
+
+        transition.ready.then(() => {
+          const clipPath = [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ];
+          document.documentElement.animate(
+            {
+              clipPath: clipPath,
+            },
+            {
+              duration: 340,
+              easing: "cubic-bezier(0.2, 0.9, 0.4, 1)",
+              pseudoElement: "::view-transition-new(root)",
+            }
+          );
+        });
+      } else {
+        transition.ready.then(() => {
+          document.documentElement.animate(
+            {
+              opacity: [0, 1],
+            },
+            {
+              duration: 200,
+              easing: "ease-in-out",
+              pseudoElement: "::view-transition-new(root)",
+            }
+          );
+        });
+      }
+    } catch {
+      updateDOM();
     }
   };
 
   useEffect(() => {
-    // Apply theme subclass to document element
+    // Synchronize document element on mount
     const root = window.document.documentElement;
     if (theme === "dark") {
       root.classList.add("dark");
       root.style.backgroundColor = "#050505";
     } else {
       root.classList.remove("dark");
-      root.style.backgroundColor = "#fcfcfc";
+      root.style.backgroundColor = "#fafafa";
     }
   }, [theme]);
 
@@ -231,27 +298,12 @@ export default function App() {
 
   return (
     <Suspense fallback={<SkeletonLoader theme={theme} />}>
-      {windowWidth < 768 ? (
-        <MobileView
-          theme={theme}
-          toggleTheme={toggleTheme}
-          scrollToElement={scrollToElement}
-          showScrollTop={showScrollTop}
-        />
-      ) : windowWidth >= 768 && windowWidth < 1024 ? (
-        <TabletView
-          theme={theme}
-          toggleTheme={toggleTheme}
-          scrollToElement={scrollToElement}
-          showScrollTop={showScrollTop}
-        />
-      ) : (
-        <DesktopView
-          theme={theme}
-          toggleTheme={toggleTheme}
-          scrollToElement={scrollToElement}
-        />
-      )}
+      <DesktopView
+        theme={theme}
+        toggleTheme={toggleTheme}
+        scrollToElement={scrollToElement}
+        showScrollTop={showScrollTop}
+      />
     </Suspense>
   );
 }

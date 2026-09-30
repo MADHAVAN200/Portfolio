@@ -3,20 +3,38 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Poppins", sans-serif;
   --font-display: "Poppins", sans-serif;
-  --font-poppins: "Poppins", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-poppins: "Poppins", sans-serif;
+  --font-mono: "Poppins", sans-serif;
 }
 
-/* Base styling and layout animations */
-body, button, input, select, textarea {
-  font-family: var(--font-sans);
+/* Enforce Google Poppins strictly across all elements throughout the entire platform */
+*, *::before, *::after {
+  font-family: "Poppins", sans-serif;
+}
+
+html, body, #root, button, input, select, textarea, p, span, h1, h2, h3, h4, h5, h6, a, div, li, ul, ol, label {
+  font-family: "Poppins", sans-serif !important;
 }
 
 body {
   overflow-x: hidden;
-  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Smooth Native View Transitions for Zero-Lag Theme Toggle */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
 }
 
 /* Custom scrollbar */
@@ -75,4 +93,53 @@ body {
 
 .font-poppins {
   font-family: "Poppins", ui-sans-serif, system-ui, sans-serif !important;
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotateZ(0deg) translateZ(0);
+  }
+  to {
+    transform: rotateZ(360deg) translateZ(0);
+  }
+}
+
+@keyframes orbit-spin-rev {
+  from {
+    transform: rotateZ(360deg) translateZ(0);
+  }
+  to {
+    transform: rotateZ(0deg) translateZ(0);
+  }
+}
+
+.animate-orbit-spin-24 {
+  animation: orbit-spin 24s linear infinite;
+  will-change: transform;
+  contain: layout paint;
+}
+.animate-orbit-spin-36-rev {
+  animation: orbit-spin-rev 36s linear infinite;
+  will-change: transform;
+  contain: layout paint;
+}
+.animate-orbit-spin-52 {
+  animation: orbit-spin 52s linear infinite;
+  will-change: transform;
+  contain: layout paint;
+}
+.animate-orbit-spin-70-rev {
+  animation: orbit-spin-rev 70s linear infinite;
+  will-change: transform;
+  contain: layout paint;
+}
+.animate-orbit-spin-95 {
+  animation: orbit-spin 95s linear infinite;
+  will-change: transform;
+  contain: layout paint;
+}
+.animate-orbit-spin-130 {
+  animation: orbit-spin 130s linear infinite;
+  will-change: transform;
+  contain: layout paint;
 }

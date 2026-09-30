@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Sun, Moon, Menu, X, Code2, ArrowUpRight } from "lucide-react";
+import { Sun, Moon, Menu, X, ArrowUpRight } from "lucide-react";
 import { motion } from "motion/react";
 
 interface NavbarProps {
@@ -72,27 +72,16 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <button
-            onClick={() => scrollToSection("hero")}
-            className="flex items-center gap-2.5 font-display text-lg font-bold tracking-tight text-gray-900 dark:text-white cursor-pointer group"
-          >
-            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 overflow-hidden shadow-md group-hover:scale-105 transition-transform">
-              <Code2 className="w-5 h-5 text-white" />
-              <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            </div>
-            <div className="flex flex-col items-start leading-none">
-              <span className="text-sm font-bold tracking-wide text-gray-900 dark:text-white">MADHAVAN</span>
-            </div>
-          </button>
+          {/* Left Spacer to keep navigation pill centered on desktop & tablet */}
+          <div className="hidden md:flex items-center w-40" />
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1.5 bg-gray-100/50 dark:bg-white/5 p-1 rounded-full border border-gray-200/30 dark:border-white/10">
+          {/* Desktop & Tablet Navigation */}
+          <div className="hidden md:flex items-center gap-0.5 lg:gap-1.5 bg-gray-100/50 dark:bg-white/5 p-1 rounded-full border border-gray-200/30 dark:border-white/10">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="relative px-4 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-colors duration-200 outline-hidden select-none"
+                className="relative px-2.5 lg:px-4 py-1 lg:py-1.5 rounded-full text-[11px] lg:text-xs font-medium cursor-pointer transition-colors duration-200 outline-hidden select-none"
               >
                 {activeSection === item.id && (
                   <motion.div
@@ -113,7 +102,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           </div>
 
           {/* Actions */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center justify-end gap-3 w-40">
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
@@ -135,7 +124,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           </div>
 
           {/* Mobile menu button */}
-          <div className="flex items-center gap-3 md:hidden">
+          <div className="flex items-center gap-3 md:hidden ml-auto">
             {/* Theme Toggle (Mobile) */}
             <button
               onClick={toggleTheme}
